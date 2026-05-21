@@ -54,10 +54,11 @@ export async function sendOtpEmail(
   });
 
   if (error) {
+    const msg = error.message ?? "Failed to send email.";
     const hint =
-      error.message?.includes("domain") || error.message?.includes("from")
-        ? " Check OTP_FROM_EMAIL uses a verified Resend domain (see docs/RESEND.md)."
+      msg.includes("domain") || msg.includes("from") || msg.includes("verified")
+        ? " Use Murmur <onboarding@resend.dev> for testing, or verify your own domain at https://resend.com/domains — not Gmail and not placeholder domains (see docs/RESEND.md)."
         : "";
-    throw new Error(`${error.message ?? "Failed to send email."}${hint}`);
+    throw new Error(`${msg}${hint}`);
   }
 }

@@ -2,6 +2,19 @@
 
 Murmur sends **6-digit OTP codes** for signup and password reset via [Resend](https://resend.com).
 
+## What does not work
+
+| Approach | Why |
+|----------|-----|
+| `your-verified-domain.com` or `yourdomain.com` in docs | Placeholder text — not a real domain. Resend will reject it. |
+| `Murmur <you@gmail.com>` (Gmail, Yahoo, Outlook, etc.) | Resend does not allow **free webmail** as the sender. |
+| Many **free TLD** domains (`.tk`, `.ml`, `.ga`, etc.) | Often blocked by Resend and poor deliverability. |
+| Unverified domain in `OTP_FROM_EMAIL` | Must show **Verified** in [Resend → Domains](https://resend.com/domains) first. |
+
+You need either **Option A** (sandbox, one inbox) or **Option B** (a domain you own + DNS records).
+
+---
+
 ## Where to set variables
 
 | Environment | Keys |
@@ -31,21 +44,25 @@ Use Resend’s sandbox sender for development only:
 
 ---
 
-## Option B — Production (custom domain)
+## Option B — Production (domain you own)
 
-1. Resend → **Domains** → add your domain (e.g. `learn2earn.ng` or a subdomain like `mail.yourdomain.com`).
-2. Add the DNS records Resend shows (SPF, DKIM, etc.) at your DNS host.
-3. Wait until status is **Verified**.
-4. Set on **Render**:
+Use a real domain you control (paid registrar is fine — e.g. `.com`, `.ng`, `.io`). Subdomains work well: `mail.learn2earn.ng`.
+
+1. Resend → [**Domains**](https://resend.com/domains) → **Add domain** → enter e.g. `mail.learn2earn.ng` (not a placeholder).
+2. At your DNS host (Cloudflare, Namecheap, etc.), add the **SPF** and **DKIM** records Resend shows.
+3. Wait until Resend status is **Verified** (often 5–30 minutes; up to 48h).
+4. Set on **Render** — the address must use **that exact verified domain**:
 
    ```
    RESEND_API_KEY=re_xxxxxxxx
-   OTP_FROM_EMAIL=Murmur <auth@yourdomain.com>
+   OTP_FROM_EMAIL=Murmur <noreply@mail.learn2earn.ng>
    ```
 
-   Use an address on the **verified** domain, e.g. `Murmur <noreply@mail.yourdomain.com>`.
+   Any local part is fine (`noreply`, `auth`, `hello`) as long as the domain part matches the verified domain.
 
 5. **Manual Deploy** on Render.
+
+**No domain yet?** Use Option A until you buy one (~$10–15/year) or use a subdomain of a domain you already own.
 
 ---
 

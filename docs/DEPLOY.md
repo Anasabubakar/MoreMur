@@ -83,7 +83,7 @@ git push origin main
 | `CORS_ORIGIN` | `https://moremur.vercel.app` |
 | `ADMIN_KEY` | Random secret |
 | `RESEND_API_KEY` | From [resend.com](https://resend.com) — see [RESEND.md](./RESEND.md) |
-| `OTP_FROM_EMAIL` | `Murmur <onboarding@resend.dev>` (test) or verified domain (prod) |
+| `OTP_FROM_EMAIL` | `Murmur <onboarding@resend.dev>` (test → only your Resend signup email) or `Murmur <noreply@mail.your-real-domain.com>` after [domain verified](https://resend.com/domains) |
 
 ### Verify
 
