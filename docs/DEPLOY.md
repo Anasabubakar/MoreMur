@@ -120,8 +120,8 @@ Repo root [`vercel.json`](../vercel.json) is for monorepo deploys (Root Director
 ## 5. Smoke test
 
 1. [moremur.vercel.app](https://moremur.vercel.app) — landing loads.
-2. [Login](https://moremur.vercel.app/login) — `fellow@learn2earn.ng` / `demo-password-change-me` (after `db:seed`).
-3. [Signup](https://moremur.vercel.app/signup) — org email → OTP email (needs [Resend](./RESEND.md)).
+2. [Signup](https://moremur.vercel.app/signup) — real org email → OTP → password → empty feed.
+3. Post a murmur — feed shows only real data from the API.
 
 ---
 

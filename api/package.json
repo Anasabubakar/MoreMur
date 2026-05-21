@@ -7,7 +7,8 @@
     "start": "node dist/index.js",
     "build": "tsc && cp src/db/schema.sql dist/db/schema.sql",
     "db:check": "tsx scripts/db-check.ts",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts",
+    "db:purge-demo": "tsx scripts/purge-demo-data.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",

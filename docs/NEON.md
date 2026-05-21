@@ -52,7 +52,7 @@ npm run db:check
 
 ---
 
-## 4. Initialize schema + demo data (once per database)
+## 4. Initialize schema (once per database)
 
 ```bash
 cd api
@@ -63,14 +63,18 @@ npm run db:check
 npm run db:seed
 ```
 
-Success:
+Success: `Database schema ready` — **no demo users or posts** are inserted.
 
-```
-Seeded Learn2Earn NG org + sample murmurs
-Demo login: fellow@learn2earn.ng / demo-password-change-me
+Users, orgs, and murmurs are created only through real signup and the app.
+
+### Remove old demo seed data (if you ran an older seed)
+
+```bash
+cd api
+npm run db:purge-demo
 ```
 
-Re-run `db:seed` safely — it skips if the org already exists.
+This deletes the legacy Learn2Earn demo org, `fellow@learn2earn.ng`, and all sample posts/comments.
 
 ---
 
@@ -79,14 +83,9 @@ Re-run `db:seed` safely — it skips if the org already exists.
 ```bash
 curl https://moremur.onrender.com/health
 # {"ok":true,"service":"murmur-api"}
-
-curl -X POST https://moremur.onrender.com/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"fellow@learn2earn.ng","password":"demo-password-change-me"}'
-# JSON with "token"
 ```
 
-If login 500s, Render is likely pointing at a different DB than the one you seeded — align `DATABASE_URL` and run `db:seed` again.
+Sign up at [moremur.vercel.app/signup](https://moremur.vercel.app/signup) with a real organization email.
 
 ---
 

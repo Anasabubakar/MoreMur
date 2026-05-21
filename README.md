@@ -42,7 +42,7 @@ npm run db:seed
 npm run dev
 ```
 
-Without `RESEND_API_KEY`, OTP codes are printed in the API terminal (dev only).
+`db:seed` creates tables only — no fake posts. Without `RESEND_API_KEY`, OTP codes print in the API terminal (dev only).
 
 ### 3. Web
 
@@ -73,7 +73,8 @@ Full guides: [docs/DEPLOY.md](docs/DEPLOY.md) · [docs/NEON.md](docs/NEON.md) ·
 - Build: `npm install --include=dev && npm run build`
 - Start: `npm start`
 - Required env: `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN=https://moremur.vercel.app`, `RESEND_API_KEY`, `OTP_FROM_EMAIL`
-- Once locally: `cd api && npm run db:seed` (same Neon DB as Render)
+- Once locally: `cd api && npm run db:seed` (schema only; same Neon DB as Render)
+- If old mock posts appear: `npm run db:purge-demo`
 
 ### Vercel (Web)
 
