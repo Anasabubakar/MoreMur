@@ -1,0 +1,157 @@
+{
+  "projectId": "3984967297086363189",
+  "projectTitle": "MURMUR Anonymous Intelligence Platform",
+  "theme": "dark",
+  "downloadedAt": "2026-05-21T13:50:07.066Z",
+  "method": "stitch-mcp-http-curl",
+  "screens": [
+    {
+      "id": "bc5bd4d5f88c4457abc51d6cab6dc6fe",
+      "slug": "01-culture-intel-mobile-dark",
+      "title": "Murmur — Culture Intel (Mobile Dark)",
+      "deviceType": "MOBILE",
+      "files": {
+        "html": "stitch/screens-dark/01-culture-intel-mobile-dark.html",
+        "png": "stitch/screens-dark/01-culture-intel-mobile-dark.png",
+        "publicHtml": "web/public/screens-dark/01-culture-intel-mobile-dark.html",
+        "publicPng": "web/public/screens-dark/01-culture-intel-mobile-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "a1e745b30ca647ee8e01e8d0f9a54405",
+      "slug": "02-landing-page-dark",
+      "title": "Murmur — Landing Page (Dark)",
+      "deviceType": "DESKTOP",
+      "files": {
+        "html": "stitch/screens-dark/02-landing-page-dark.html",
+        "png": "stitch/screens-dark/02-landing-page-dark.png",
+        "publicHtml": "web/public/screens-dark/02-landing-page-dark.html",
+        "publicPng": "web/public/screens-dark/02-landing-page-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "4eb987000ecc474798a4ca20a71620ae",
+      "slug": "03-anonymous-feed-dark",
+      "title": "Murmur — Anonymous Feed (Dark)",
+      "deviceType": "DESKTOP",
+      "files": {
+        "html": "stitch/screens-dark/03-anonymous-feed-dark.html",
+        "png": "stitch/screens-dark/03-anonymous-feed-dark.png",
+        "publicHtml": "web/public/screens-dark/03-anonymous-feed-dark.html",
+        "publicPng": "web/public/screens-dark/03-anonymous-feed-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "8d64ce38e3414a02978ca1ac7f4fe5f3",
+      "slug": "04-signup-verification-dark",
+      "title": "Murmur — Signup & Verification (Dark)",
+      "deviceType": "DESKTOP",
+      "files": {
+        "html": "stitch/screens-dark/04-signup-verification-dark.html",
+        "png": "stitch/screens-dark/04-signup-verification-dark.png",
+        "publicHtml": "web/public/screens-dark/04-signup-verification-dark.html",
+        "publicPng": "web/public/screens-dark/04-signup-verification-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "086c785f4af441bdb8c0992ce1bd5f37",
+      "slug": "05-trending-feed-dark",
+      "title": "Murmur — Trending Feed (Dark)",
+      "deviceType": "DESKTOP",
+      "files": {
+        "html": "stitch/screens-dark/05-trending-feed-dark.html",
+        "png": "stitch/screens-dark/05-trending-feed-dark.png",
+        "publicHtml": "web/public/screens-dark/05-trending-feed-dark.html",
+        "publicPng": "web/public/screens-dark/05-trending-feed-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "5d808d71599e4943966e3ffe7e729bbf",
+      "slug": "06-culture-intel-dark",
+      "title": "Murmur — Culture Intel (Dark)",
+      "deviceType": "DESKTOP",
+      "files": {
+        "html": "stitch/screens-dark/06-culture-intel-dark.html",
+        "png": "stitch/screens-dark/06-culture-intel-dark.png",
+        "publicHtml": "web/public/screens-dark/06-culture-intel-dark.html",
+        "publicPng": "web/public/screens-dark/06-culture-intel-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "437810520b9f443fb1cad0d85e74f74f",
+      "slug": "07-landing-page-mobile-dark",
+      "title": "Murmur — Landing Page (Mobile Dark)",
+      "deviceType": "MOBILE",
+      "files": {
+        "html": "stitch/screens-dark/07-landing-page-mobile-dark.html",
+        "png": "stitch/screens-dark/07-landing-page-mobile-dark.png",
+        "publicHtml": "web/public/screens-dark/07-landing-page-mobile-dark.html",
+        "publicPng": "web/public/screens-dark/07-landing-page-mobile-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "0a3381d64dff484b8a1fdb567de24f4d",
+      "slug": "08-anonymous-feed-mobile-dark",
+      "title": "Murmur — Anonymous Feed (Mobile Dark)",
+      "deviceType": "MOBILE",
+      "files": {
+        "html": "stitch/screens-dark/08-anonymous-feed-mobile-dark.html",
+        "png": "stitch/screens-dark/08-anonymous-feed-mobile-dark.png",
+        "publicHtml": "web/public/screens-dark/08-anonymous-feed-mobile-dark.html",
+        "publicPng": "web/public/screens-dark/08-anonymous-feed-mobile-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "13dd2838761e4e6fb60cbfc0dff78a3d",
+      "slug": "09-signup-verification-mobile-dark",
+      "title": "Murmur — Signup & Verification (Mobile Dark)",
+      "deviceType": "MOBILE",
+      "files": {
+        "html": "stitch/screens-dark/09-signup-verification-mobile-dark.html",
+        "png": "stitch/screens-dark/09-signup-verification-mobile-dark.png",
+        "publicHtml": "web/public/screens-dark/09-signup-verification-mobile-dark.html",
+        "publicPng": "web/public/screens-dark/09-signup-verification-mobile-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "21be07ccea6b457f9342664ba8cd4664",
+      "slug": "10-trending-feed-mobile-dark",
+      "title": "Murmur — Trending Feed (Mobile Dark)",
+      "deviceType": "MOBILE",
+      "files": {
+        "html": "stitch/screens-dark/10-trending-feed-mobile-dark.html",
+        "png": "stitch/screens-dark/10-trending-feed-mobile-dark.png",
+        "publicHtml": "web/public/screens-dark/10-trending-feed-mobile-dark.html",
+        "publicPng": "web/public/screens-dark/10-trending-feed-mobile-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "1365d99c8adb428f8acb1109a5e63273",
+      "slug": "11-org-admin-mobile-dark",
+      "title": "Murmur — Org Admin (Mobile Dark)",
+      "deviceType": "MOBILE",
+      "files": {
+        "html": "stitch/screens-dark/11-org-admin-mobile-dark.html",
+        "png": "stitch/screens-dark/11-org-admin-mobile-dark.png",
+        "publicHtml": "web/public/screens-dark/11-org-admin-mobile-dark.html",
+        "publicPng": "web/public/screens-dark/11-org-admin-mobile-dark.png"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "asset-stub-assets-f4671df3a03040fbbf539c2d8c0a499b-1779370728122",
+      "slug": "12-design-system-dark",
+      "status": "error"
+    }
+  ]
+}

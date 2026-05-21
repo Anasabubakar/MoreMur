@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Where the real talk lives.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f9f9f9",
+                        "tertiary-fixed": "#ffdad2",
+                        "surface-variant": "#e2e2e2",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "surface-tint": "#6a5f00",
+                        "primary": "#6a5f00",
+                        "on-secondary-fixed-variant": "#474747",
+                        "tertiary-container": "#ffdcd4",
+                        "secondary-container": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-tertiary-fixed-variant": "#8a1c00",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#ffe500",
+                        "on-background": "#1a1c1c",
+                        "outline": "#7d775f",
+                        "on-surface": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#c12a00",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a2",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eeeeee",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary": "#5e5e5e",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-fixed-dim": "#dec800",
+                        "tertiary": "#b52700",
+                        "inverse-primary": "#dec800",
+                        "on-primary-container": "#726600",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#3d0700",
+                        "surface-dim": "#dadada",
+                        "on-primary-fixed": "#201c00",
+                        "on-secondary-container": "#646464",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f1f1f1",
+                        "primary-fixed": "#fee400",
+                        "outline-variant": "#cec7aa",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#4b4731",
+                        "accent": "#ffe500", // Manually added mapped accent for ease
+                        "card": "#ffffff"   // Manually added mapped card for ease
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px" // Forcing neo-brutalism square corners
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "base": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Space Mono", "monospace"],
+                        "label-md": ["Space Mono", "monospace"],
+                        "display-lg": ["Bebas Neue", "sans-serif"],
+                        "headline-md": ["Bebas Neue", "sans-serif"],
+                        "body-lg": ["DM Sans", "sans-serif"],
+                        "headline-lg-mobile": ["Bebas Neue", "sans-serif"],
+                        "headline-lg": ["Bebas Neue", "sans-serif"],
+                        "body-md": ["DM Sans", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+                        "display-lg": ["84px", { "lineHeight": "80px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["48px", { "lineHeight": "48px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    },
+                    "borderWidth": {
+                        "thick": "3px" // Mapping from prompt instructions
+                    },
+                    "boxShadow": {
+                        "hard": "5px 5px 0px #000",
+                        "hard-hover": "8px 8px 0px #000",
+                        "hard-active": "0px 0px 0px #000"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Base neo-brutalism overrides based on style guide */
+        * {
+            border-radius: 0 !important;
+        }
+        
+        .neo-button {
+            transition: all 0.15s ease-in-out;
+        }
+        .neo-button:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px #000;
+        }
+        .neo-button:active {
+            transform: translate(0px, 0px);
+            box-shadow: 0px 0px 0px #000;
+        }
+
+        .neo-card {
+            transition: all 0.2s ease-out;
+        }
+        .neo-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #000;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopNavBar (Shared Component) -->
+<!-- Applying shell relevance filter: Rendering top nav as this is a top-level destination (landing page) -->
+<header class="bg-primary-container dark:bg-primary-container text-on-primary-container dark:text-on-primary-container docked full-width top-0 border-b-[3px] border-on-background [box-shadow:5px_5px_0px_#1a1c1c] sticky z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="font-display-lg text-display-lg uppercase tracking-wider text-on-primary-container text-[42px] leading-[42px] md:text-display-lg" href="#">MURMUR</a>
+<!-- Navigation Links (Hidden on Mobile, flex on md) -->
+<!-- Active logic: Landing page, no direct match, applying inactive to all or suppressing link cluster -->
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1 border-[3px] border-transparent hover:border-on-background active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]" href="#">FEED</a>
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1 border-[3px] border-transparent hover:border-on-background active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]" href="#">INTEL</a>
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1 border-[3px] border-transparent hover:border-on-background active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]" href="#">VAULT</a>
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1 border-[3px] border-transparent hover:border-on-background active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]" href="#">ARCHIVE</a>
+</nav>
+<!-- Trailing Icons -->
+<div class="flex gap-4 items-center">
+<button class="hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all border-[3px] border-transparent hover:border-on-background p-1 active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<button class="hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all border-[3px] border-transparent hover:border-on-background p-1 active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="bg-primary-container border-b-[3px] border-on-background py-24 md:py-32 px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<!-- Atmospheric Pattern -->
+<div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 2px, transparent 8px);"></div>
+<div class="max-w-container-max mx-auto relative z-10 flex flex-col items-start gap-8">
+<div class="border-[3px] border-on-background bg-card px-4 py-2 shadow-hard inline-block transform -rotate-2">
+<span class="font-label-md text-label-md uppercase font-bold">Encrypted Intel Protocol</span>
+</div>
+<h1 class="font-display-lg text-[64px] md:text-[120px] leading-[0.9] text-on-background uppercase break-words w-full max-w-4xl">
+                    WHERE THE<br/>REAL TALK<br/>LIVES.
+                </h1>
+<p class="font-body-lg text-body-lg max-w-xl text-on-background font-medium border-l-[3px] border-on-background pl-4">
+                    The anti-polished, unfiltered intelligence network for verified organizations. Stop guessing. Start knowing.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
+<button class="neo-button bg-primary-container border-[3px] border-on-background shadow-hard px-8 py-4 font-headline-md text-headline-md uppercase text-on-background w-full sm:w-auto text-center">
+                        JOIN YOUR ORG
+                    </button>
+<button class="neo-button bg-surface border-[3px] border-on-background shadow-hard px-8 py-4 font-headline-md text-headline-md uppercase text-on-background w-full sm:w-auto text-center flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+                        VIEW PROTOCOLS
+                    </button>
+</div>
+</div>
+</section>
+<!-- Value Prop (3 Column Grid) -->
+<section class="bg-background py-24 px-margin-mobile md:px-margin-desktop border-b-[3px] border-on-background">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mb-12 border-b-[3px] border-on-background pb-4 inline-block">CORE DOCTRINE</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+<!-- Prop 1 -->
+<div class="neo-card bg-card border-[3px] border-on-background shadow-hard p-6 md:p-8 flex flex-col gap-6 relative group">
+<div class="w-16 h-16 bg-primary-container border-[3px] border-on-background flex items-center justify-center shadow-hard group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-[2px_2px_0px_#000] transition-all">
+<span class="material-symbols-outlined text-4xl" data-icon="visibility_off">visibility_off</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">100% ANONYMOUS</h3>
+<div class="h-[3px] w-full bg-on-background mb-4"></div>
+<p class="font-body-md text-body-md">Identities are cryptographically stripped at the source. Speak truth to power without fear of reprisal. Your data is yours.</p>
+</div>
+</div>
+<!-- Prop 2 -->
+<div class="neo-card bg-card border-[3px] border-on-background shadow-hard p-6 md:p-8 flex flex-col gap-6 relative group">
+<div class="w-16 h-16 bg-primary-container border-[3px] border-on-background flex items-center justify-center shadow-hard group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-[2px_2px_0px_#000] transition-all">
+<span class="material-symbols-outlined text-4xl" data-icon="corporate_fare">corporate_fare</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">ORG ISOLATED</h3>
+<div class="h-[3px] w-full bg-on-background mb-4"></div>
+<p class="font-body-md text-body-md">Silos are mandatory. Intel from Sector A never bleeds into Sector B. Strict verified access domains ensure clean signal.</p>
+</div>
+</div>
+<!-- Prop 3 -->
+<div class="neo-card bg-card border-[3px] border-on-background shadow-hard p-6 md:p-8 flex flex-col gap-6 relative group">
+<div class="w-16 h-16 bg-primary-container border-[3px] border-on-background flex items-center justify-center shadow-hard group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-[2px_2px_0px_#000] transition-all">
+<span class="material-symbols-outlined text-4xl" data-icon="campaign">campaign</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">HONEST FEEDBACK</h3>
+<div class="h-[3px] w-full bg-on-background mb-4"></div>
+<p class="font-body-md text-body-md">No corporate speak. No sanitized reports. Raw, unvarnished intel from the ground floor up. The truth is brutal.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works (Step-by-step) -->
+<section class="bg-surface py-24 px-margin-mobile md:px-margin-desktop border-b-[3px] border-on-background">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b-[3px] border-on-background pb-6 gap-4">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase">OPERATIONAL PHASES</h2>
+<span class="font-label-md text-label-md bg-on-background text-primary-container px-3 py-1">CLASSIFIED OVERVIEW</span>
+</div>
+<div class="flex flex-col space-y-0">
+<!-- Step 1 -->
+<div class="flex flex-col md:flex-row border-l-[3px] md:border-l-0 md:border-t-[3px] border-on-background hover:bg-primary-container transition-colors duration-300">
+<div class="p-6 md:w-1/4 border-b-[3px] md:border-b-0 md:border-r-[3px] border-on-background flex items-center md:items-start">
+<span class="font-label-sm text-label-sm uppercase bg-card border-[2px] border-on-background px-2 py-1 shadow-[2px_2px_0px_#000]">PHASE 01</span>
+</div>
+<div class="p-6 md:w-3/4 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border-b-[3px] border-on-background">
+<h3 class="font-headline-md text-headline-md uppercase m-0">VERIFICATION</h3>
+<p class="font-label-md text-label-md max-w-md">Authenticate via strict organizational email protocols. No ghost accounts permitted.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col md:flex-row border-l-[3px] md:border-l-0 border-on-background hover:bg-primary-container transition-colors duration-300">
+<div class="p-6 md:w-1/4 border-b-[3px] md:border-b-0 md:border-r-[3px] border-on-background flex items-center md:items-start">
+<span class="font-label-sm text-label-sm uppercase bg-card border-[2px] border-on-background px-2 py-1 shadow-[2px_2px_0px_#000]">PHASE 02</span>
+</div>
+<div class="p-6 md:w-3/4 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border-b-[3px] border-on-background">
+<h3 class="font-headline-md text-headline-md uppercase m-0">ENCRYPTION</h3>
+<p class="font-label-md text-label-md max-w-md">Local client-side hashing strips identity metadata before transmission to servers.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col md:flex-row border-l-[3px] md:border-l-0 border-on-background hover:bg-primary-container transition-colors duration-300">
+<div class="p-6 md:w-1/4 border-b-[3px] md:border-b-0 md:border-r-[3px] border-on-background flex items-center md:items-start">
+<span class="font-label-sm text-label-sm uppercase bg-card border-[2px] border-on-background px-2 py-1 shadow-[2px_2px_0px_#000]">PHASE 03</span>
+</div>
+<div class="p-6 md:w-3/4 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border-b-[3px] md:border-b-0 border-on-background">
+<h3 class="font-headline-md text-headline-md uppercase m-0">TRANSMISSION</h3>
+<p class="font-label-md text-label-md max-w-md">Deploy raw intel into the organizational vault. Upvote truth, redact falsehoods.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Tiers -->
+<section class="bg-primary-container py-24 px-margin-mobile md:px-margin-desktop border-b-[3px] border-on-background">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-center mb-16">ACCESS LEVELS</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+<!-- Tier 1 -->
+<div class="neo-card bg-surface border-[3px] border-on-background shadow-hard flex flex-col h-full">
+<div class="p-6 border-b-[3px] border-on-background bg-card">
+<h3 class="font-headline-md text-headline-md uppercase">COMMUNITY</h3>
+<div class="mt-4 font-display-lg text-[48px] leading-[48px]">FREE</div>
+</div>
+<div class="p-6 flex-grow flex flex-col gap-4">
+<ul class="font-label-md text-label-md space-y-4">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base">check_box</span> Read-only access</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base">check_box</span> Standard encryption</li>
+<li class="flex items-center gap-2 text-on-surface-variant"><span class="material-symbols-outlined text-base">disabled_by_default</span> No transmission rights</li>
+</ul>
+<div class="mt-auto pt-8">
+<button class="neo-button w-full bg-card border-[3px] border-on-background py-3 font-headline-md text-headline-md uppercase shadow-[3px_3px_0px_#000]">INITIATE</button>
+</div>
+</div>
+</div>
+<!-- Tier 2 (Pro) - Highlighted -->
+<div class="neo-card bg-on-background border-[3px] border-on-background shadow-hard flex flex-col h-full md:transform md:-translate-y-4">
+<div class="p-6 border-b-[3px] border-primary-container bg-inverse-surface text-primary-container relative">
+<div class="absolute top-0 right-0 bg-primary-container text-on-background font-label-sm text-label-sm px-2 py-1 border-l-[3px] border-b-[3px] border-on-background uppercase font-bold">RECOMMENDED</div>
+<h3 class="font-headline-md text-headline-md uppercase">OPERATIVE</h3>
+<div class="mt-4 font-display-lg text-[48px] leading-[48px]">$12<span class="font-body-md text-body-md">/MO</span></div>
+</div>
+<div class="p-6 flex-grow flex flex-col gap-4 bg-on-background text-inverse-on-surface">
+<ul class="font-label-md text-label-md space-y-4">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary-container">check_box</span> Full write access</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary-container">check_box</span> Identity obfuscation</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary-container">check_box</span> Priority signal routing</li>
+</ul>
+<div class="mt-auto pt-8">
+<button class="neo-button w-full bg-primary-container text-on-background border-[3px] border-primary-container py-3 font-headline-md text-headline-md uppercase shadow-[3px_3px_0px_#ffe500] hover:shadow-[6px_6px_0px_#ffe500]">UPGRADE</button>
+</div>
+</div>
+</div>
+<!-- Tier 3 -->
+<div class="neo-card bg-surface border-[3px] border-on-background shadow-hard flex flex-col h-full">
+<div class="p-6 border-b-[3px] border-on-background bg-card">
+<h3 class="font-headline-md text-headline-md uppercase">SYNDICATE</h3>
+<div class="mt-4 font-display-lg text-[48px] leading-[48px]">CUSTOM</div>
+</div>
+<div class="p-6 flex-grow flex flex-col gap-4">
+<ul class="font-label-md text-label-md space-y-4">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base">check_box</span> Dedicated nodes</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base">check_box</span> Custom moderation rules</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-base">check_box</span> Audit logs</li>
+</ul>
+<div class="mt-auto pt-8">
+<button class="neo-button w-full bg-card border-[3px] border-on-background py-3 font-headline-md text-headline-md uppercase shadow-[3px_3px_0px_#000]">CONTACT HQ</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-on-background dark:bg-on-background text-primary-container dark:text-primary-container full-width border-t-[3px] border-on-background">
+<div class="w-full py-gutter px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md text-primary-container">
+                MURMUR
+            </div>
+<nav class="flex flex-wrap justify-center gap-6">
+<!-- Using active/inactive style logic. Landing page so none are strictly 'active' in a site map sense, applying inactive universal to footer links -->
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer font-label-sm text-label-sm" href="#">TERMINAL</a>
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer font-label-sm text-label-sm" href="#">PROTOCOLS</a>
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer font-label-sm text-label-sm" href="#">DECRYPT</a>
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer font-label-sm text-label-sm" href="#">SIGNAL</a>
+</nav>
+<div class="font-label-sm text-label-sm opacity-60">
+                © 2024 MURMUR INTEL. ALL DATA ENCRYPTED.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Murmur - Sector-7</title>
+<!-- Google Fonts: Bebas Neue & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config Injection -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#1c1b1b",
+                      "on-background": "#e2e2e2",
+                      "secondary-fixed-dim": "#c8c6c5",
+                      "tertiary-fixed": "#ffdad4",
+                      "surface-container-lowest": "#0e0e0e",
+                      "primary-fixed-dim": "#dec800",
+                      "on-error": "#690005",
+                      "on-secondary": "#313030",
+                      "secondary": "#c8c6c5",
+                      "surface-dim": "#131313",
+                      "surface-container": "#1f1f1f",
+                      "on-primary": "#373100",
+                      "primary-container": "#fee400",
+                      "on-tertiary-fixed": "#410000",
+                      "secondary-fixed": "#e5e2e1",
+                      "on-secondary-container": "#b7b5b4",
+                      "secondary-container": "#474746",
+                      "on-secondary-fixed-variant": "#474746",
+                      "error-container": "#93000a",
+                      "background": "#131313",
+                      "primary-fixed": "#fee400",
+                      "tertiary-fixed-dim": "#ffb4a8",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-container": "#ffdad4",
+                      "on-tertiary-container": "#cc0100",
+                      "on-tertiary": "#690100",
+                      "on-surface-variant": "#cec7aa",
+                      "surface": "#131313",
+                      "error": "#ffb4ab",
+                      "on-primary-fixed": "#201c00",
+                      "tertiary": "#ffffff",
+                      "on-primary-container": "#716500",
+                      "primary": "#ffffff",
+                      "on-primary-fixed-variant": "#504700",
+                      "on-tertiary-fixed-variant": "#930100",
+                      "on-surface": "#e2e2e2",
+                      "inverse-primary": "#6a5f00",
+                      "surface-variant": "#353535",
+                      "surface-tint": "#dec800",
+                      "inverse-surface": "#e2e2e2",
+                      "outline": "#979177",
+                      "surface-container-low": "#1b1b1b",
+                      "surface-container-highest": "#353535",
+                      "surface-bright": "#393939",
+                      "outline-variant": "#4b4731",
+                      "inverse-on-surface": "#303030",
+                      "surface-container-high": "#2a2a2a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin": "32px",
+                      "gutter": "24px",
+                      "border-width": "4px",
+                      "container-padding": "16px",
+                      "unit": "4px",
+                      "shadow-offset": "6px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Bebas Neue"],
+                      "headline-xl-mobile": ["Bebas Neue"],
+                      "label-md": ["JetBrains Mono"],
+                      "body-lg": ["JetBrains Mono"],
+                      "body-md": ["JetBrains Mono"],
+                      "headline-xl": ["Bebas Neue"],
+                      "headline-lg": ["Bebas Neue"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                      "headline-xl-mobile": ["48px", { "lineHeight": "1", "fontWeight": "400" }],
+                      "label-md": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                      "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                      "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                      "headline-xl": ["64px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                      "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Base NeoBrutalist Resets */
+        * { border-radius: 0 !important; }
+        .hard-shadow { box-shadow: 6px 6px 0px 0px theme('colors.primary'); }
+        .hard-shadow-yellow { box-shadow: 6px 6px 0px 0px theme('colors.primary-container'); }
+        .hard-shadow-active:active { box-shadow: 2px 2px 0px 0px theme('colors.primary'); transform: translate(4px, 4px); }
+        .terminal-grid {
+            background-image: linear-gradient(theme('colors.surface-variant') 1px, transparent 1px),
+                              linear-gradient(90deg, theme('colors.surface-variant') 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: center top;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container terminal-grid">
+<!-- Mobile Header (SECTOR-7) -->
+<header class="sticky top-0 z-50 bg-surface-container-lowest border-b-border-width border-primary px-gutter py-4 flex justify-between items-center hard-shadow">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary-container">CONNECTION: SECURE</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-widest mt-1">SECTOR-7</h1>
+</div>
+<button class="bg-surface border-border-width border-primary p-2 flex items-center justify-center hard-shadow-active hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sort</span>
+</button>
+</header>
+<!-- Main Feed Canvas -->
+<main class="flex-1 flex flex-col gap-margin p-container-padding pb-[120px] md:hidden">
+<!-- Post Card 1 -->
+<article class="bg-surface-container-lowest border-border-width border-primary p-4 flex flex-col gap-4 hard-shadow relative overflow-hidden">
+<!-- Decorative corner accent -->
+<div class="absolute top-0 right-0 w-8 h-8 bg-primary-container border-b-border-width border-l-border-width border-primary"></div>
+<header class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface border-border-width border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">person</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary">ID_8X9F2</span>
+<span class="font-label-md text-label-md text-on-surface-variant opacity-70">T-MINUS 12M</span>
+</div>
+</div>
+<div class="mr-6 z-10">
+<span class="border-[2px] border-primary-container bg-primary-container text-on-primary-container font-label-md text-label-md px-2 py-1 uppercase shadow-[2px_2px_0px_0px_theme('colors.primary')]">GOSSIP</span>
+</div>
+</header>
+<div class="font-body-md text-body-md text-on-surface leading-relaxed mt-2">
+                Rumor has it the new intel gathering protocol drops at midnight. Anyone else seeing encrypted packets hitting their subnet? Need verification before I dump my local cache.
+            </div>
+<footer class="flex gap-4 mt-2 border-t-[2px] border-surface-variant pt-4">
+<button class="flex-1 bg-surface border-border-width border-primary py-3 flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors hard-shadow-active shadow-[4px_4px_0px_0px_theme('colors.primary')]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">keyboard_arrow_up</span>
+<span class="font-label-md text-label-md">245</span>
+</button>
+<button class="flex-1 bg-surface border-border-width border-primary py-3 flex items-center justify-center gap-2 hover:bg-secondary hover:text-on-secondary transition-colors hard-shadow-active shadow-[4px_4px_0px_0px_theme('colors.primary')]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">keyboard_arrow_down</span>
+</button>
+<button class="flex-1 bg-surface border-border-width border-primary py-3 flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors hard-shadow-active shadow-[4px_4px_0px_0px_theme('colors.primary')]">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-md text-label-md">42</span>
+</button>
+</footer>
+</article>
+<!-- Post Card 2 (Alert State) -->
+<article class="bg-surface-container-lowest border-border-width border-error p-4 flex flex-col gap-4 shadow-[6px_6px_0px_0px_theme('colors.error')] relative overflow-hidden">
+<header class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-error-container border-border-width border-error flex items-center justify-center">
+<span class="material-symbols-outlined text-on-error-container">warning</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-error">SYS_ADMIN</span>
+<span class="font-label-md text-label-md text-error opacity-70">T-MINUS 1H</span>
+</div>
+</div>
+<div class="z-10">
+<span class="border-[2px] border-error bg-error text-on-error-container font-label-md text-label-md px-2 py-1 uppercase shadow-[2px_2px_0px_0px_theme('colors.on-error-container')]">RANT</span>
+</div>
+</header>
+<div class="font-body-lg text-body-lg text-on-surface font-bold leading-tight mt-2">
+                STOP pinging the mainframe for trivial badge verification. You are bottlenecking the entire sector grid. 
+            </div>
+<footer class="flex gap-4 mt-2 border-t-[2px] border-error pt-4">
+<button class="flex-1 bg-surface border-border-width border-error py-3 flex items-center justify-center gap-2 hover:bg-error hover:text-on-error-container transition-colors active:shadow-none shadow-[4px_4px_0px_0px_theme('colors.error')]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">keyboard_arrow_up</span>
+<span class="font-label-md text-label-md">1.2K</span>
+</button>
+<button class="flex-1 bg-surface border-border-width border-error py-3 flex items-center justify-center gap-2 hover:bg-error hover:text-on-error-container transition-colors active:shadow-none shadow-[4px_4px_0px_0px_theme('colors.error')]">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-md text-label-md">89</span>
+</button>
+</footer>
+</article>
+<!-- Post Card 3 -->
+<article class="bg-surface-container-lowest border-border-width border-primary p-4 flex flex-col gap-4 hard-shadow relative overflow-hidden">
+<header class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface border-border-width border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">person</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary">ID_4C2A1</span>
+<span class="font-label-md text-label-md text-on-surface-variant opacity-70">T-MINUS 3H</span>
+</div>
+</div>
+<div class="z-10">
+<span class="border-[2px] border-secondary bg-surface-variant text-on-surface font-label-md text-label-md px-2 py-1 uppercase shadow-[2px_2px_0px_0px_theme('colors.primary')]">INTEL</span>
+</div>
+</header>
+<div class="font-body-md text-body-md text-on-surface leading-relaxed mt-2 bg-surface p-3 border-l-border-width border-primary-container font-mono">
+                &gt; DECRYPTING FRAGMENT...<br/>
+                &gt; LOCATION: WAREHOUSE 04<br/>
+                &gt; STATUS: COMPROMISED
+            </div>
+<footer class="flex gap-4 mt-2 border-t-[2px] border-surface-variant pt-4">
+<button class="flex-1 bg-surface border-border-width border-primary py-3 flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors hard-shadow-active shadow-[4px_4px_0px_0px_theme('colors.primary')]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">keyboard_arrow_up</span>
+<span class="font-label-md text-label-md">87</span>
+</button>
+<button class="flex-1 bg-surface border-border-width border-primary py-3 flex items-center justify-center gap-2 hover:bg-secondary hover:text-on-secondary transition-colors hard-shadow-active shadow-[4px_4px_0px_0px_theme('colors.primary')]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">keyboard_arrow_down</span>
+</button>
+<button class="flex-1 bg-surface border-border-width border-primary py-3 flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors hard-shadow-active shadow-[4px_4px_0px_0px_theme('colors.primary')]">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-md text-label-md">12</span>
+</button>
+</footer>
+</article>
+</main>
+<!-- Bottom Navigation Bar (Semantic Shell - Rendered for Mobile Destination) -->
+<nav class="fixed bottom-0 w-full bg-surface border-t-border-width border-primary z-50 p-2 md:hidden">
+<!-- Inner container to prevent overlap with safe areas -->
+<div class="flex justify-between items-center px-4 max-w-md mx-auto">
+<!-- Dashboard (Active matching Feed intent) -->
+<button class="flex flex-col items-center gap-1 p-2 bg-primary text-on-primary border-border-width border-primary shadow-[4px_4px_0px_0px_theme('colors.primary-container')] -translate-y-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md text-[10px]">FEED</span>
+</button>
+<!-- Trending -->
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-label-md text-label-md text-[10px]">TRENDING</span>
+</button>
+<!-- Create Post (FAB equivalent integrated into nav for pure neobrutalism) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container border-border-width border-primary w-14 h-14 -translate-y-6 shadow-[4px_4px_0px_0px_theme('colors.primary')] active:shadow-none active:translate-y-[-20px] transition-all">
+<span class="material-symbols-outlined font-bold text-3xl">add</span>
+</button>
+<!-- Intel Reports -->
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md text-[10px]">INTEL</span>
+</button>
+<!-- Settings -->
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md text-[10px]">SYS</span>
+</button>
+</div>
+</nav>
+</body></html>

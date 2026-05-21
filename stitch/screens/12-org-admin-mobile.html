@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organization Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed": "#e2e2e2",
+                      "background": "#f9f9f9",
+                      "on-background": "#1a1c1c",
+                      "outline-variant": "#cec7aa",
+                      "surface-container-high": "#e8e8e8",
+                      "surface-bright": "#f9f9f9",
+                      "surface": "#f9f9f9",
+                      "secondary": "#5e5e5e",
+                      "on-tertiary-fixed-variant": "#8a1c00",
+                      "tertiary-container": "#ffdcd4",
+                      "surface-variant": "#e2e2e2",
+                      "surface-container-low": "#f3f3f3",
+                      "inverse-primary": "#dec800",
+                      "on-secondary-container": "#646464",
+                      "on-error": "#ffffff",
+                      "tertiary": "#b52700",
+                      "primary-fixed-dim": "#dec800",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#dadada",
+                      "inverse-on-surface": "#f1f1f1",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#c6c6c6",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb4a2",
+                      "on-tertiary-fixed": "#3d0700",
+                      "primary-fixed": "#fee400",
+                      "primary-container": "#ffe500",
+                      "on-primary-container": "#726600",
+                      "outline": "#7d775f",
+                      "on-tertiary-container": "#c12a00",
+                      "inverse-surface": "#2f3131",
+                      "tertiary-fixed": "#ffdad2",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#4b4731",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#1a1c1c",
+                      "on-secondary-fixed-variant": "#474747",
+                      "on-secondary-fixed": "#1b1b1b",
+                      "surface-container-highest": "#e2e2e2",
+                      "primary": "#6a5f00",
+                      "secondary-container": "#e2e2e2",
+                      "on-primary-fixed": "#201c00",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#6a5f00",
+                      "surface-container": "#eeeeee",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed-variant": "#504700",
+                      "accent": "#fee400",
+                      "card": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Space Mono"],
+                      "body-md": ["DM Sans"],
+                      "display-lg": ["Bebas Neue"],
+                      "headline-lg-mobile": ["Bebas Neue"],
+                      "label-md": ["Space Mono"],
+                      "headline-lg": ["Bebas Neue"],
+                      "body-lg": ["DM Sans"],
+                      "headline-md": ["Bebas Neue"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "display-lg": ["84px", { "lineHeight": "80px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                      "headline-lg-mobile": ["36px", { "lineHeight": "36px", "fontWeight": "700" }],
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+                      "headline-lg": ["48px", { "lineHeight": "48px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "headline-md": ["32px", { "lineHeight": "32px", "fontWeight": "700" }]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        .border-thick { border-width: 3px; border-color: #1a1c1c; border-style: solid; }
+        .shadow-hard { box-shadow: 5px 5px 0px #1a1c1c; }
+        .shadow-hard-hover:hover { box-shadow: 8px 8px 0px #1a1c1c; transform: translate(-3px, -3px); }
+        .shadow-hard-active:active { box-shadow: 0px 0px 0px #1a1c1c; transform: translate(0px, 0px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-accent selection:text-on-background pb-20">
+<!-- Top Navigation -->
+<header class="bg-primary-container dark:bg-primary-container docked full-width top-0 border-b-[3px] border-on-background flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto sticky z-50">
+<div class="font-headline-lg-mobile text-headline-lg-mobile uppercase tracking-wider text-on-primary-container">
+            MURMUR
+        </div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-2xl text-on-primary-container cursor-pointer hover:text-on-background transition-colors" data-icon="account_circle">account_circle</span>
+<span class="material-symbols-outlined text-2xl text-on-primary-container cursor-pointer hover:text-on-background transition-colors" data-icon="notifications">notifications</span>
+</div>
+</header>
+<main class="flex-1 p-margin-mobile flex flex-col gap-6 max-w-container-max mx-auto w-full">
+<!-- Header -->
+<div class="mb-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background uppercase">Dashboard</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-2">SECTOR-7 OPERATIONS</p>
+</div>
+<!-- Stats Cards -->
+<section class="flex flex-col gap-4">
+<div class="bg-card border-thick shadow-hard p-4 flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Operatives</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-background">142</span>
+</div>
+<div class="bg-card border-thick shadow-hard p-4 flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Post Volume (24h)</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-background">3,891</span>
+</div>
+<div class="bg-card border-thick shadow-hard p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-16 h-16 bg-error rotate-45 translate-x-8 -translate-y-8 border-thick"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Report Queue</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-error">47</span>
+</div>
+</section>
+<!-- Domain Whitelist -->
+<section class="mt-6 flex flex-col gap-4">
+<div class="flex justify-between items-center border-b-[3px] border-on-background pb-2">
+<h2 class="font-headline-md text-headline-md uppercase">Domain Whitelist</h2>
+<button class="bg-accent border-thick shadow-hard shadow-hard-hover shadow-hard-active w-10 h-10 flex items-center justify-center transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="bg-surface-variant border-thick px-3 py-1 font-label-md text-label-md flex items-center gap-2">
+                    sector7.gov <span class="material-symbols-outlined text-sm cursor-pointer" data-icon="close">close</span>
+</div>
+<div class="bg-surface-variant border-thick px-3 py-1 font-label-md text-label-md flex items-center gap-2">
+                    internal.org <span class="material-symbols-outlined text-sm cursor-pointer" data-icon="close">close</span>
+</div>
+<div class="bg-surface-variant border-thick px-3 py-1 font-label-md text-label-md flex items-center gap-2">
+                    secure-comm.net <span class="material-symbols-outlined text-sm cursor-pointer" data-icon="close">close</span>
+</div>
+</div>
+</section>
+<!-- Recent Reports -->
+<section class="mt-6 flex flex-col gap-4">
+<div class="border-b-[3px] border-on-background pb-2">
+<h2 class="font-headline-md text-headline-md uppercase">Action Required</h2>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Report Item 1 -->
+<div class="bg-card border-thick shadow-hard p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm bg-error text-on-error px-2 py-1 border-thick">HIGH PRIORITY</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">10m ago</span>
+</div>
+<p class="font-body-md text-body-md border-l-[3px] border-on-background pl-3 py-1 bg-surface-variant italic">
+                        "Unauthorized personnel spotted near Sector 7 access point Alpha. Requesting immediate verification of clearance protocols..."
+                    </p>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 bg-card border-thick shadow-hard shadow-hard-hover shadow-hard-active py-2 font-headline-md text-headline-md text-sm transition-all">KEEP</button>
+<button class="flex-1 bg-on-background text-on-primary border-thick shadow-hard shadow-hard-hover shadow-hard-active py-2 font-headline-md text-headline-md text-sm transition-all">REDACT</button>
+</div>
+</div>
+<!-- Report Item 2 -->
+<div class="bg-card border-thick shadow-hard p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm bg-surface-dim px-2 py-1 border-thick">FLAGGED</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">45m ago</span>
+</div>
+<p class="font-body-md text-body-md border-l-[3px] border-on-background pl-3 py-1 bg-surface-variant italic">
+                        "Discrepancy in the latest supply manifest. Three crates of designated materials unaccounted for in transit log 4992."
+                    </p>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 bg-card border-thick shadow-hard shadow-hard-hover shadow-hard-active py-2 font-headline-md text-headline-md text-sm transition-all">KEEP</button>
+<button class="flex-1 bg-on-background text-on-primary border-thick shadow-hard shadow-hard-hover shadow-hard-active py-2 font-headline-md text-headline-md text-sm transition-all">REDACT</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Mobile Bottom Navigation Shell (SideNav adaptation for mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t-[3px] border-on-background flex justify-around items-center p-2 z-50">
+<button class="flex flex-col items-center p-2 text-on-surface hover:text-on-background">
+<span class="material-symbols-outlined text-2xl" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm mt-1 hidden sm:block">DISCOVER</span>
+</button>
+<button class="flex flex-col items-center p-2 text-on-surface hover:text-on-background">
+<span class="material-symbols-outlined text-2xl" data-icon="trending_up">trending_up</span>
+<span class="font-label-sm text-label-sm mt-1 hidden sm:block">TRENDING</span>
+</button>
+<!-- Center Action Button -->
+<button class="bg-accent border-thick shadow-hard w-14 h-14 flex items-center justify-center -translate-y-4 rounded-none shadow-hard-hover shadow-hard-active transition-all">
+<span class="material-symbols-outlined text-3xl text-on-background" data-icon="add">add</span>
+</button>
+<button class="flex flex-col items-center p-2 bg-primary-container text-on-primary-container border-thick box-shadow-[4px_4px_0px_#1a1c1c]">
+<span class="material-symbols-outlined text-2xl" data-icon="security">security</span>
+<span class="font-label-sm text-label-sm mt-1 hidden sm:block">OPERATIONS</span>
+</button>
+<button class="flex flex-col items-center p-2 text-on-surface hover:text-on-background">
+<span class="material-symbols-outlined text-2xl" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm mt-1 hidden sm:block">SETTINGS</span>
+</button>
+</nav>
+<script>
+        // Simple interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                if(this.classList.contains('shadow-hard-active')) {
+                    this.style.transform = 'translate(0px, 0px)';
+                    this.style.boxShadow = '0px 0px 0px #1a1c1c';
+                }
+            });
+            btn.addEventListener('mouseup', function() {
+                if(this.classList.contains('shadow-hard-active')) {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }
+            });
+            btn.addEventListener('mouseleave', function() {
+                if(this.classList.contains('shadow-hard-active')) {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }
+            });
+        });
+    </script>
+</body></html>

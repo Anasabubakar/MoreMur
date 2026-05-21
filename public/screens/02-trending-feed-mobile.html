@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Trending Feed</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e2e2e2",
+                    "background": "#f9f9f9",
+                    "on-background": "#1a1c1c",
+                    "outline-variant": "#cec7aa",
+                    "surface-container-high": "#e8e8e8",
+                    "surface-bright": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "secondary": "#5e5e5e",
+                    "on-tertiary-fixed-variant": "#8a1c00",
+                    "tertiary-container": "#ffdcd4",
+                    "surface-variant": "#e2e2e2",
+                    "surface-container-low": "#f3f3f3",
+                    "inverse-primary": "#dec800",
+                    "on-secondary-container": "#646464",
+                    "on-error": "#ffffff",
+                    "tertiary": "#b52700",
+                    "primary-fixed-dim": "#dec800",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dadada",
+                    "inverse-on-surface": "#f1f1f1",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb4a2",
+                    "on-tertiary-fixed": "#3d0700",
+                    "primary-fixed": "#fee400",
+                    "primary-container": "#ffe500",
+                    "on-primary-container": "#726600",
+                    "outline": "#7d775f",
+                    "on-tertiary-container": "#c12a00",
+                    "inverse-surface": "#2f3131",
+                    "tertiary-fixed": "#ffdad2",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#4b4731",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#1a1c1c",
+                    "on-secondary-fixed-variant": "#474747",
+                    "on-secondary-fixed": "#1b1b1b",
+                    "surface-container-highest": "#e2e2e2",
+                    "primary": "#6a5f00",
+                    "secondary-container": "#e2e2e2",
+                    "on-primary-fixed": "#201c00",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#6a5f00",
+                    "surface-container": "#eeeeee",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#504700"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "container-max": "1280px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": [
+                            "Space Mono"
+                    ],
+                    "body-md": [
+                            "DM Sans"
+                    ],
+                    "display-lg": [
+                            "Bebas Neue"
+                    ],
+                    "headline-lg-mobile": [
+                            "Bebas Neue"
+                    ],
+                    "label-md": [
+                            "Space Mono"
+                    ],
+                    "headline-lg": [
+                            "Bebas Neue"
+                    ],
+                    "body-lg": [
+                            "DM Sans"
+                    ],
+                    "headline-md": [
+                            "Bebas Neue"
+                    ]
+            },
+            "fontSize": {
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-lg": [
+                            "84px",
+                            {
+                                    "lineHeight": "80px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "36px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "48px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Neo-Brutalist utility classes */
+        .border-thick {
+            border-width: 3px;
+            border-style: solid;
+            border-color: #1a1c1c; /* on-background */
+        }
+        .shadow-hard {
+            box-shadow: 5px 5px 0px #1a1c1c;
+        }
+        .shadow-hard-hover {
+            box-shadow: 8px 8px 0px #1a1c1c;
+            transform: translate(-3px, -3px);
+            transition: all 0.2s ease;
+        }
+        .shadow-hard-active {
+            box-shadow: 0px 0px 0px #1a1c1c;
+            transform: translate(0px, 0px);
+        }
+        
+        /* Hide scrollbar for clean horizontal scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar (Shared Component styling adapted for mobile constraints) -->
+<header class="bg-primary-container text-on-primary-container border-b-[3px] border-on-background [box-shadow:5px_5px_0px_#1a1c1c] z-50 flex-none relative">
+<div class="flex justify-between items-center w-full px-margin-mobile py-4 max-w-container-max mx-auto">
+<!-- Brand -->
+<div class="font-display-lg text-headline-lg-mobile uppercase tracking-wider text-on-primary-container">
+                MURMUR
+            </div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 border-thick bg-surface-container-lowest flex items-center justify-center hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="search">search</span>
+</button>
+<button class="w-10 h-10 border-thick bg-surface-container-lowest flex items-center justify-center hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c]">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 border-thick bg-secondary-fixed overflow-hidden">
+<img alt="Avatar" class="w-full h-full object-cover grayscale" data-alt="A stark, high-contrast black and white portrait of an anonymous individual, heavily shadowed to obscure facial features. The image embodies a gritty, neo-brutalist aesthetic with raw texture and unpolished edges. Lighting is harsh and directional, emphasizing structural forms over soft details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJGtBEMycxzt4uoeKSe56iuPyt2Jd6zcAQ3FbeI_fQ9QZr_X0f5-9KbrEGlQFVl2WXjQDBcm0ToriBjAkBjpayA4-EI2_rDGB0QSVdWc5P6fKPTMejy_-DbM-2f1b0lRLcbe1gsQwJV2hyfAyZMGPuC9e0klyrMmLZVqv11dbBD4OCaW6laWXquy68_yiNuuxkDUVynA5nafmqkwf8PP337YKhT3iWyARxILQjEzOhiPedCc1V4OrYaLWX-G2V89DpmERmrOi9Dbw"/>
+</div>
+</div>
+</div>
+<!-- Mobile Search Bar Expands Here (Placeholder interaction) -->
+<div class="hidden px-margin-mobile pb-4 w-full">
+<input class="w-full bg-surface-container-lowest border-thick font-label-sm text-label-sm p-2 focus:outline-none focus:bg-primary-container focus:border-on-background placeholder:text-on-surface-variant" placeholder="SEARCH INTEL..." type="text"/>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto bg-background px-margin-mobile py-6 flex flex-col gap-6 hide-scrollbar relative z-10">
+<!-- Page Header -->
+<div class="flex items-end justify-between border-b-[3px] border-on-background pb-2 mb-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background uppercase">TRENDING</h1>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-1 border-thick">LIVE</span>
+</div>
+<!-- Trending Topics Horizontal Scroll -->
+<section class="w-full mb-2">
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-2">HOT FREQUENCIES</h2>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-margin-mobile px-margin-mobile">
+<button class="flex-none bg-surface-container-lowest border-thick shadow-hard px-4 py-2 font-headline-md text-body-lg uppercase whitespace-nowrap active:shadow-hard-active active:translate-y-[5px] active:translate-x-[5px] transition-all">
+                    #PROJECT_AURORA
+                </button>
+<button class="flex-none bg-primary-container border-thick shadow-hard px-4 py-2 font-headline-md text-body-lg uppercase whitespace-nowrap active:shadow-hard-active active:translate-y-[5px] active:translate-x-[5px] transition-all">
+                    #SECTOR7_LEAK
+                </button>
+<button class="flex-none bg-surface-container-lowest border-thick shadow-hard px-4 py-2 font-headline-md text-body-lg uppercase whitespace-nowrap active:shadow-hard-active active:translate-y-[5px] active:translate-x-[5px] transition-all">
+                    #CORP_ESPIONAGE
+                </button>
+<button class="flex-none bg-surface-container-lowest border-thick shadow-hard px-4 py-2 font-headline-md text-body-lg uppercase whitespace-nowrap active:shadow-hard-active active:translate-y-[5px] active:translate-x-[5px] transition-all">
+                    #MARKET_MANIPULATION
+                </button>
+</div>
+</section>
+<!-- Feed List -->
+<div class="flex flex-col gap-6">
+<!-- Card 1: High Priority / Viral -->
+<article class="bg-surface-container-lowest border-thick shadow-hard flex flex-col relative overflow-hidden group">
+<!-- Redaction block styling for header -->
+<div class="border-b-[3px] border-on-background bg-surface-variant p-3 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined font-label-md text-label-md text-tertiary" data-icon="whatshot">whatshot</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-widest">Viral Intel</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2H AGO</span>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="font-label-md text-label-md bg-on-background text-primary-container px-2 py-1 inline-block">
+                            @ANON_8892
+                        </div>
+<div class="border-thick px-2 py-1 bg-surface-container-high font-label-sm text-label-sm">
+                            THREAT LVL: HIGH
+                        </div>
+</div>
+<h3 class="font-headline-md text-headline-md leading-tight mt-2">
+                        Massive Data Breach at Core Dynamics Uncovered
+                    </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                        Initial analysis suggests compromised credentials led to external exfiltration of proprietary quantum drive blueprints. <span class="bg-on-background text-on-background hover:text-surface-container-lowest transition-colors duration-300 select-none">REDACTED NAMES</span> are allegedly involved. Waiting for secondary verification.
+                    </p>
+<!-- Media Placeholder -->
+<div class="w-full h-32 border-thick bg-surface-dim relative overflow-hidden mt-2 flex items-center justify-center">
+<span class="material-symbols-outlined font-display-lg text-display-lg text-on-surface-variant opacity-50" data-icon="visibility_off">visibility_off</span>
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+')] opacity-20"></div>
+</div>
+</div>
+<!-- Engagement Bar -->
+<div class="border-t-[3px] border-on-background bg-surface-container flex">
+<button class="flex-1 p-3 flex items-center justify-center gap-2 border-r-[3px] border-on-background hover:bg-primary-container transition-colors active:bg-primary">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="arrow_upward">arrow_upward</span>
+<span class="font-label-md text-label-md font-bold">12.4K</span>
+</button>
+<button class="flex-1 p-3 flex items-center justify-center gap-2 border-r-[3px] border-on-background hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-md text-label-md font-bold">842</span>
+</button>
+<button class="flex-1 p-3 flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="share">share</span>
+</button>
+</div>
+</article>
+<!-- Card 2: Standard Post -->
+<article class="bg-surface-container-lowest border-thick shadow-hard flex flex-col">
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="font-label-md text-label-md bg-secondary-fixed text-on-secondary-fixed px-2 py-1 inline-block border-thick border-b-[1px] border-r-[1px]">
+                            @GHOST_PROTOCOL
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5H AGO</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-2">
+                        Just intercepted strange telemetry data originating from Sector 7. Looks like a routine scan but the ping frequency is off by a magnitude of 10. Anyone else tracking this anomaly?
+                    </p>
+<!-- Tags -->
+<div class="flex gap-2 mt-2 flex-wrap">
+<span class="border-thick border-b-[2px] border-r-[2px] px-2 py-1 font-label-sm text-label-sm bg-surface-container-high">#Sector7</span>
+<span class="border-thick border-b-[2px] border-r-[2px] px-2 py-1 font-label-sm text-label-sm bg-surface-container-high">#Telemetry</span>
+</div>
+</div>
+<!-- Engagement Bar -->
+<div class="border-t-[3px] border-on-background bg-surface-container flex">
+<button class="flex-1 p-3 flex items-center justify-center gap-2 border-r-[3px] border-on-background hover:bg-primary-container transition-colors active:bg-primary">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="arrow_upward">arrow_upward</span>
+<span class="font-label-md text-label-md font-bold">3.1K</span>
+</button>
+<button class="flex-1 p-3 flex items-center justify-center gap-2 border-r-[3px] border-on-background hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-md text-label-md font-bold">156</span>
+</button>
+<button class="flex-1 p-3 flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="share">share</span>
+</button>
+</div>
+</article>
+<!-- In-Feed CTA: New Intel Drop -->
+<div class="bg-accent border-thick shadow-hard p-6 flex flex-col items-center text-center my-4 bg-primary-container">
+<span class="material-symbols-outlined font-display-lg text-display-lg text-on-background mb-2" data-icon="cell_tower">cell_tower</span>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">Secure Line Open</h3>
+<p class="font-body-md text-body-md mb-4 max-w-[250px]">Have verified intel? Drop it anonymously to the network.</p>
+<button class="bg-on-background text-primary-container font-headline-md text-body-lg px-6 py-3 border-thick border-on-background shadow-hard w-full hover:-translate-y-1 hover:-translate-x-1 hover:shadow-hard-hover active:translate-y-0 active:translate-x-0 active:shadow-none transition-all uppercase">
+                    Initiate Transfer
+                </button>
+</div>
+<!-- Card 3: Image focus -->
+<article class="bg-surface-container-lowest border-thick shadow-hard flex flex-col">
+<div class="w-full h-48 border-b-[3px] border-on-background overflow-hidden relative group">
+<img alt="Server Room" class="w-full h-full object-cover grayscale mix-blend-multiply opacity-80" data-alt="A stark, high-contrast black and white photograph of a massive server farm interior. Rows of towering server racks stretch into the distance, illuminated by harsh, angular lighting that casts deep, solid black shadows. The scene embodies a neo-brutalist tech aesthetic, devoid of soft colors or gradients, focusing purely on geometric forms and raw industrial infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEkmxbZdSqubAQD0LSai23DfeXgMW4YWbjW8R18DwTmH6tJJK_6yRDkDD1wevOlULMJ6UQfBjpXX_Op8ssA_OEQGcJZ3Peh3rw-dEfeQf3Gy2ZHdidVr9z4HvKFXnsDqW4coHYzAyNLXx8zhtnzJcArQfyjLCjT_rI1GCk-63DYb92z1j19HxvposEGcYw5KY8_D_7TTgefo-k_4FB8nH1WJhjFB01iVfQUrQfisU7pTL5lyK0um7NaeMpM6eiM5ziavCYfmWVE3M"/>
+<div class="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+<div class="absolute bottom-2 left-2 bg-on-background text-primary-container font-label-sm text-label-sm px-2 py-1 border-thick border-primary-container">
+                        SOURCE_IMG_VERIFIED
+                    </div>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="font-label-md text-label-md bg-secondary-fixed text-on-secondary-fixed px-2 py-1 inline-block border-thick border-b-[1px] border-r-[1px]">
+                            @SYS_ADMIN_X
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12H AGO</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-2 font-bold">
+                        Physical breach detected at Node 42. Surveillance feeds scrubbed. 
+                    </p>
+</div>
+<!-- Engagement Bar -->
+<div class="border-t-[3px] border-on-background bg-surface-container flex">
+<button class="flex-1 p-3 flex items-center justify-center gap-2 border-r-[3px] border-on-background hover:bg-primary-container transition-colors active:bg-primary">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="arrow_upward">arrow_upward</span>
+<span class="font-label-md text-label-md font-bold">8.9K</span>
+</button>
+<button class="flex-1 p-3 flex items-center justify-center gap-2 border-r-[3px] border-on-background hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-md text-label-md font-bold">412</span>
+</button>
+<button class="flex-1 p-3 flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="share">share</span>
+</button>
+</div>
+</article>
+<!-- Spacer for bottom nav -->
+<div class="h-20"></div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile) - Semantic Active State: TRENDING maps to Intent Fallback for "Feed" or we create a Bottom Nav representation -->
+<nav class="md:hidden bg-surface text-primary border-t-[3px] border-on-background fixed bottom-0 w-full z-50 flex h-16">
+<!-- Assuming generic mobile nav based on context, highlighting 'DISCOVER/TRENDING' equivalent -->
+<button class="flex-1 flex flex-col items-center justify-center gap-1 hover:bg-surface-variant transition-colors text-on-surface">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-[10px]">FEED</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 bg-primary-container text-on-primary-container border-x-[3px] border-on-background [box-shadow:4px_-4px_0px_#1a1c1c] -mt-1 font-bold pb-1 z-10 relative">
+<span class="material-symbols-outlined" data-icon="whatshot" data-weight="fill">whatshot</span>
+<span class="font-label-sm text-[10px]">TRENDING</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 hover:bg-surface-variant transition-colors text-on-surface">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label-sm text-[10px]">DROP</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 hover:bg-surface-variant transition-colors text-on-surface border-l-[3px] border-on-background">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-[10px]">PROFILE</span>
+</button>
+</nav>
+<script>
+        // Material Symbols injection logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const icons = document.querySelectorAll('[data-icon]');
+            icons.forEach(icon => {
+                const iconName = icon.getAttribute('data-icon');
+                const isFilled = icon.hasAttribute('data-weight') && icon.getAttribute('data-weight') === 'fill';
+                
+                // Ensure class is present
+                if (!icon.classList.contains('material-symbols-outlined')) {
+                    icon.classList.add('material-symbols-outlined');
+                }
+                
+                // Set literal content
+                icon.textContent = iconName;
+                
+                // Set weight if fill requested
+                if (isFilled) {
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - WHERE THE REAL TALK LIVES</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-background": "#e2e2e2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary-fixed": "#ffdad4",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#dec800",
+                        "on-error": "#690005",
+                        "on-secondary": "#313030",
+                        "secondary": "#c8c6c5",
+                        "surface-dim": "#131313",
+                        "surface-container": "#1f1f1f",
+                        "on-primary": "#373100",
+                        "primary-container": "#fee400",
+                        "on-tertiary-fixed": "#410000",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-container": "#b7b5b4",
+                        "secondary-container": "#474746",
+                        "on-secondary-fixed-variant": "#474746",
+                        "error-container": "#93000a",
+                        "background": "#131313",
+                        "primary-fixed": "#fee400",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#ffdad4",
+                        "on-tertiary-container": "#cc0100",
+                        "on-tertiary": "#690100",
+                        "on-surface-variant": "#cec7aa",
+                        "surface": "#131313",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#201c00",
+                        "tertiary": "#ffffff",
+                        "on-primary-container": "#716500",
+                        "primary": "#ffffff",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#6a5f00",
+                        "surface-variant": "#353535",
+                        "surface-tint": "#dec800",
+                        "inverse-surface": "#e2e2e2",
+                        "outline": "#979177",
+                        "surface-container-low": "#1b1b1b",
+                        "surface-container-highest": "#353535",
+                        "surface-bright": "#393939",
+                        "outline-variant": "#4b4731",
+                        "inverse-on-surface": "#303030",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "32px",
+                        "gutter": "24px",
+                        "border-width": "4px",
+                        "container-padding": "16px",
+                        "unit": "4px",
+                        "shadow-offset": "6px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Bebas Neue"],
+                        "headline-xl-mobile": ["Bebas Neue"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"],
+                        "headline-xl": ["Bebas Neue"],
+                        "headline-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["48px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl": ["64px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        /* Custom scrollbar for terminal feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+            border-left: 4px solid #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fee400;
+            border: 2px solid #131313;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen relative overflow-x-hidden">
+<!-- Terminal Overlay -->
+<div class="fixed inset-0 scanlines z-50 mix-blend-overlay"></div>
+<!-- TopNavBar Landing (Simplified for Landing Intent) -->
+<header class="w-full h-20 border-b-[4px] border-primary bg-surface flex justify-between items-center px-gutter sticky top-0 z-40">
+<div class="font-headline-md text-headline-md font-bold text-on-surface uppercase tracking-tighter">MURMUR</div>
+<div class="flex gap-4">
+<button class="bg-surface text-primary border-[4px] border-primary px-4 py-2 font-label-md text-label-md uppercase hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] active:shadow-none hover:-translate-y-1 active:translate-y-0 active:translate-x-0">
+                LOGIN
+            </button>
+</div>
+</header>
+<main class="w-full max-w-md mx-auto grid grid-cols-4 gap-gutter px-gutter pb-margin pt-margin">
+<!-- Hero Section -->
+<section class="col-span-4 flex flex-col gap-8 mb-margin">
+<div class="border-[4px] border-primary bg-surface p-6 shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] relative overflow-hidden">
+<div class="absolute top-2 right-2 flex items-center gap-2">
+<span class="w-3 h-3 bg-error rounded-none border-[2px] border-primary animate-pulse"></span>
+<span class="font-label-md text-label-md text-primary uppercase">LIVE</span>
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-primary uppercase mt-4 mb-4">
+                    WHERE THE<br/>REAL TALK<br/><span class="text-primary-container">LIVES</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 border-l-[4px] border-primary-container pl-4">
+                    Encrypted mid-level intel for your organization. Bypass the corporate filter. Read what actually happened.
+                </p>
+<div class="flex flex-col gap-4">
+<button class="w-full bg-surface text-primary border-[4px] border-primary py-4 font-label-md text-label-md uppercase hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] active:translate-y-1 active:translate-x-1 active:shadow-none flex justify-between items-center px-4 group">
+                        JOIN YOUR ORG
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full bg-surface-dim text-on-surface border-[4px] border-surface-variant py-4 font-label-md text-label-md uppercase hover:border-primary-container hover:text-primary-container transition-colors shadow-[6px_6px_0px_0px_rgba(53,53,53,1)] hover:shadow-[2px_2px_0px_0px_rgba(254,228,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none flex justify-between items-center px-4">
+                        VIEW PROTOCOLS
+                        <span class="material-symbols-outlined">terminal</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Core Doctrine Cards -->
+<section class="col-span-4 flex flex-col gap-6 mb-margin">
+<h2 class="font-headline-md text-headline-md text-primary uppercase border-b-[4px] border-primary pb-2">CORE DOCTRINE</h2>
+<div class="flex flex-col gap-6">
+<!-- Card 1 -->
+<div class="border-[4px] border-primary bg-surface p-4 shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 border-[2px] border-primary bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">lock</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">ZERO TRACE</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        End-to-end encryption. No metadata retention. Your identity is stripped before it hits our servers.
+                    </p>
+</div>
+<!-- Card 2 -->
+<div class="border-[4px] border-primary bg-surface p-4 shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 border-[2px] border-primary bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">group</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">PEER VERIFIED</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Access is granted through verified corporate domains only. No outsiders, no bots, just colleagues.
+                    </p>
+</div>
+<!-- Card 3 -->
+<div class="border-[4px] border-primary bg-surface p-4 shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 border-[2px] border-primary bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">warning</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">RAW INTEL</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Unfiltered discussions on restructuring, compensations, and leadership maneuvers. The unvarnished truth.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Social Proof Terminal Log -->
+<section class="col-span-4 border-[4px] border-primary bg-[#000000] p-4 shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] mb-margin">
+<div class="font-label-md text-label-md text-primary-container mb-2 uppercase flex justify-between border-b-[2px] border-surface-variant pb-2">
+<span>SYSTEM.LOG</span>
+<span>[LIVE]</span>
+</div>
+<div class="font-body-md text-body-md text-secondary space-y-2 mt-4 font-[JetBrains_Mono]">
+<p>&gt; User 0x8A91 joined ORG_TECH_04</p>
+<p>&gt; Intel report dropped in ORG_FIN_12</p>
+<p>&gt; Protocol updated: ENCRYPTION_V3</p>
+<p class="text-primary-container animate-pulse">&gt; 4,192 Active Nodes...</p>
+</div>
+</section>
+</main>
+</body></html>

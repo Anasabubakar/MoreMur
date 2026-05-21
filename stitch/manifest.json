@@ -1,0 +1,24 @@
+{
+  "projectId": "3984967297086363189",
+  "projectTitle": "MURMUR Anonymous Intelligence Platform",
+  "downloadedAt": "2026-05-21T11:29:32.000Z",
+  "method": "stitch-mcp-http-curl",
+  "screens": [
+    { "id": "0bfd9428e277404ab598a7eeb3fbaa4b", "slug": "01-anonymous-feed-mobile", "title": "Murmur — Anonymous Feed (Mobile)", "status": "ok", "files": { "html": "stitch/screens/01-anonymous-feed-mobile.html", "png": "stitch/screens/01-anonymous-feed-mobile.png" } },
+    { "id": "362bfe203ee240d08df0711319c1e10a", "slug": "02-trending-feed-mobile", "title": "Murmur — Trending Feed (Mobile)", "status": "ok", "files": { "html": "stitch/screens/02-trending-feed-mobile.html", "png": "stitch/screens/02-trending-feed-mobile.png" } },
+    { "id": "4c03f6f122724559a4022df892bec57e", "slug": "03-signup-verification-mobile", "title": "Murmur — Signup & Verification (Mobile)", "status": "ok", "files": { "html": "stitch/screens/03-signup-verification-mobile.html", "png": "stitch/screens/03-signup-verification-mobile.png" } },
+    { "id": "69723d159c904df7a0412e4ab9b6b109", "slug": "04-culture-intel-mobile", "title": "Murmur — Culture Intel (Mobile)", "status": "ok", "files": { "html": "stitch/screens/04-culture-intel-mobile.html", "png": "stitch/screens/04-culture-intel-mobile.png" } },
+    { "id": "6d656a0018cf459cb9ccf33f74149096", "slug": "05-landing-page", "title": "Murmur — Landing Page", "status": "ok", "files": { "html": "stitch/screens/05-landing-page.html", "png": "stitch/screens/05-landing-page.png" } },
+    { "id": "789d55911e994344b537f460eaf27749", "slug": "06-culture-intelligence-report", "title": "Murmur — Culture Intelligence Report", "status": "ok", "files": { "html": "stitch/screens/06-culture-intelligence-report.html", "png": "stitch/screens/06-culture-intelligence-report.png" } },
+    { "id": "8058d9d62bf24c5b82497912ddd50d6f", "slug": "07-anonymous-feed", "title": "Murmur — Anonymous Feed", "status": "ok", "files": { "html": "stitch/screens/07-anonymous-feed.html", "png": "stitch/screens/07-anonymous-feed.png" } },
+    { "id": "92ff9f006db24e27a881999ca6c9aedb", "slug": "08-signup-verification", "title": "Murmur — Signup & Verification", "status": "ok", "files": { "html": "stitch/screens/08-signup-verification.html", "png": "stitch/screens/08-signup-verification.png" } },
+    { "id": "9600730465df4510990b72d8b73d4dfd", "slug": "09-trending-feed", "title": "Murmur — Trending Feed", "status": "ok", "files": { "html": "stitch/screens/09-trending-feed.html", "png": "stitch/screens/09-trending-feed.png" } },
+    { "id": "a0147a3b94064e4eb76c4f69768c05c0", "slug": "10-landing-page-mobile", "title": "Murmur — Landing Page (Mobile)", "status": "ok", "files": { "html": "stitch/screens/10-landing-page-mobile.html", "png": "stitch/screens/10-landing-page-mobile.png" } },
+    { "id": "asset-stub-assets-99af8109b548496f9afd4e8fe8f76774-1779358323352", "slug": "11-design-system", "title": "Design System", "status": "not_found", "error": "Requested entity was not found via get_screen" },
+    { "id": "c67b75d926104c1797cda4121e4d1765", "slug": "12-org-admin-mobile", "title": "Murmur — Org Admin (Mobile)", "status": "ok", "files": { "html": "stitch/screens/12-org-admin-mobile.html", "png": "stitch/screens/12-org-admin-mobile.png" } },
+    { "id": "ce1691e0839d49a9b86b5df1227b9765", "slug": "13-org-admin-dashboard", "title": "Murmur — Org Admin Dashboard", "status": "ok", "files": { "html": "stitch/screens/13-org-admin-dashboard.html", "png": "stitch/screens/13-org-admin-dashboard.png" } },
+    { "id": "6afc7ca712d94f7581ad38a5bec4331a", "slug": "14-landing-page-alt", "title": "Murmur — Landing Page", "status": "ok", "files": { "html": "stitch/screens/14-landing-page-alt.html", "png": "stitch/screens/14-landing-page-alt.png" } },
+    { "id": "03926ae1864c4e6cac2c2148ae4be21a", "slug": "15-anonymous-feed-alt", "title": "Murmur — Anonymous Feed", "status": "ok", "files": { "html": "stitch/screens/15-anonymous-feed-alt.html", "png": "stitch/screens/15-anonymous-feed-alt.png" } },
+    { "id": "b4200fd731a64927ab2170d34eed225c", "slug": "16-signup-verification-alt", "title": "Murmur — Signup & Verification", "status": "ok", "files": { "html": "stitch/screens/16-signup-verification-alt.html", "png": "stitch/screens/16-signup-verification-alt.png" } }
+  ]
+}

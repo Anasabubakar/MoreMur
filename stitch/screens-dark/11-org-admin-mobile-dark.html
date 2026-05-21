@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Murmur - Mobile Org Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-background": "#e2e2e2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary-fixed": "#ffdad4",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#dec800",
+                        "on-error": "#690005",
+                        "on-secondary": "#313030",
+                        "secondary": "#c8c6c5",
+                        "surface-dim": "#131313",
+                        "surface-container": "#1f1f1f",
+                        "on-primary": "#373100",
+                        "primary-container": "#fee400",
+                        "on-tertiary-fixed": "#410000",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-container": "#b7b5b4",
+                        "secondary-container": "#474746",
+                        "on-secondary-fixed-variant": "#474746",
+                        "error-container": "#93000a",
+                        "background": "#131313",
+                        "primary-fixed": "#fee400",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#ffdad4",
+                        "on-tertiary-container": "#cc0100",
+                        "on-tertiary": "#690100",
+                        "on-surface-variant": "#cec7aa",
+                        "surface": "#131313",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#201c00",
+                        "tertiary": "#ffffff",
+                        "on-primary-container": "#716500",
+                        "primary": "#ffffff",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#6a5f00",
+                        "surface-variant": "#353535",
+                        "surface-tint": "#dec800",
+                        "inverse-surface": "#e2e2e2",
+                        "outline": "#979177",
+                        "surface-container-low": "#1b1b1b",
+                        "surface-container-highest": "#353535",
+                        "surface-bright": "#393939",
+                        "outline-variant": "#4b4731",
+                        "inverse-on-surface": "#303030",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "32px",
+                        "gutter": "24px",
+                        "border-width": "4px",
+                        "container-padding": "16px",
+                        "unit": "4px",
+                        "shadow-offset": "6px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Bebas Neue"],
+                        "headline-xl-mobile": ["Bebas Neue"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"],
+                        "headline-xl": ["Bebas Neue"],
+                        "headline-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["48px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl": ["64px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        /* Hide scrollbar for a cleaner look but allow scrolling */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col h-screen overflow-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Mobile) -->
+<header class="flex justify-between items-center px-gutter w-full sticky top-0 z-50 bg-surface dark:bg-background border-b-border-width border-black flat">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">MURMUR_INTEL</span>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="text-primary dark:text-primary-fixed hover:bg-primary-container dark:hover:bg-primary-fixed-dim transition-colors active:scale-95 transition-transform p-2 rounded-none border-border-width border-transparent">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Account" class="text-primary dark:text-primary-fixed hover:bg-primary-container dark:hover:bg-primary-fixed-dim transition-colors active:scale-95 transition-transform p-2 rounded-none border-border-width border-transparent">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto px-margin py-margin pb-24">
+<!-- Header -->
+<div class="mb-8">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-background uppercase">Command Center</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">SYS_STATUS: ONLINE. AWAITING DIRECTIVES.</p>
+</div>
+<!-- Metrics Section (Stacked Vertical) -->
+<div class="flex flex-col gap-4 mb-12">
+<!-- Metric Card 1 -->
+<div class="bg-[#000000] border-border-width border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] p-container-padding hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
+<div class="flex justify-between items-center">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Total Operatives</p>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-1">1,042</h2>
+</div>
+<span class="material-symbols-outlined text-primary-container text-4xl" data-icon="group" data-weight="fill" style="font-variation-settings: 'FILL' 1;">group</span>
+</div>
+<div class="mt-4 pt-2 border-t-border-width border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="arrow_upward">arrow_upward</span>
+<span class="font-body-md text-body-md text-primary-container">+12% Since Last Cycle</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-[#000000] border-border-width border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] p-container-padding hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
+<div class="flex justify-between items-center">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Post Volume</p>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-1">8,491</h2>
+</div>
+<span class="material-symbols-outlined text-primary-container text-4xl" data-icon="data_usage" data-weight="fill" style="font-variation-settings: 'FILL' 1;">data_usage</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="bg-[#000000] border-border-width border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] p-container-padding hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 transition-all">
+<div class="flex justify-between items-center">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Report Queue</p>
+<h2 class="font-headline-lg text-headline-lg text-error mt-1">42</h2>
+</div>
+<span class="material-symbols-outlined text-error text-4xl" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="mt-4 pt-2 border-t-border-width border-outline-variant flex items-center gap-2">
+<div class="px-2 py-1 border-[2px] border-error bg-transparent text-error font-label-md text-label-md uppercase">CRIT ALERT</div>
+</div>
+</div>
+</div>
+<!-- Action Required Section -->
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-on-background uppercase mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="priority_high">priority_high</span>
+                Action Required
+            </h2>
+<div class="flex flex-col gap-6">
+<!-- Action Card 1 -->
+<div class="bg-[#000000] border-border-width border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] p-container-padding">
+<div class="flex items-center gap-2 mb-4">
+<div class="px-2 py-1 border-[2px] border-primary-container bg-transparent text-primary-container font-label-md text-label-md uppercase">INTEL-092</div>
+<span class="font-body-md text-body-md text-on-surface-variant">| Flagged by Automata</span>
+</div>
+<p class="font-body-lg text-body-lg text-primary mb-6">"Suspect movement detected in Sector 4. Awaiting confirmation on target acquisition protocols."</p>
+<div class="flex gap-4">
+<button class="flex-1 bg-black border-border-width border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] font-label-md text-label-md text-primary uppercase py-3 hover:bg-primary-container hover:text-black hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all">
+                            KEEP
+                        </button>
+<button class="flex-1 bg-black border-border-width border-error shadow-[6px_6px_0px_0px_rgba(255,180,171,1)] font-label-md text-label-md text-error uppercase py-3 hover:bg-error hover:text-black hover:shadow-[2px_2px_0px_0px_rgba(255,180,171,1)] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all">
+                            REDACT
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface border-t-border-width border-black p-4 z-50">
+<ul class="flex justify-between items-center w-full">
+<li class="flex-1">
+<a class="flex flex-col items-center justify-center p-2 text-on-surface hover:bg-secondary-container border-border-width border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-[10px] mt-1">Dashboard</span>
+</a>
+</li>
+<li class="flex-1">
+<a class="flex flex-col items-center justify-center p-2 text-on-surface hover:bg-secondary-container border-border-width border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-label-md text-[10px] mt-1">Trending</span>
+</a>
+</li>
+<li class="flex-1">
+<a class="flex flex-col items-center justify-center p-2 bg-primary text-on-primary border-border-width border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-1 -translate-y-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="domain" data-weight="fill" style="font-variation-settings: 'FILL' 1;">domain</span>
+<span class="font-label-md text-[10px] mt-1">Organization</span>
+</a>
+</li>
+<li class="flex-1">
+<a class="flex flex-col items-center justify-center p-2 text-on-surface hover:bg-secondary-container border-border-width border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-[10px] mt-1">Intel Reports</span>
+</a>
+</li>
+<li class="flex-1">
+<a class="flex flex-col items-center justify-center p-2 text-on-surface hover:bg-secondary-container border-border-width border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-[10px] mt-1">Settings</span>
+</a>
+</li>
+</ul>
+</nav>
+<script>
+        // Simple interactive script for buttons to simulate the "mechanical" press
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                if(this.classList.contains('shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]')) {
+                    this.style.boxShadow = '2px 2px 0px 0px rgba(255,255,255,1)';
+                    this.style.transform = 'translate(4px, 4px)';
+                }
+            });
+            btn.addEventListener('mouseup', function() {
+                if(this.classList.contains('shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]')) {
+                     this.style.boxShadow = '';
+                     this.style.transform = '';
+                }
+            });
+            btn.addEventListener('mouseleave', function() {
+                if(this.classList.contains('shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]')) {
+                     this.style.boxShadow = '';
+                     this.style.transform = '';
+                }
+            });
+        });
+    </script>
+</body></html>

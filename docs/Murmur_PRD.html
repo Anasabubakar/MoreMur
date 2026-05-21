@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MURMUR — Product Requirements Document v1.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --yellow: #FFE500;
+    --red: #FF3B00;
+    --lgray: #F2F2F2;
+    --mgray: #888888;
+    --dgray: #222222;
+    --border: 3px solid #000;
+    --shadow: 5px 5px 0px #000;
+    --shadow-lg: 8px 8px 0px #000;
+    --shadow-sm: 3px 3px 0px #000;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--lgray);
+    color: var(--dgray);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ─────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── SIDEBAR NAV ──────────────────────────────────────────────*/
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--black);
+    border-right: var(--border);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 2px solid #333;
+  }
+
+  .sidebar-logo .logo-text {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: var(--yellow);
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+
+  .sidebar-logo .logo-sub {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--mgray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .nav-section-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 16px 20px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mgray);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: var(--yellow);
+    border-left-color: var(--yellow);
+    background: #111;
+  }
+
+  .nav-item .nav-num {
+    font-size: 9px;
+    color: #444;
+    min-width: 18px;
+  }
+
+  .nav-item:hover .nav-num { color: var(--yellow); }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 16px 20px;
+    border-top: 1px solid #222;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  /* ── MAIN CONTENT ─────────────────────────────────────────────*/
+  .main {
+    margin-left: 220px;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ──────────────────────────────────────────────────*/
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--white);
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 52px;
+  }
+
+  .topbar-left {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mgray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .topbar-badges {
+    display: flex;
+    gap: 8px;
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border: 2px solid var(--black);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-yellow { background: var(--yellow); color: var(--black); }
+  .badge-black  { background: var(--black); color: var(--white); }
+  .badge-white  { background: var(--white); color: var(--black); }
+
+  /* ── HERO / COVER ─────────────────────────────────────────────*/
+  .hero {
+    background: var(--black);
+    border-bottom: var(--border);
+    padding: 80px 64px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: 'MURMUR';
+    font-family: var(--font-display);
+    font-size: 360px;
+    color: #111;
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -10px;
+    user-select: none;
+  }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mgray);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 110px;
+    color: var(--yellow);
+    line-height: 0.9;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.7s ease both;
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 20px;
+    max-width: 480px;
+    line-height: 1.5;
+    font-weight: 400;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.7s 0.15s ease both;
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 0;
+    margin-top: 48px;
+    border: var(--border);
+    width: fit-content;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.7s 0.3s ease both;
+  }
+
+  .hero-meta-item {
+    padding: 14px 24px;
+    border-right: 2px solid #333;
+  }
+
+  .hero-meta-item:last-child { border-right: none; }
+
+  .hero-meta-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .hero-meta-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--yellow);
+    font-weight: 700;
+  }
+
+  /* ── CONTENT SECTIONS ─────────────────────────────────────────*/
+  .content {
+    padding: 0;
+  }
+
+  .section {
+    border-bottom: var(--border);
+    padding: 56px 64px;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .section:nth-child(odd)  { background: var(--white); }
+  .section:nth-child(even) { background: var(--lgray); }
+
+  /* ── SECTION HEADER ──────────────────────────────────────────*/
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--yellow);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--black);
+    margin-bottom: 24px;
+  }
+
+  .section-tag .tag-num {
+    background: var(--black);
+    color: var(--yellow);
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+
+  .section-h1 {
+    font-family: var(--font-display);
+    font-size: 60px;
+    color: var(--black);
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    border-bottom: 4px solid var(--black);
+    padding-bottom: 12px;
+  }
+
+  .section-h2 {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--black);
+    margin: 28px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-h2::before {
+    content: '▶';
+    font-size: 10px;
+    color: var(--red);
+  }
+
+  .section-h3 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 16px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .body-text {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    max-width: 760px;
+  }
+
+  .italic-note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--mgray);
+    font-style: italic;
+    margin: 8px 0 12px;
+  }
+
+  /* ── BULLET LIST ─────────────────────────────────────────────*/
+  .bullet-list {
+    list-style: none;
+    margin: 8px 0 16px;
+    max-width: 760px;
+  }
+
+  .bullet-list li {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+    padding: 5px 0 5px 22px;
+    position: relative;
+    border-bottom: 1px dashed #e0e0e0;
+  }
+
+  .bullet-list li:last-child { border-bottom: none; }
+
+  .bullet-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  .numbered-list {
+    list-style: none;
+    counter-reset: step;
+    margin: 8px 0 16px;
+    max-width: 760px;
+  }
+
+  .numbered-list li {
+    counter-increment: step;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+    padding: 8px 0 8px 40px;
+    position: relative;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .numbered-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    background: var(--black);
+    color: var(--yellow);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── META TABLE (cover style) ───────────────────────────────*/
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border: var(--border);
+    box-shadow: var(--shadow);
+    width: fit-content;
+    margin: 24px 0;
+  }
+
+  .meta-key {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 10px 14px;
+    border-bottom: 1px solid #222;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .meta-val {
+    background: var(--white);
+    color: var(--dgray);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #ddd;
+    border-left: var(--border);
+  }
+
+  .meta-key:last-of-type, .meta-val:last-of-type { border-bottom: none; }
+
+  /* ── FEATURE TABLE ───────────────────────────────────────────*/
+  .feature-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    box-shadow: var(--shadow);
+    margin: 16px 0 28px;
+    table-layout: fixed;
+  }
+
+  .feature-table th {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 12px 14px;
+    text-align: left;
+    border-right: 1px solid #333;
+  }
+
+  .feature-table th:last-child { border-right: none; }
+
+  .feature-table td {
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #444;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #e8e8e8;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .feature-table td:first-child {
+    font-weight: 700;
+    color: var(--black);
+    font-size: 12px;
+    background: var(--white);
+    font-family: var(--font-mono);
+  }
+
+  .feature-table td:last-child {
+    border-right: none;
+    text-align: center;
+    background: var(--black);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+  }
+
+  .feature-table tr:last-child td { border-bottom: none; }
+  .feature-table tr:nth-child(even) td:not(:first-child):not(:last-child) { background: var(--lgray); }
+  .feature-table tr:nth-child(odd)  td:not(:first-child):not(:last-child) { background: var(--white); }
+
+  .p0 { color: var(--red) !important; }
+  .p1 { color: #FF8C00 !important; }
+  .p2 { color: var(--mgray) !important; }
+
+  /* ── GENERIC TABLE ───────────────────────────────────────────*/
+  .gen-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    box-shadow: var(--shadow);
+    margin: 16px 0 24px;
+  }
+
+  .gen-table th {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 12px 14px;
+    text-align: left;
+    border-right: 1px solid #333;
+  }
+
+  .gen-table th:last-child { border-right: none; }
+
+  .gen-table td {
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #444;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #e8e8e8;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .gen-table td:first-child {
+    font-weight: 700;
+    color: var(--black);
+    background: var(--white);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .gen-table tr:last-child td { border-bottom: none; }
+  .gen-table tr td:last-child { border-right: none; }
+  .gen-table tr:nth-child(even) td:not(:first-child) { background: var(--lgray); }
+  .gen-table tr:nth-child(odd)  td:not(:first-child) { background: var(--white); }
+
+  /* ── PHASE CARDS ─────────────────────────────────────────────*/
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 16px 0;
+  }
+
+  .phase-card {
+    border: var(--border);
+    box-shadow: var(--shadow);
+    background: var(--white);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .phase-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--black);
+  }
+
+  .phase-card-header {
+    background: var(--black);
+    padding: 12px 18px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .phase-card-body {
+    padding: 16px 18px;
+  }
+
+  .phase-card-body li {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    padding: 4px 0 4px 18px;
+    position: relative;
+    list-style: none;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .phase-card-body li:last-child { border-bottom: none; }
+
+  .phase-card-body li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  /* ── METRICS GRID ────────────────────────────────────────────*/
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 16px 0;
+  }
+
+  .metric-card {
+    border: var(--border);
+    box-shadow: var(--shadow);
+    background: var(--white);
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .metric-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--black);
+  }
+
+  .metric-header {
+    background: var(--yellow);
+    border-bottom: var(--border);
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .metric-body {
+    padding: 14px 16px;
+  }
+
+  .metric-body li {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #444;
+    line-height: 1.6;
+    padding: 3px 0 3px 16px;
+    list-style: none;
+    position: relative;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .metric-body li:last-child { border-bottom: none; }
+
+  .metric-body li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: green;
+    font-weight: 700;
+    font-size: 11px;
+  }
+
+  /* ── TIER CARDS ──────────────────────────────────────────────*/
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    box-shadow: var(--shadow-lg);
+    margin: 16px 0;
+  }
+
+  .tier-card {
+    border-right: var(--border);
+    overflow: hidden;
+  }
+
+  .tier-card:last-child { border-right: none; }
+
+  .tier-header {
+    padding: 20px 20px 14px;
+    border-bottom: var(--border);
+  }
+
+  .tier-card:nth-child(1) .tier-header { background: var(--lgray); }
+  .tier-card:nth-child(2) .tier-header { background: var(--yellow); }
+  .tier-card:nth-child(3) .tier-header { background: var(--black); }
+
+  .tier-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .tier-card:nth-child(1) .tier-name { color: var(--black); }
+  .tier-card:nth-child(2) .tier-name { color: var(--black); }
+  .tier-card:nth-child(3) .tier-name { color: var(--yellow); }
+
+  .tier-price {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  .tier-card:nth-child(1) .tier-price { color: var(--mgray); }
+  .tier-card:nth-child(2) .tier-price { color: #555; }
+  .tier-card:nth-child(3) .tier-price { color: #aaa; }
+
+  .tier-body {
+    padding: 16px 20px;
+    background: var(--white);
+  }
+
+  .tier-body li {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #444;
+    line-height: 1.6;
+    padding: 4px 0;
+    list-style: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .tier-body li:last-child { border-bottom: none; }
+  .tier-body li::before { content: '—'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+  /* ── STACK TABLE ─────────────────────────────────────────────*/
+  .stack-grid {
+    display: grid;
+    grid-template-columns: 150px 200px 1fr;
+    border: var(--border);
+    box-shadow: var(--shadow);
+    margin: 16px 0;
+  }
+
+  .stack-hdr {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #333;
+    border-right: 1px solid #333;
+  }
+
+  .stack-hdr:last-child { border-right: none; }
+
+  .stack-layer {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    padding: 10px 14px;
+    background: var(--white);
+    border-bottom: 1px solid #e8e8e8;
+    border-right: var(--border);
+    vertical-align: top;
+  }
+
+  .stack-tech {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 700;
+    padding: 10px 14px;
+    background: var(--lgray);
+    border-bottom: 1px solid #e8e8e8;
+    border-right: 1px solid #ddd;
+    vertical-align: top;
+  }
+
+  .stack-rat {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #555;
+    padding: 10px 14px;
+    background: var(--white);
+    border-bottom: 1px solid #e8e8e8;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  /* ── RISK TABLE ──────────────────────────────────────────────*/
+  .risk-row-high    td:nth-child(2) { color: var(--red) !important; font-weight: 700; }
+  .risk-row-medium  td:nth-child(2) { color: #FF8C00 !important; font-weight: 700; }
+  .risk-row-low     td:nth-child(2) { color: green !important; font-weight: 700; }
+
+  /* ── DESIGN PALETTE ──────────────────────────────────────────*/
+  .palette {
+    display: flex;
+    gap: 0;
+    border: var(--border);
+    box-shadow: var(--shadow);
+    margin: 16px 0;
+    height: 80px;
+  }
+
+  .swatch {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8px 12px;
+    border-right: var(--border);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .swatch:last-child { border-right: none; }
+  .swatch-black  { background: #000; color: #FFE500; }
+  .swatch-yellow { background: #FFE500; color: #000; }
+  .swatch-white  { background: #fff; color: #000; border: none; }
+  .swatch-red    { background: #FF3B00; color: #fff; }
+  .swatch-lgray  { background: #F2F2F2; color: #000; }
+
+  /* ── CONFIDENTIAL FOOTER ─────────────────────────────────────*/
+  .doc-footer {
+    background: var(--black);
+    border-top: var(--border);
+    padding: 28px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .doc-footer-left .footer-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+  }
+
+  .doc-footer-left .footer-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #555;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .doc-footer-right {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #555;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ── PRIORITY LEGEND ─────────────────────────────────────────*/
+  .legend {
+    display: flex;
+    gap: 0;
+    border: var(--border);
+    width: fit-content;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .legend-item {
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    border-right: 2px solid var(--black);
+    background: var(--black);
+  }
+
+  .legend-item:last-child { border-right: none; }
+  .legend-p0 { color: var(--red); }
+  .legend-p1 { color: #FF8C00; }
+  .legend-p2 { color: var(--mgray); }
+
+  /* ── ANIMATIONS ──────────────────────────────────────────────*/
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── SCROLLBAR ───────────────────────────────────────────────*/
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--yellow); }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────*/
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); }
+    .main { margin-left: 0; }
+    .hero { padding: 48px 32px 40px; }
+    .hero-title { font-size: 72px; }
+    .section { padding: 40px 32px; }
+    .phase-grid, .metrics-grid, .tier-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── PRINT ───────────────────────────────────────────────────*/
+  @media print {
+    .sidebar, .topbar { display: none; }
+    .main { margin-left: 0; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">MURMUR</div>
+    <div class="logo-sub">PRD v1.0 // Confidential</div>
+  </div>
+  <div class="nav-section-label">Contents</div>
+  <a class="nav-item" href="#overview"><span class="nav-num">01</span>Executive Summary</a>
+  <a class="nav-item" href="#market"><span class="nav-num">02</span>Target Market</a>
+  <a class="nav-item" href="#concept"><span class="nav-num">03</span>Core Concept</a>
+  <a class="nav-item" href="#features"><span class="nav-num">04</span>Feature Specs</a>
+  <a class="nav-item" href="#monetisation"><span class="nav-num">05</span>Monetisation</a>
+  <a class="nav-item" href="#technical"><span class="nav-num">06</span>Technical Architecture</a>
+  <a class="nav-item" href="#design"><span class="nav-num">07</span>Design System</a>
+  <a class="nav-item" href="#roadmap"><span class="nav-num">08</span>Roadmap</a>
+  <a class="nav-item" href="#risks"><span class="nav-num">09</span>Risks</a>
+  <a class="nav-item" href="#metrics"><span class="nav-num">10</span>Success Metrics</a>
+  <div class="sidebar-footer">
+    Anas Abubakar<br>
+    TeenovateX Labs<br>
+    May 2026
+  </div>
+</aside>
+
+<!-- ── MAIN ────────────────────────────────────────────────────────── -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <span class="topbar-left">Product Requirements Document</span>
+    <div class="topbar-badges">
+      <span class="badge badge-yellow">v1.0</span>
+      <span class="badge badge-black">Draft</span>
+      <span class="badge badge-white">NeoBrutalism</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">// Product Requirements Document</div>
+    <div class="hero-title">MURMUR</div>
+    <div class="hero-subtitle">Anonymous Community Intelligence Platform — where the real talk lives.</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Author</div>
+        <div class="hero-meta-value">Anas Abubakar</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Version</div>
+        <div class="hero-meta-value">v1.0 — Initial</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Status</div>
+        <div class="hero-meta-value">Draft</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="content">
+
+    <!-- ── 01 EXECUTIVE SUMMARY ──────────────────────────────── -->
+    <section class="section" id="overview">
+      <div class="section-tag"><span class="tag-num">01</span>Executive Summary</div>
+      <h1 class="section-h1">PRODUCT OVERVIEW</h1>
+
+      <p class="body-text">Murmur is an anonymous, organisation-scoped discussion and community intelligence platform. It gives employees, students, and fellows a dedicated space to post thoughts, reactions, gossip, feedback, and opinions, completely separated from professional channels like Slack, WhatsApp, or Discord, where such content creates noise and violates community guidelines.</p>
+      <p class="body-text">Every user is <strong>Anonymous</strong>. No display names. No avatars. No public profiles. The only identity that matters is the organisation a user belongs to, verified by their institutional email address. Murmur is built for exclusivity — each organisation gets its own isolated feed, enforced at the infrastructure level.</p>
+
+      <h2 class="section-h2">The Problem</h2>
+      <p class="body-text">Organisations running communities through WhatsApp groups, Discord servers, or Slack workspaces face a persistent challenge: members use those channels for gossip, drama, venting, and off-topic arguments. This:</p>
+      <ul class="bullet-list">
+        <li>Pollutes professional or learning-focused channels</li>
+        <li>Violates community guidelines and creates moderation overhead</li>
+        <li>Suppresses authentic opinions due to fear of social consequences</li>
+        <li>Buries important announcements and discussions</li>
+      </ul>
+
+      <h2 class="section-h2">The Solution</h2>
+      <p class="body-text">Give that energy its own home. Murmur is where the gossip lives. By separating this behaviour into its own platform, organisations preserve the integrity of their main channels while still giving their communities a legitimate, structured outlet.</p>
+    </section>
+
+    <!-- ── 02 TARGET MARKET ──────────────────────────────────── -->
+    <section class="section" id="market">
+      <div class="section-tag"><span class="tag-num">02</span>Target Market</div>
+      <h1 class="section-h1">TARGET AUDIENCE</h1>
+
+      <h2 class="section-h2">Primary Segments</h2>
+      <table class="gen-table">
+        <thead>
+          <tr>
+            <th style="width:22%">Segment</th>
+            <th style="width:45%">Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fellowship Programmes</td>
+            <td>Cohort-based programmes with active community channels</td>
+            <td>Learn2Earn NG</td>
+          </tr>
+          <tr>
+            <td>Universities & Polytechnics</td>
+            <td>Students using .edu or institutional emails for community access</td>
+            <td>ABU, UNILAG, Covenant University</td>
+          </tr>
+          <tr>
+            <td>Tech Companies & Startups</td>
+            <td>Teams wanting anonymous internal culture feedback</td>
+            <td>Flutterwave, Paystack, Cowrywise</td>
+          </tr>
+          <tr>
+            <td>NGOs & Nonprofits</td>
+            <td>Staff and beneficiary communities needing anonymous outlets</td>
+            <td>TeenovateX Labs, HelpMum</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-h2">Beachhead Market</h2>
+      <p class="body-text">Learn2Earn NG is the first and primary deployment target. The programme already has the exact community behaviour Murmur is built for: a high-energy cohort of young fellows, active WhatsApp groups and Discord channels, and a clear need to preserve professional channels while giving fellows a legitimate voice.</p>
+    </section>
+
+    <!-- ── 03 CORE CONCEPT ───────────────────────────────────── -->
+    <section class="section" id="concept">
+      <div class="section-tag"><span class="tag-num">03</span>Core Product Concept</div>
+      <h1 class="section-h1">HOW MURMUR WORKS</h1>
+
+      <h2 class="section-h2">The Anonymous Identity Model</h2>
+      <p class="body-text">Every user who signs up on Murmur is assigned the identity: <strong>Anonymous</strong>. No username. No avatar. No bio. No public profile. Even the user themselves cannot view their own profile page. Internally, Murmur maintains a hidden identity record for each user — accessible only to platform administrators, never exposed under any circumstances. It exists solely for moderation, abuse prevention, and data compliance.</p>
+
+      <h2 class="section-h2">Organisation Isolation</h2>
+      <p class="body-text">Murmur enforces strict feed isolation by organisation. Users must sign up with an institutional or company email address, which receives a one-time OTP for verification.</p>
+      <ul class="bullet-list">
+        <li>Generic email providers are blocked at signup: gmail.com, yahoo.com, outlook.com, and similar are rejected with a clear error message.</li>
+        <li>OTP verification ensures the person actually has access to that institutional inbox, preventing impersonation.</li>
+        <li>Once verified, the user is permanently scoped to that organisation's feed. Feeds never cross.</li>
+      </ul>
+
+      <h2 class="section-h2">Post Lifecycle</h2>
+      <ol class="numbered-list">
+        <li>User writes a Murmur: text, a reaction, a question, or a poll.</li>
+        <li>Post is published to the organisation's feed with the author shown as Anonymous.</li>
+        <li>Other users in the same organisation can Like, Comment, React, or Repost.</li>
+        <li>Comments and reposts are also anonymous.</li>
+        <li>Posts can be reported. Reports are reviewed by Murmur admins only.</li>
+      </ol>
+    </section>
+
+    <!-- ── 04 FEATURES ───────────────────────────────────────── -->
+    <section class="section" id="features">
+      <div class="section-tag"><span class="tag-num">04</span>Feature Specifications</div>
+      <h1 class="section-h1">FEATURE REQUIREMENTS</h1>
+
+      <div class="legend">
+        <div class="legend-item legend-p0">P0 — Must have at launch</div>
+        <div class="legend-item legend-p1">P1 — First 60 days</div>
+        <div class="legend-item legend-p2">P2 — Roadmap</div>
+      </div>
+
+      <h2 class="section-h2">Authentication & Onboarding</h2>
+      <table class="feature-table">
+        <colgroup>
+          <col style="width:22%"><col style="width:68%"><col style="width:10%">
+        </colgroup>
+        <thead><tr><th>Feature</th><th>Description</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Institutional Email Signup</td><td>User registers with a company or school email. Generic domains (gmail, yahoo, outlook) are blocked with a clear error message.</td><td class="p0">P0</td></tr>
+          <tr><td>OTP Verification</td><td>A 6-digit OTP is sent to the institutional email. Valid for 10 minutes. Resend allowed after 60 seconds. 5 failed attempts locks the session.</td><td class="p0">P0</td></tr>
+          <tr><td>Organisation Auto-Detection</td><td>System extracts the domain from the email and maps it to an existing or new organisation. If domain is new, a pending org is created awaiting admin approval.</td><td class="p0">P0</td></tr>
+          <tr><td>Anonymous Account Creation</td><td>Upon verification, account is created with no visible identity. User sees no profile page.</td><td class="p0">P0</td></tr>
+          <tr><td>Session Management</td><td>JWT-based sessions. Auto-logout after 30 days of inactivity. Option to logout manually.</td><td class="p0">P0</td></tr>
+          <tr><td>Re-verification on New Device</td><td>When logging in from a new device, a fresh OTP is required to confirm identity.</td><td class="p1">P1</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-h2">Feed & Discovery</h2>
+      <table class="feature-table">
+        <colgroup><col style="width:22%"><col style="width:68%"><col style="width:10%"></colgroup>
+        <thead><tr><th>Feature</th><th>Description</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Organisation-Scoped Feed</td><td>Users only see posts from their verified organisation. Feed is reverse-chronological by default.</td><td class="p0">P0</td></tr>
+          <tr><td>Trending Feed</td><td>A secondary tab showing posts sorted by engagement (likes + comments + reposts) in the last 24 hours.</td><td class="p0">P0</td></tr>
+          <tr><td>Hot / New Toggle</td><td>Users can switch between Hot (algorithmic) and New (chronological) view.</td><td class="p1">P1</td></tr>
+          <tr><td>Post Categories / Tags</td><td>Optional tags on posts: Gossip, Opinion, Question, Rant, Announcement, Poll. Users can filter by tag.</td><td class="p1">P1</td></tr>
+          <tr><td>Search</td><td>Full-text search within the organisation's feed. No user-level search. No cross-org search.</td><td class="p1">P1</td></tr>
+          <tr><td>Pinned Posts</td><td>Admins can pin up to 3 posts to the top of the feed for announcements.</td><td class="p2">P2</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-h2">Posting & Interaction</h2>
+      <table class="feature-table">
+        <colgroup><col style="width:22%"><col style="width:68%"><col style="width:10%"></colgroup>
+        <thead><tr><th>Feature</th><th>Description</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Create Murmur</td><td>Rich text post with up to 500 characters. No media uploads in v1 to reduce abuse surface.</td><td class="p0">P0</td></tr>
+          <tr><td>Like</td><td>Tap to like. Like count visible. No breakdown of who liked.</td><td class="p0">P0</td></tr>
+          <tr><td>Comment</td><td>Thread-style anonymous comments on each post. Max 280 characters per comment.</td><td class="p0">P0</td></tr>
+          <tr><td>Repost</td><td>One-tap repost to the same feed. Reposts show the original post content.</td><td class="p0">P0</td></tr>
+          <tr><td>Emoji Reactions</td><td>5 fixed reactions beyond Like: Fire, Shocked, LOL, Agree, Cap (disbelief). Reaction counts visible.</td><td class="p1">P1</td></tr>
+          <tr><td>Polls</td><td>Post a poll with 2 to 4 options. Polls run for 24h, 48h, or 7 days. Results visible after voting.</td><td class="p1">P1</td></tr>
+          <tr><td>Image Uploads</td><td>Allow image attachments on posts, with automated NSFW filtering.</td><td class="p2">P2</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-h2">Moderation & Safety</h2>
+      <table class="feature-table">
+        <colgroup><col style="width:22%"><col style="width:68%"><col style="width:10%"></colgroup>
+        <thead><tr><th>Feature</th><th>Description</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Report Post</td><td>Any user can report a post. Reasons: Hate Speech, Harassment, Spam, Misinformation, Other.</td><td class="p0">P0</td></tr>
+          <tr><td>Admin Review Queue</td><td>Murmur platform admins review all reports and can delete posts or warn/ban accounts.</td><td class="p0">P0</td></tr>
+          <tr><td>Auto-Profanity Filter</td><td>Basic keyword filter runs on every post before publishing. Blocked content is rejected with a warning.</td><td class="p0">P0</td></tr>
+          <tr><td>Shadow Ban</td><td>Admins can shadow-ban a user. Their posts appear to them but are invisible to others.</td><td class="p1">P1</td></tr>
+          <tr><td>Account Suspension</td><td>Repeat offenders can have accounts suspended. They receive an email at their institutional address.</td><td class="p1">P1</td></tr>
+          <tr><td>AI Content Moderation</td><td>Integrate an AI moderation layer (Perspective API or OpenAI Moderation) to flag toxic content automatically.</td><td class="p2">P2</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-h2">Organisation Admin Portal</h2>
+      <table class="feature-table">
+        <colgroup><col style="width:22%"><col style="width:68%"><col style="width:10%"></colgroup>
+        <thead><tr><th>Feature</th><th>Description</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Org Registration</td><td>Organisation registers via a separate onboarding flow. Provides org name, domain, and a contact email.</td><td class="p0">P0</td></tr>
+          <tr><td>Domain Whitelist Management</td><td>Admins can add or remove allowed email domains for their organisation.</td><td class="p0">P0</td></tr>
+          <tr><td>Feed Analytics Dashboard</td><td>View aggregate post volume, top categories, engagement trends. No individual user data shown.</td><td class="p0">P0</td></tr>
+          <tr><td>Org-Level Branding</td><td>Orgs can upload a logo and set a primary colour for their Murmur space.</td><td class="p1">P1</td></tr>
+          <tr><td>Custom Community Guidelines</td><td>Orgs can add their own rules alongside Murmur's global rules, displayed to users on signup.</td><td class="p1">P1</td></tr>
+          <tr><td>Data Export</td><td>Admins can export anonymised aggregate insights as CSV or PDF reports.</td><td class="p1">P1</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ── 05 MONETISATION ───────────────────────────────────── -->
+    <section class="section" id="monetisation">
+      <div class="section-tag"><span class="tag-num">05</span>Monetisation Strategy</div>
+      <h1 class="section-h1">REVENUE MODEL</h1>
+
+      <div class="tier-grid">
+        <div class="tier-card">
+          <div class="tier-header">
+            <div class="tier-name">FREE</div>
+            <div class="tier-price">Community Tier — $0/month</div>
+          </div>
+          <div class="tier-body">
+            <ul>
+              <li>Up to 500 members per org</li>
+              <li>Basic feed, posting, likes, comments</li>
+              <li>OTP verification</li>
+              <li>Basic moderation tools</li>
+              <li>Standard community guidelines</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <div class="tier-name">PRO</div>
+            <div class="tier-price">Organisation Tier — from $29/month</div>
+          </div>
+          <div class="tier-body">
+            <ul>
+              <li>Unlimited members</li>
+              <li>Advanced analytics dashboard</li>
+              <li>Custom branding and guidelines</li>
+              <li>Priority moderation support</li>
+              <li>Data export (anonymised CSV)</li>
+              <li>Pinned posts and Polls</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <div class="tier-name">ENTERPRISE</div>
+            <div class="tier-price">Intelligence Tier — $200–$500/month</div>
+          </div>
+          <div class="tier-body">
+            <ul>
+              <li>Everything in Pro</li>
+              <li>Culture Intelligence Reports</li>
+              <li>Industry benchmarking</li>
+              <li>Pulse Surveys</li>
+              <li>Custom data contracts</li>
+              <li>White-label option</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-h2">Data Ethics Guardrails</h2>
+      <p class="body-text">All data sold or reported at the Enterprise tier must comply with strict anonymisation standards:</p>
+      <ul class="bullet-list">
+        <li>Fully anonymised — no individual can be identified from any data point.</li>
+        <li>Aggregated — minimum cohort size of 10 per data point to prevent inference attacks.</li>
+        <li>Consented — users are informed on signup that anonymised aggregate data may be used for insights.</li>
+        <li>Compliant — NDPA (Nigeria Data Protection Act) and GDPR-adjacent standards.</li>
+      </ul>
+    </section>
+
+    <!-- ── 06 TECHNICAL ──────────────────────────────────────── -->
+    <section class="section" id="technical">
+      <div class="section-tag"><span class="tag-num">06</span>Technical Architecture</div>
+      <h1 class="section-h1">TECHNICAL SPECIFICATIONS</h1>
+
+      <h2 class="section-h2">Core Stack</h2>
+      <div class="stack-grid">
+        <div class="stack-hdr">Layer</div><div class="stack-hdr">Technology</div><div class="stack-hdr">Rationale</div>
+        <div class="stack-layer">Frontend (Web)</div><div class="stack-tech">Next.js + Tailwind CSS</div><div class="stack-rat">SSR for performance, Tailwind for fast NeoBrutalism implementation</div>
+        <div class="stack-layer">Frontend (Mobile)</div><div class="stack-tech">React Native (Expo)</div><div class="stack-rat">Cross-platform iOS and Android from one codebase</div>
+        <div class="stack-layer">Backend / API</div><div class="stack-tech">Node.js + Fastify</div><div class="stack-rat">Lightweight, fast, familiar JS ecosystem</div>
+        <div class="stack-layer">Database</div><div class="stack-tech">PostgreSQL</div><div class="stack-rat">Relational integrity for org scoping and moderation audit trails</div>
+        <div class="stack-layer">Auth</div><div class="stack-tech">Custom JWT + OTP via Resend</div><div class="stack-rat">No third-party auth to protect the anonymity architecture</div>
+        <div class="stack-layer">Hosting</div><div class="stack-tech">Vercel + Railway</div><div class="stack-rat">Fast deployment, scalable, affordable for early stage</div>
+        <div class="stack-layer">Moderation AI</div><div class="stack-tech">Perspective API (Phase 2)</div><div class="stack-rat">Free at low volume, scalable, battle-tested</div>
+      </div>
+
+      <h2 class="section-h2">Data Model: Key Entities</h2>
+      <h3 class="section-h3">Users</h3>
+      <ul class="bullet-list">
+        <li>id (UUID, internal only)</li>
+        <li>email (hashed, stored encrypted, never exposed via public API)</li>
+        <li>org_id (foreign key to Organisations)</li>
+        <li>status: active | suspended | shadow_banned</li>
+        <li>created_at, last_active_at</li>
+      </ul>
+      <h3 class="section-h3">Organisations</h3>
+      <ul class="bullet-list">
+        <li>id, name, domain</li>
+        <li>tier: free | pro | enterprise</li>
+        <li>logo_url, primary_color</li>
+        <li>status: pending | active | suspended</li>
+      </ul>
+      <h3 class="section-h3">Posts (Murmurs)</h3>
+      <ul class="bullet-list">
+        <li>id, org_id, user_id (internal only), content, category_tag</li>
+        <li>like_count, comment_count, repost_count</li>
+        <li>status: published | removed | shadow_removed</li>
+        <li>created_at</li>
+      </ul>
+
+      <h2 class="section-h2">Anonymity Architecture</h2>
+      <p class="body-text">The anonymity guarantee is enforced at the database query layer, not just the API layer:</p>
+      <ul class="bullet-list">
+        <li>user_id is never returned in any public-facing API response.</li>
+        <li>Join queries that would link a post to a user record are forbidden in the public API scope.</li>
+        <li>Admin queries are isolated to a separate internal API, protected by separate authentication with full audit logging.</li>
+        <li>All admin access to user identity records is logged with timestamp, action taken, and admin ID.</li>
+      </ul>
+    </section>
+
+    <!-- ── 07 DESIGN ─────────────────────────────────────────── -->
+    <section class="section" id="design">
+      <div class="section-tag"><span class="tag-num">07</span>Design System</div>
+      <h1 class="section-h1">NEOBRUTALISM DESIGN LANGUAGE</h1>
+
+      <p class="body-text">Murmur's visual identity is built entirely on NeoBrutalism: raw, unapologetic, high-contrast, and deliberately anti-polished. The aesthetic signals honesty and boldness, which directly matches the product's core premise.</p>
+
+      <h2 class="section-h2">Colour Palette</h2>
+      <div class="palette">
+        <div class="swatch swatch-black">#000000<br>Black</div>
+        <div class="swatch swatch-yellow">#FFE500<br>Yellow</div>
+        <div class="swatch swatch-white">#FFFFFF<br>White</div>
+        <div class="swatch swatch-red">#FF3B00<br>Red</div>
+        <div class="swatch swatch-lgray">#F2F2F2<br>Light Gray</div>
+      </div>
+
+      <h2 class="section-h2">Core Design Principles</h2>
+      <table class="gen-table">
+        <thead><tr><th style="width:25%">Principle</th><th>Implementation</th></tr></thead>
+        <tbody>
+          <tr><td>Thick borders</td><td>All UI cards, buttons, inputs, and containers have a 2 to 4px solid black border.</td></tr>
+          <tr><td>Hard shadows</td><td>Offset box shadows (4px 4px 0px #000) replace soft drop shadows everywhere.</td></tr>
+          <tr><td>High contrast</td><td>Black on yellow. White on black. No gradients. No blur. No opacity tricks.</td></tr>
+          <tr><td>Bold typography</td><td>Headlines in Bebas Neue / Arial Black. Body in DM Sans. Code in Space Mono.</td></tr>
+          <tr><td>No rounded corners</td><td>Border radius is 0 everywhere. Sharp corners only.</td></tr>
+          <tr><td>Interactive states</td><td>On hover, shadow offsets increase. On click, shadow collapses. Button physically depresses.</td></tr>
+          <tr><td>Visible grid</td><td>The layout grid is almost visible. Blocks feel deliberately placed, not floated.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-h2">Post Card Anatomy</h2>
+      <ul class="bullet-list">
+        <li>Black 3px border on all sides with 4px 4px black hard shadow</li>
+        <li>White background, zero border radius</li>
+        <li>Yellow tag badge for the post category (Gossip, Rant, Opinion, etc.)</li>
+        <li>"ANONYMOUS" label in bold, all caps, with a randomly generated geometric icon per session</li>
+        <li>Post text in DM Sans 14px, max width constrained</li>
+        <li>Action row at the bottom: Like count, Comment count, Repost button, Report flag</li>
+      </ul>
+    </section>
+
+    <!-- ── 08 ROADMAP ────────────────────────────────────────── -->
+    <section class="section" id="roadmap">
+      <div class="section-tag"><span class="tag-num">08</span>Product Roadmap</div>
+      <h1 class="section-h1">LAUNCH PHASES</h1>
+
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-card-header">Phase 0 — Validation // Month 1</div>
+          <div class="phase-card-body">
+            <ul>
+              <li>Deploy Murmur exclusively for Learn2Earn NG fellows</li>
+              <li>Manual org onboarding, no self-serve portal yet</li>
+              <li>Basic feed, posting, likes, comments</li>
+              <li>OTP email verification</li>
+              <li>Admin moderation queue (manual review)</li>
+              <li>Gather qualitative feedback from fellows</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-card-header">Phase 1 — Core Product // Month 2–3</div>
+          <div class="phase-card-body">
+            <ul>
+              <li>Self-serve org registration and onboarding</li>
+              <li>Polls, emoji reactions, post category tags</li>
+              <li>Trending feed algorithm</li>
+              <li>Basic analytics dashboard for org admins</li>
+              <li>Auto-profanity filter</li>
+              <li>Pro tier payment integration</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-card-header">Phase 2 — Scale // Month 4–6</div>
+          <div class="phase-card-body">
+            <ul>
+              <li>Mobile app (React Native / Expo)</li>
+              <li>AI content moderation (Perspective API)</li>
+              <li>Enterprise Intelligence reports</li>
+              <li>Benchmarking and Pulse Surveys</li>
+              <li>Onboard 5 to 10 additional organisations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-card-header">Phase 3 — Ecosystem // Month 7–12</div>
+          <div class="phase-card-body">
+            <ul>
+              <li>API for orgs to integrate Murmur data</li>
+              <li>White-label option for large enterprises</li>
+              <li>Multi-language support (Hausa, Yoruba, Igbo)</li>
+              <li>Expand to Ghana, Kenya, South Africa</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 09 RISKS ──────────────────────────────────────────── -->
+    <section class="section" id="risks">
+      <div class="section-tag"><span class="tag-num">09</span>Risks & Mitigations</div>
+      <h1 class="section-h1">RISK REGISTER</h1>
+
+      <table class="gen-table">
+        <thead>
+          <tr>
+            <th style="width:28%">Risk</th>
+            <th style="width:14%">Likelihood</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="risk-row-high">
+            <td>Anonymity misused for harassment</td>
+            <td>High</td>
+            <td>OTP ties account to real email. Admins can de-anonymise and act. Shadow ban and suspension tools available.</td>
+          </tr>
+          <tr class="risk-row-medium">
+            <td>Orgs reject 'gossip' framing</td>
+            <td>Medium</td>
+            <td>Position as 'community intelligence' and 'anonymous feedback platform' in all org-facing materials.</td>
+          </tr>
+          <tr class="risk-row-medium">
+            <td>Low post volume kills network effect</td>
+            <td>Medium</td>
+            <td>Seed the Learn2Earn cohort aggressively. Add conversation starters and prompts to new feeds.</td>
+          </tr>
+          <tr class="risk-row-medium">
+            <td>Data breach exposes user emails</td>
+            <td>Low-Medium</td>
+            <td>Emails are hashed and encrypted at rest. Internal admin API is fully separated from public API.</td>
+          </tr>
+          <tr class="risk-row-medium">
+            <td>Legal exposure from toxic content</td>
+            <td>Medium</td>
+            <td>Clear ToS, automated moderation, active admin queue, and a formal legal takedown process.</td>
+          </tr>
+          <tr class="risk-row-low">
+            <td>Copycat by larger platform</td>
+            <td>Low</td>
+            <td>Moat is org-level data and community trust, not the feature set. Move fast and lock in orgs early.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ── 10 METRICS ────────────────────────────────────────── -->
+    <section class="section" id="metrics">
+      <div class="section-tag"><span class="tag-num">10</span>Success Metrics</div>
+      <h1 class="section-h1">KPIs & SUCCESS CRITERIA</h1>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">Phase 0 — Learn2Earn Pilot</div>
+          <div class="metric-body">
+            <ul>
+              <li>50+ posts in first 2 weeks</li>
+              <li>40% of fellows post at least once</li>
+              <li>Average 3+ comments per post</li>
+              <li>Zero serious moderation incidents week 1</li>
+            </ul>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">Phase 1 — 3 Months Post-Launch</div>
+          <div class="metric-body">
+            <ul>
+              <li>5+ organisations onboarded</li>
+              <li>1,000+ total users across all orgs</li>
+              <li>At least 1 Pro tier conversion</li>
+              <li>DAU: 30% of total registered users</li>
+            </ul>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">Phase 2 — 6 Months Post-Launch</div>
+          <div class="metric-body">
+            <ul>
+              <li>20+ organisations onboarded</li>
+              <li>5,000+ total users</li>
+              <li>$500+ MRR from Pro tier</li>
+              <li>First Enterprise contract signed</li>
+              <li>NPS above 40 from org admins</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="doc-footer">
+    <div class="doc-footer-left">
+      <div class="footer-title">MURMUR</div>
+      <div class="footer-sub">Confidential — Do not distribute</div>
+    </div>
+    <div class="doc-footer-right">
+      Anas Abubakar — TeenovateX Labs<br>
+      Product Requirements Document v1.0<br>
+      May 2026
+    </div>
+  </footer>
+
+</div><!-- /main -->
+
+<script>
+  // Active nav highlighting on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(item => item.classList.remove('active'));
+        const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

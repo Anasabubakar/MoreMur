@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR_INTEL - Trending</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#1c1b1b",
+                      "on-background": "#e2e2e2",
+                      "secondary-fixed-dim": "#c8c6c5",
+                      "tertiary-fixed": "#ffdad4",
+                      "surface-container-lowest": "#0e0e0e",
+                      "primary-fixed-dim": "#dec800",
+                      "on-error": "#690005",
+                      "on-secondary": "#313030",
+                      "secondary": "#c8c6c5",
+                      "surface-dim": "#131313",
+                      "surface-container": "#1f1f1f",
+                      "on-primary": "#373100",
+                      "primary-container": "#fee400",
+                      "on-tertiary-fixed": "#410000",
+                      "secondary-fixed": "#e5e2e1",
+                      "on-secondary-container": "#b7b5b4",
+                      "secondary-container": "#474746",
+                      "on-secondary-fixed-variant": "#474746",
+                      "error-container": "#93000a",
+                      "background": "#131313",
+                      "primary-fixed": "#fee400",
+                      "tertiary-fixed-dim": "#ffb4a8",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-container": "#ffdad4",
+                      "on-tertiary-container": "#cc0100",
+                      "on-tertiary": "#690100",
+                      "on-surface-variant": "#cec7aa",
+                      "surface": "#131313",
+                      "error": "#ffb4ab",
+                      "on-primary-fixed": "#201c00",
+                      "tertiary": "#ffffff",
+                      "on-primary-container": "#716500",
+                      "primary": "#ffffff",
+                      "on-primary-fixed-variant": "#504700",
+                      "on-tertiary-fixed-variant": "#930100",
+                      "on-surface": "#e2e2e2",
+                      "inverse-primary": "#6a5f00",
+                      "surface-variant": "#353535",
+                      "surface-tint": "#dec800",
+                      "inverse-surface": "#e2e2e2",
+                      "outline": "#979177",
+                      "surface-container-low": "#1b1b1b",
+                      "surface-container-highest": "#353535",
+                      "surface-bright": "#393939",
+                      "outline-variant": "#4b4731",
+                      "inverse-on-surface": "#303030",
+                      "surface-container-high": "#2a2a2a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin": "32px",
+                      "gutter": "24px",
+                      "border-width": "4px",
+                      "container-padding": "16px",
+                      "unit": "4px",
+                      "shadow-offset": "6px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Bebas Neue"],
+                      "headline-xl-mobile": ["Bebas Neue"],
+                      "label-md": ["JetBrains Mono"],
+                      "body-lg": ["JetBrains Mono"],
+                      "body-md": ["JetBrains Mono"],
+                      "headline-xl": ["Bebas Neue"],
+                      "headline-lg": ["Bebas Neue"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "headline-xl-mobile": ["48px", {"lineHeight": "1", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-xl": ["64px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "headline-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400"}]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .neo-shadow { box-shadow: 6px 6px 0px 0px #ffffff; }
+        .neo-shadow-yellow { box-shadow: 6px 6px 0px 0px #fee400; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-background border-b-border-width border-black w-full h-20 flex justify-between items-center px-gutter sticky top-0 z-50">
+<div class="flex items-center">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">MURMUR_INTEL</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary-fixed hover:bg-primary-container dark:hover:bg-primary-fixed-dim transition-colors active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-primary dark:text-primary-fixed hover:bg-primary-container dark:hover:bg-primary-fixed-dim transition-colors active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-4 md:p-gutter flex flex-col gap-6 hide-scrollbar">
+<!-- Header -->
+<div class="mb-4">
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface uppercase mb-2">TRENDING INTEL</h2>
+<!-- Hashtag Chips -->
+<div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+<button class="flex-shrink-0 bg-primary-container text-on-primary-container border-2 border-primary-container font-label-md text-label-md px-4 py-2 uppercase neo-shadow-yellow">#SALARY</button>
+<button class="flex-shrink-0 bg-surface-container text-on-surface border-2 border-white font-label-md text-label-md px-4 py-2 uppercase hover:bg-primary-container hover:text-on-primary-container hover:border-primary-container transition-colors">#ROADMAP</button>
+<button class="flex-shrink-0 bg-surface-container text-on-surface border-2 border-white font-label-md text-label-md px-4 py-2 uppercase hover:bg-primary-container hover:text-on-primary-container hover:border-primary-container transition-colors">#LAYOFFS</button>
+<button class="flex-shrink-0 bg-surface-container text-on-surface border-2 border-white font-label-md text-label-md px-4 py-2 uppercase hover:bg-primary-container hover:text-on-primary-container hover:border-primary-container transition-colors">#Q4_GOALS</button>
+</div>
+</div>
+<!-- Feed Cards -->
+<div class="flex flex-col gap-8 pb-24">
+<!-- Card 1 -->
+<article class="bg-black border-border-width border-white neo-shadow p-6 relative flex flex-col gap-4">
+<div class="absolute -top-4 -left-4 bg-primary-container text-on-primary-container border-2 border-black font-label-md text-label-md px-3 py-1 flex items-center gap-1 z-10">
+<span class="material-symbols-outlined" style="font-size: 16px;">local_fire_department</span> VIRAL
+                </div>
+<div class="flex justify-between items-start mt-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-surface-variant border-2 border-white flex items-center justify-center">
+<span class="material-symbols-outlined text-white">person</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">ANON_8392</p>
+<p class="font-label-md text-label-md text-on-surface-variant text-[10px]">2H AGO • ENGINEERING</p>
+</div>
+</div>
+<span class="font-label-md text-label-md text-primary-container">#SALARY</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-2">SENIOR DEVS GETTING 15% BUMPS IN SECRET?</h3>
+<p class="font-body-md text-body-md text-on-background">Just saw an internal memo. They are quietly adjusting bands for L5 and above to prevent churn before Q1. If you haven't had your 1:1 yet, push for it now.</p>
+<div class="flex justify-between items-center mt-4 pt-4 border-t-4 border-white border-dashed">
+<div class="flex gap-4">
+<button class="flex items-center gap-1 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">arrow_upward</span>
+<span class="font-label-md text-label-md">1.2K</span>
+</button>
+<button class="flex items-center gap-1 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-label-md text-label-md">342</span>
+</button>
+</div>
+<button class="text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-black border-border-width border-white neo-shadow p-6 relative flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-surface-variant border-2 border-white flex items-center justify-center">
+<span class="material-symbols-outlined text-white">person</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">ANON_4411</p>
+<p class="font-label-md text-label-md text-on-surface-variant text-[10px]">5H AGO • PRODUCT</p>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">#ROADMAP</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-2">PROJECT "PHOENIX" IS BEING SHELVED</h3>
+<p class="font-body-md text-body-md text-on-background">After 8 months of crunch, leadership just announced in an all-hands that resources are being diverted to core infrastructure. The whole team is getting reshuffled next week.</p>
+<div class="flex justify-between items-center mt-4 pt-4 border-t-4 border-white border-dashed">
+<div class="flex gap-4">
+<button class="flex items-center gap-1 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">arrow_upward</span>
+<span class="font-label-md text-label-md">850</span>
+</button>
+<button class="flex items-center gap-1 text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-label-md text-label-md">128</span>
+</button>
+</div>
+<button class="text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+<!-- Bottom Nav Bar (Mobile) -->
+<nav class="md:hidden bg-surface dark:bg-background border-t-border-width border-black w-full h-16 flex justify-around items-center fixed bottom-0 z-50">
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-secondary-container dark:hover:bg-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full bg-primary dark:bg-primary-fixed text-on-primary dark:text-on-primary-fixed border-t-[4px] border-black -translate-y-2 neo-shadow" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-secondary-container dark:hover:bg-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-secondary-container dark:hover:bg-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">domain</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-secondary-container dark:hover:bg-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+</a>
+</nav>
+</body></html>

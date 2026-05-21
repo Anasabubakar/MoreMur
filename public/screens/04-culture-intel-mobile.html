@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Quarterly Culture Intel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#e2e2e2",
+                        "background": "#f9f9f9",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#cec7aa",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-bright": "#f9f9f9",
+                        "surface": "#f9f9f9",
+                        "secondary": "#5e5e5e",
+                        "on-tertiary-fixed-variant": "#8a1c00",
+                        "tertiary-container": "#ffdcd4",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-low": "#f3f3f3",
+                        "inverse-primary": "#dec800",
+                        "on-secondary-container": "#646464",
+                        "on-error": "#ffffff",
+                        "tertiary": "#b52700",
+                        "primary-fixed-dim": "#dec800",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dadada",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a2",
+                        "on-tertiary-fixed": "#3d0700",
+                        "primary-fixed": "#fee400",
+                        "primary-container": "#ffe500",
+                        "on-primary-container": "#726600",
+                        "outline": "#7d775f",
+                        "on-tertiary-container": "#c12a00",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#ffdad2",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#4b4731",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-container-highest": "#e2e2e2",
+                        "primary": "#6a5f00",
+                        "secondary-container": "#e2e2e2",
+                        "on-primary-fixed": "#201c00",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#6a5f00",
+                        "surface-container": "#eeeeee",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#504700"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Space Mono"],
+                        "body-md": ["DM Sans"],
+                        "display-lg": ["Bebas Neue"],
+                        "headline-lg-mobile": ["Bebas Neue"],
+                        "label-md": ["Space Mono"],
+                        "headline-lg": ["Bebas Neue"],
+                        "body-lg": ["DM Sans"],
+                        "headline-md": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["84px", { "lineHeight": "80px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "48px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .neo-border { border: 3px solid #1a1c1c; }
+        .neo-shadow { box-shadow: 5px 5px 0px #1a1c1c; }
+        .neo-shadow-hover:hover { box-shadow: 8px 8px 0px #1a1c1c; transform: translate(-3px, -3px); transition: all 0.2s ease; }
+        .neo-shadow-active:active { box-shadow: 0px 0px 0px #1a1c1c; transform: translate(0px, 0px); transition: all 0.1s ease; }
+        .neo-shadow-sm { box-shadow: 3px 3px 0px #1a1c1c; }
+        
+        /* Grid backgrounds */
+        .bg-grid {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, #e8e8e8 1px, transparent 1px),
+                              linear-gradient(to bottom, #e8e8e8 1px, transparent 1px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen pb-24 md:pb-0 font-body-md bg-grid">
+<!-- Mobile Top Nav (Hidden on Desktop) -->
+<nav class="md:hidden sticky top-0 z-50 bg-primary-container border-b-[3px] border-on-background neo-shadow flex justify-between items-center w-full px-margin-mobile py-4">
+<div class="font-display-lg text-headline-lg-mobile uppercase tracking-wider text-on-primary-container leading-none">
+            MURMUR
+        </div>
+<div class="flex gap-4">
+<button aria-label="Search" class="text-on-primary-container">
+<span class="material-symbols-outlined" data-weight="fill">search</span>
+</button>
+<button aria-label="Menu" class="text-on-primary-container">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Desktop Navigation Shell (Hidden on Mobile) -->
+<header class="hidden md:flex bg-primary-container text-on-primary-container border-b-[3px] border-on-background flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto neo-shadow mb-8 sticky top-0 z-50">
+<div class="font-display-lg text-display-lg uppercase tracking-wider text-on-primary-container">MURMUR</div>
+<div class="flex gap-8">
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1" href="#">FEED</a>
+<a class="text-on-background border-b-[3px] border-on-background pb-1 font-bold hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2" href="#">INTEL</a>
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1" href="#">VAULT</a>
+<a class="text-on-surface-variant font-label-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all px-2 py-1" href="#">ARCHIVE</a>
+</div>
+<div class="flex gap-4">
+<button class="hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all p-1 bg-surface-container-lowest neo-border rounded-none">
+<span class="material-symbols-outlined block">account_circle</span>
+</button>
+<button class="hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] transition-all p-1 bg-surface-container-lowest neo-border rounded-none">
+<span class="material-symbols-outlined block">notifications</span>
+</button>
+</div>
+</header>
+<main class="w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto pt-6 pb-24 md:pb-12 flex flex-col md:flex-row gap-gutter">
+<!-- Main Content Area -->
+<div class="w-full md:w-3/4 flex flex-col gap-6">
+<!-- Hero / Title -->
+<div class="bg-primary-container neo-border neo-shadow p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-error opacity-10 rounded-full transform translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-500"></div>
+<div class="relative z-10 flex flex-col gap-2">
+<span class="font-label-md text-label-md bg-on-background text-primary-container inline-block w-max px-2 py-1 neo-border">Q3 2024</span>
+<h1 class="font-headline-lg-mobile md:font-display-lg text-headline-lg-mobile md:text-display-lg uppercase text-on-background leading-none">QUARTERLY CULTURE INTEL</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">
+                        A raw, unfiltered analysis of emerging cultural vectors, semantic shifts, and structural sentiment deviations detected across tier-1 organic networks.
+                    </p>
+</div>
+</div>
+<!-- Executive Summary -->
+<section class="bg-surface-container-lowest neo-border neo-shadow p-6">
+<h2 class="font-headline-md text-headline-md border-b-[3px] border-on-background pb-2 mb-4 uppercase">Executive Summary</h2>
+<div class="font-body-md text-body-md text-on-surface space-y-4">
+<p>
+<span class="bg-error text-on-error px-1 font-bold">WARNING:</span> Elevated velocity detected in neo-brutalist aesthetic adoption among enterprise cohorts. Prior quarters indicated resistance; current telemetry shows a 42% spike in harsh geometric implementations.
+                    </p>
+<p>
+                        The "Polished SaaS" paradigm is experiencing significant friction. Users are expressing active fatigue towards low-contrast, blurred-glass UI patterns, demanding "structural honesty" and tactile feedback.
+                    </p>
+</div>
+</section>
+<!-- Sentiment Analysis (Bar Chart) -->
+<section class="bg-surface-container-lowest neo-border neo-shadow p-6">
+<div class="flex justify-between items-end border-b-[3px] border-on-background pb-2 mb-6">
+<h2 class="font-headline-md text-headline-md uppercase">Sentiment Vectors</h2>
+<span class="material-symbols-outlined text-3xl">monitoring</span>
+</div>
+<div class="space-y-6">
+<!-- Bar 1 -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm uppercase">
+<span>Structural Honesty</span>
+<span class="font-bold">88%</span>
+</div>
+<div class="w-full h-8 bg-surface-container-high neo-border relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary-container border-r-[3px] border-on-background w-[88%]"></div>
+</div>
+</div>
+<!-- Bar 2 -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm uppercase">
+<span>Aesthetic Fatigue</span>
+<span class="font-bold">72%</span>
+</div>
+<div class="w-full h-8 bg-surface-container-high neo-border relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-error border-r-[3px] border-on-background w-[72%]"></div>
+</div>
+</div>
+<!-- Bar 3 -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm uppercase">
+<span>Cognitive Friction</span>
+<span class="font-bold">45%</span>
+</div>
+<div class="w-full h-8 bg-surface-container-high neo-border relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-tertiary-container border-r-[3px] border-on-background w-[45%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Vectors (Box Visualization) -->
+<section class="bg-surface-container-lowest neo-border neo-shadow p-6">
+<div class="flex justify-between items-end border-b-[3px] border-on-background pb-2 mb-6">
+<h2 class="font-headline-md text-headline-md uppercase">Topical Density</h2>
+<span class="material-symbols-outlined text-3xl">grid_view</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-primary-container neo-border neo-shadow-sm p-4 flex flex-col justify-between aspect-square hover:bg-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-on-background group-hover:scale-110 transition-transform">bolt</span>
+<div>
+<div class="font-headline-md text-headline-md">HIGH</div>
+<div class="font-label-sm text-label-sm uppercase">Velocity</div>
+</div>
+</div>
+<div class="bg-error text-on-error neo-border neo-shadow-sm p-4 flex flex-col justify-between aspect-square hover:bg-on-error-container transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-on-error group-hover:scale-110 transition-transform">warning</span>
+<div>
+<div class="font-headline-md text-headline-md">CRIT</div>
+<div class="font-label-sm text-label-sm uppercase">Resistance</div>
+</div>
+</div>
+<div class="bg-surface-container-high neo-border neo-shadow-sm p-4 flex flex-col justify-between aspect-square hover:bg-surface-variant transition-colors cursor-pointer group col-span-2 md:col-span-2">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-on-background group-hover:scale-110 transition-transform">data_usage</span>
+<span class="font-label-md text-label-md bg-on-background text-surface px-2 py-1 neo-border">RAW DATA</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md">VOLATILE</div>
+<div class="font-label-sm text-label-sm uppercase">Market Shift Indicators</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar / Benchmarking -->
+<div class="w-full md:w-1/4 flex flex-col gap-6">
+<section class="bg-on-background text-surface neo-border border-on-background neo-shadow p-6 sticky top-24">
+<h3 class="font-headline-md text-headline-md text-primary-container border-b-[3px] border-primary-container pb-2 mb-4 uppercase">Benchmarks</h3>
+<div class="space-y-6">
+<!-- Benchmark 1 -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-label-md uppercase">
+<span>Index Alpha</span>
+<span class="text-primary-container">1.04</span>
+</div>
+<div class="w-full h-4 bg-surface-container-lowest border-2 border-surface relative">
+<div class="absolute top-0 left-0 h-full bg-primary-container w-[65%]"></div>
+</div>
+</div>
+<!-- Benchmark 2 -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-label-md uppercase">
+<span>Index Beta</span>
+<span class="text-error">0.89</span>
+</div>
+<div class="w-full h-4 bg-surface-container-lowest border-2 border-surface relative">
+<div class="absolute top-0 left-0 h-full bg-error w-[40%]"></div>
+</div>
+</div>
+<!-- Benchmark 3 -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-label-md uppercase">
+<span>Gamma Delta</span>
+<span class="text-primary-container">1.12</span>
+</div>
+<div class="w-full h-4 bg-surface-container-lowest border-2 border-surface relative">
+<div class="absolute top-0 left-0 h-full bg-surface-variant w-[80%]"></div>
+</div>
+</div>
+</div>
+<!-- Desktop Sticky Action -->
+<button class="hidden md:flex w-full mt-8 bg-primary-container text-on-background font-headline-md text-headline-md uppercase py-3 neo-border neo-shadow-hover neo-shadow-active justify-center items-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                    PDF REPORT
+                </button>
+</section>
+</div>
+</main>
+<!-- Mobile Floating Action Button -->
+<button class="md:hidden fixed bottom-6 right-6 bg-primary-container text-on-background w-16 h-16 rounded-none neo-border neo-shadow flex justify-center items-center active:translate-y-1 active:translate-x-1 active:shadow-none transition-all z-50">
+<span class="material-symbols-outlined text-3xl">download</span>
+</button>
+<!-- Footer -->
+<footer class="w-full py-gutter px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base bg-on-background dark:bg-on-background border-t-[3px] border-on-background max-w-container-max mx-auto mt-auto">
+<div class="font-headline-md text-headline-md text-primary-container">MURMUR</div>
+<div class="font-label-sm text-label-sm text-primary-container opacity-80 uppercase tracking-widest text-center md:text-left">
+            © 2024 MURMUR INTEL. ALL DATA ENCRYPTED.
+        </div>
+<div class="flex gap-4 font-label-sm text-label-sm">
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer" href="#">TERMINAL</a>
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer" href="#">PROTOCOLS</a>
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer" href="#">DECRYPT</a>
+<a class="text-primary-container opacity-80 hover:text-primary transition-colors cursor-pointer" href="#">SIGNAL</a>
+</div>
+</footer>
+</body></html>

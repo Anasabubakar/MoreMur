@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Organization Admin</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ffdcd4",
+                    "surface-container": "#eeeeee",
+                    "primary-fixed": "#fee400",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb4a2",
+                    "on-secondary-container": "#646464",
+                    "surface-tint": "#6a5f00",
+                    "surface-container-high": "#e8e8e8",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#4b4731",
+                    "surface-bright": "#f9f9f9",
+                    "on-tertiary-container": "#c12a00",
+                    "on-secondary-fixed-variant": "#474747",
+                    "on-secondary-fixed": "#1b1b1b",
+                    "surface": "#f9f9f9",
+                    "inverse-surface": "#2f3131",
+                    "primary-fixed-dim": "#dec800",
+                    "on-primary-container": "#726600",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#3d0700",
+                    "inverse-on-surface": "#f1f1f1",
+                    "secondary-fixed": "#e2e2e2",
+                    "outline-variant": "#cec7aa",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e2e2e2",
+                    "on-background": "#1a1c1c",
+                    "surface-container-low": "#f3f3f3",
+                    "primary-container": "#ffe500",
+                    "outline": "#7d775f",
+                    "on-surface": "#1a1c1c",
+                    "tertiary": "#b52700",
+                    "background": "#f9f9f9",
+                    "inverse-primary": "#dec800",
+                    "tertiary-fixed": "#ffdad2",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5e5e5e",
+                    "on-primary-fixed-variant": "#504700",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e2e2e2",
+                    "surface-dim": "#dadada",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#e2e2e2",
+                    "on-tertiary-fixed-variant": "#8a1c00",
+                    "primary": "#6a5f00",
+                    "on-primary-fixed": "#201c00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Bebas Neue", "sans-serif"],
+                    "label-sm": ["Space Mono", "monospace"],
+                    "headline-lg": ["Bebas Neue", "sans-serif"],
+                    "body-md": ["DM Sans", "sans-serif"],
+                    "label-md": ["Space Mono", "monospace"],
+                    "headline-md": ["Bebas Neue", "sans-serif"],
+                    "body-lg": ["DM Sans", "sans-serif"],
+                    "headline-lg-mobile": ["Bebas Neue", "sans-serif"]
+            },
+            "fontSize": {
+                    "display-lg": ["84px", {"lineHeight": "80px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-lg": ["48px", {"lineHeight": "48px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["36px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* NeoBrutalist Custom Utilities to complement Tailwind */
+        .brutal-border { border: 3px solid #1a1c1c; border-radius: 0; }
+        .brutal-shadow { box-shadow: 5px 5px 0px 0px rgba(26,28,28,1); }
+        .brutal-shadow-hover:hover { box-shadow: 8px 8px 0px 0px rgba(26,28,28,1); transform: translate(-3px, -3px); }
+        .brutal-shadow-active:active { box-shadow: 0px 0px 0px 0px rgba(26,28,28,1); transform: translate(0px, 0px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (from JSON) -->
+<aside class="hidden md:flex flex-col h-screen w-64 border-r-[4px] border-black bg-surface p-4 gap-4 sticky top-0 shrink-0 z-40">
+<!-- Brand Header -->
+<div class="mb-8 flex flex-col gap-1">
+<h1 class="font-display-lg text-display-lg text-on-surface uppercase tracking-tighter">MURMUR</h1>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider">COMMUNITY INTEL</span>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex flex-col gap-3 flex-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 p-3 font-label-md text-label-md text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all active:shadow-none active:translate-x-0 active:translate-y-0" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<!-- Trending -->
+<a class="flex items-center gap-3 p-3 font-label-md text-label-md text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all active:shadow-none active:translate-x-0 active:translate-y-0" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+                Trending
+            </a>
+<!-- Intel Reports -->
+<a class="flex items-center gap-3 p-3 font-label-md text-label-md text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all active:shadow-none active:translate-x-0 active:translate-y-0" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Intel Reports
+            </a>
+<!-- Organization (ACTIVE STATE) -->
+<a class="flex items-center gap-3 p-3 font-label-md text-label-md bg-primary text-on-primary border-[4px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-1 -translate-y-1 active:shadow-none active:translate-x-0 active:translate-y-0 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
+                Organization
+            </a>
+<!-- Settings -->
+<a class="flex items-center gap-3 p-3 font-label-md text-label-md text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all active:shadow-none active:translate-x-0 active:translate-y-0" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<!-- CTA -->
+<button class="mt-auto w-full p-4 bg-primary-container text-on-primary-container font-headline-md text-headline-md brutal-border brutal-shadow brutal-shadow-hover brutal-shadow-active transition-all text-center">
+            REDACT INTEL
+        </button>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar (from JSON) -->
+<header class="flex justify-between items-center px-gutter w-full sticky top-0 z-50 h-20 border-b-[4px] border-black bg-surface shrink-0">
+<!-- Search Area (on_left) -->
+<div class="flex-1 flex items-center gap-4">
+<div class="hidden md:flex items-center brutal-border bg-surface-container-lowest px-3 py-2 w-80 focus-within:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 font-label-md text-label-md text-on-surface w-full placeholder:text-on-surface-variant" placeholder="Search intel database..." type="text"/>
+</div>
+</div>
+<!-- Product Name -->
+<div class="font-headline-md text-headline-md font-bold text-on-surface absolute left-1/2 -translate-x-1/2 tracking-wide">
+                MURMUR_INTEL
+            </div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 brutal-border bg-surface-container-lowest hover:bg-primary-container transition-colors brutal-shadow brutal-shadow-hover brutal-shadow-active flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 brutal-border bg-surface-container-lowest hover:bg-primary-container transition-colors brutal-shadow brutal-shadow-hover brutal-shadow-active flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-gutter md:p-margin-desktop overflow-y-auto bg-surface-bright">
+<!-- Header Section -->
+<div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-[3px] border-black pb-6">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface uppercase tracking-tight">Organization Admin — SECTOR-7</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">Manage sector operatives, monitor network health, and process flagged intelligence reports.</p>
+</div>
+<button class="px-6 py-3 bg-surface-container-lowest text-on-surface font-headline-md text-[24px] leading-none brutal-border brutal-shadow brutal-shadow-hover brutal-shadow-active transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[24px]">download</span>
+                    EXPORT LOGS
+                </button>
+</div>
+<!-- Dashboard Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest brutal-border brutal-shadow p-6 flex flex-col hover:bg-primary-container transition-colors duration-300">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase border-b-[2px] border-black pb-2 mb-4">Total Operatives</span>
+<div class="flex justify-between items-end">
+<span class="font-display-lg text-[64px] leading-none text-on-surface">1,402</span>
+<span class="font-label-md text-label-md bg-surface text-on-surface px-2 py-1 brutal-border flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span> 12%
+                        </span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest brutal-border brutal-shadow p-6 flex flex-col hover:bg-primary-container transition-colors duration-300">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase border-b-[2px] border-black pb-2 mb-4">Post Volume (24h)</span>
+<div class="flex justify-between items-end">
+<span class="font-display-lg text-[64px] leading-none text-on-surface">8,934</span>
+<span class="font-label-md text-label-md bg-surface text-on-surface px-2 py-1 brutal-border flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span> 3%
+                        </span>
+</div>
+</div>
+<!-- Stat Card 3 (Alert State) -->
+<div class="bg-tertiary-container brutal-border brutal-shadow p-6 flex flex-col hover:bg-tertiary-fixed transition-colors duration-300">
+<span class="font-label-md text-label-md text-on-tertiary-container uppercase border-b-[2px] border-black pb-2 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">warning</span> Report Queue
+                    </span>
+<div class="flex justify-between items-end">
+<span class="font-display-lg text-[64px] leading-none text-on-tertiary-container">47</span>
+<span class="font-label-md text-label-md bg-surface-container-lowest text-on-surface px-2 py-1 brutal-border">
+                            REQUIRES ACTION
+                        </span>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Domain Whitelist -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest brutal-border brutal-shadow p-6">
+<div class="flex items-center gap-3 mb-6 border-b-[3px] border-black pb-4">
+<span class="material-symbols-outlined text-[32px]">shield_lock</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Domain Whitelist</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Authorize institutional domains to allow automatic operative onboarding.</p>
+<!-- Add Domain Input -->
+<div class="flex flex-col gap-2 mb-8">
+<label class="font-label-sm text-label-sm uppercase text-on-surface font-bold">Add New Domain</label>
+<div class="flex gap-2">
+<input class="flex-1 brutal-border bg-surface p-3 font-label-md text-label-md focus:bg-primary-container focus:ring-0 outline-none transition-colors" placeholder="@sector7.org" type="text"/>
+<button class="bg-on-surface text-on-primary px-4 brutal-border brutal-shadow brutal-shadow-hover brutal-shadow-active hover:bg-surface-tint transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Active Domains List -->
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm uppercase text-on-surface font-bold mb-3">Active Network</label>
+<ul class="flex flex-col border-t-[3px] border-black">
+<li class="flex justify-between items-center py-3 border-b-[3px] border-black group hover:bg-surface-container transition-colors px-2">
+<span class="font-label-md text-label-md font-bold">@sector7.org</span>
+<button class="text-error hover:text-on-error hover:bg-error p-1 brutal-border opacity-0 group-hover:opacity-100 transition-all flex items-center">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</li>
+<li class="flex justify-between items-center py-3 border-b-[3px] border-black group hover:bg-surface-container transition-colors px-2">
+<span class="font-label-md text-label-md font-bold">@gov.sec.int</span>
+<button class="text-error hover:text-on-error hover:bg-error p-1 brutal-border opacity-0 group-hover:opacity-100 transition-all flex items-center">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</li>
+<li class="flex justify-between items-center py-3 border-b-[3px] border-black group hover:bg-surface-container transition-colors px-2">
+<span class="font-label-md text-label-md font-bold">@mit.edu</span>
+<button class="text-error hover:text-on-error hover:bg-error p-1 brutal-border opacity-0 group-hover:opacity-100 transition-all flex items-center">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Right Column: Recent Reports Table -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest brutal-border brutal-shadow flex flex-col h-full">
+<div class="p-6 border-b-[3px] border-black flex justify-between items-center bg-primary-container">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[32px]">policy</span>
+<h3 class="font-headline-md text-[28px] leading-none text-on-surface">Recent Reports</h3>
+</div>
+<span class="bg-surface px-3 py-1 font-label-md text-label-md brutal-border">47 PENDING</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b-[3px] border-black bg-surface-container">
+<th class="p-4 font-label-sm text-label-sm uppercase tracking-wide">Operative ID</th>
+<th class="p-4 font-label-sm text-label-sm uppercase tracking-wide">Flag Reason</th>
+<th class="p-4 font-label-sm text-label-sm uppercase tracking-wide w-1/2">Content Snippet</th>
+<th class="p-4 font-label-sm text-label-sm uppercase tracking-wide text-right">Action</th>
+</tr>
+</thead>
+<tbody>
+<!-- Row 1 -->
+<tr class="border-b-[3px] border-black hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-label-md text-label-md font-bold text-on-surface-variant">OP-992A</td>
+<td class="p-4">
+<span class="bg-error-container text-on-error-container font-label-sm px-2 py-1 brutal-border">OPSEC VIOLATION</span>
+</td>
+<td class="p-4 font-body-md text-body-md">"The new shipment arrives at Pier 43 tonight at 0200. Security is light..."</td>
+<td class="p-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-4 py-2 bg-surface brutal-border brutal-shadow-hover font-label-md hover:bg-surface-container-highest transition-colors">KEEP</button>
+<button class="px-4 py-2 bg-on-surface text-on-primary brutal-border brutal-shadow-hover font-label-md hover:bg-error hover:text-on-error transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">ink_eraser</span> REDACT
+                                                </button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b-[3px] border-black hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-label-md text-label-md font-bold text-on-surface-variant">OP-114B</td>
+<td class="p-4">
+<span class="bg-surface-tint text-on-primary font-label-sm px-2 py-1 brutal-border">HARASSMENT</span>
+</td>
+<td class="p-4 font-body-md text-body-md">"Management is completely incompetent, especially the new director of..."</td>
+<td class="p-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-4 py-2 bg-surface brutal-border brutal-shadow-hover font-label-md hover:bg-surface-container-highest transition-colors">KEEP</button>
+<button class="px-4 py-2 bg-on-surface text-on-primary brutal-border brutal-shadow-hover font-label-md hover:bg-error hover:text-on-error transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">ink_eraser</span> REDACT
+                                                </button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-label-md text-label-md font-bold text-on-surface-variant">OP-773C</td>
+<td class="p-4">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-sm px-2 py-1 brutal-border">SPAM</span>
+</td>
+<td class="p-4 font-body-md text-body-md">"Check out this new crypto scheme that guarantees 500% returns in 24 hours..."</td>
+<td class="p-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-4 py-2 bg-surface brutal-border brutal-shadow-hover font-label-md hover:bg-surface-container-highest transition-colors">KEEP</button>
+<button class="px-4 py-2 bg-on-surface text-on-primary brutal-border brutal-shadow-hover font-label-md hover:bg-error hover:text-on-error transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">ink_eraser</span> REDACT
+                                                </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t-[3px] border-black flex justify-center bg-surface">
+<button class="font-label-md text-label-md underline hover:text-primary transition-colors">VIEW ALL REPORTS (44 MORE)</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

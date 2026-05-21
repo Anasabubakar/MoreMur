@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Murmur - Access Request</title>
+<!-- Google Fonts: Bebas Neue, Space Mono, DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,700;1,9..40,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config based on Design System -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#646464",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e8e8e8",
+                    "surface": "#f9f9f9",
+                    "on-tertiary-fixed-variant": "#8a1c00",
+                    "on-primary-fixed-variant": "#504700",
+                    "surface-dim": "#dadada",
+                    "surface-container": "#eeeeee",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#726600",
+                    "surface-variant": "#e2e2e2",
+                    "on-tertiary-container": "#c12a00",
+                    "error": "#ba1a1a",
+                    "primary-container": "#ffe500",
+                    "outline": "#7d775f",
+                    "tertiary-container": "#ffdcd4",
+                    "on-secondary-fixed": "#1b1b1b",
+                    "outline-variant": "#cec7aa",
+                    "secondary": "#5e5e5e",
+                    "on-secondary-fixed-variant": "#474747",
+                    "primary-fixed-dim": "#dec800",
+                    "primary-fixed": "#fee400",
+                    "on-surface-variant": "#4b4731",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdad2",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#dec800",
+                    "background": "#f9f9f9",
+                    "primary": "#6a5f00",
+                    "tertiary-fixed-dim": "#ffb4a2",
+                    "secondary-fixed": "#e2e2e2",
+                    "tertiary": "#b52700",
+                    "surface-container-low": "#f3f3f3",
+                    "on-tertiary-fixed": "#3d0700",
+                    "on-primary-fixed": "#201c00",
+                    "surface-bright": "#f9f9f9",
+                    "on-primary": "#ffffff",
+                    "on-background": "#1a1c1c",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#e2e2e2",
+                    "on-surface": "#1a1c1c",
+                    "inverse-on-surface": "#f1f1f1",
+                    "surface-tint": "#6a5f00",
+                    "inverse-surface": "#2f3131",
+                    "surface-container-highest": "#e2e2e2",
+                    "secondary-fixed-dim": "#c6c6c6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "16px",
+                    "base": "4px",
+                    "margin-desktop": "40px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Space Mono"],
+                    "body-lg": ["DM Sans"],
+                    "display-lg": ["Bebas Neue"],
+                    "label-md": ["Space Mono"],
+                    "headline-md": ["Bebas Neue"],
+                    "headline-lg-mobile": ["Bebas Neue"],
+                    "headline-lg": ["Bebas Neue"],
+                    "body-md": ["DM Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["84px", {"lineHeight": "80px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["36px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-lg": ["48px", {"lineHeight": "48px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      /* Ensure structural baseline */
+      html, body { min-height: 100%; margin: 0; padding: 0; }
+      body { background-color: theme('colors.background'); }
+      /* Utility for solid fill material icons */
+      .icon-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen relative font-body-md antialiased text-on-background selection:bg-primary-container selection:text-on-background">
+<!-- Pattern Background for subtle texture (Neo-brutalist dot grid style) -->
+<div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(circle, #1a1c1c 1px, transparent 1px); background-size: 16px 16px;"></div>
+<!-- Main Content Canvas (Navigation Suppressed per rules for transactional screen) -->
+<div class="relative z-10 flex-1 flex flex-col items-center justify-center p-margin-mobile w-full">
+<!-- Center Card -->
+<main class="w-full max-w-[400px] bg-surface border-[3px] border-on-background [box-shadow:5px_5px_0px_#1a1c1c] p-6 flex flex-col gap-8">
+<!-- Branding Header -->
+<header class="flex flex-col items-center gap-2 border-b-[3px] border-on-background pb-4">
+<h1 class="font-display-lg text-headline-lg-mobile tracking-wider uppercase text-on-background text-center m-0 leading-none">
+                    MURMUR
+                </h1>
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center m-0">
+                    ACCESS REQUEST
+                </h2>
+</header>
+<!-- Error Banner (Active State requested) -->
+<div class="flex items-start gap-3 bg-error-container border-[3px] border-error p-3 [box-shadow:3px_3px_0px_#ba1a1a]">
+<span class="material-symbols-outlined text-error icon-fill mt-[-2px]">warning</span>
+<p class="font-label-md text-label-md text-error uppercase m-0 leading-tight">
+                    ACCESS DENIED: INSTITUTION NOT RECOGNIZED OR BLACKLISTED.
+                </p>
+</div>
+<!-- Form Body -->
+<form class="flex flex-col gap-6" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-background uppercase font-bold" for="institution-email">
+                        Institutional Email
+                    </label>
+<input class="w-full bg-surface-container-lowest border-[3px] border-on-background p-3 font-label-md text-label-md text-on-background focus:outline-none focus:bg-primary-container focus:border-on-background transition-colors placeholder:text-on-surface-variant/50 rounded-none shadow-none" id="institution-email" name="email" type="email" value="agent_smith@unknown.gov"/>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary-container border-[3px] border-on-background [box-shadow:5px_5px_0px_#1a1c1c] p-4 flex items-center justify-center gap-3 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:[box-shadow:8px_8px_0px_#1a1c1c] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_0px_#1a1c1c] transition-all group cursor-pointer mt-2" type="submit">
+<span class="font-headline-md text-headline-md text-on-background m-0 pt-1">
+                        INITIATE HANDSHAKE
+                    </span>
+<span class="material-symbols-outlined text-on-background text-[28px] group-hover:translate-x-1 transition-transform">
+                        arrow_forward
+                    </span>
+</button>
+</form>
+</main>
+<!-- Terminal Style Footer outside the card -->
+<footer class="mt-12 text-center w-full">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest opacity-80 m-0">
+                v2.4.1 [ENCRYPTED]
+            </p>
+</footer>
+</div>
+</body></html>

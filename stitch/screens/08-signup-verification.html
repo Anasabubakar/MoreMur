@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Signup &amp; Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f9f9f9",
+                        "tertiary-fixed": "#ffdad2",
+                        "surface-variant": "#e2e2e2",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "surface-tint": "#6a5f00",
+                        "primary": "#6a5f00",
+                        "on-secondary-fixed-variant": "#474747",
+                        "tertiary-container": "#ffdcd4",
+                        "secondary-container": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-tertiary-fixed-variant": "#8a1c00",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#ffe500",
+                        "on-background": "#1a1c1c",
+                        "outline": "#7d775f",
+                        "on-surface": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#c12a00",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a2",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eeeeee",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary": "#5e5e5e",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-fixed-dim": "#dec800",
+                        "tertiary": "#b52700",
+                        "inverse-primary": "#dec800",
+                        "on-primary-container": "#726600",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#3d0700",
+                        "surface-dim": "#dadada",
+                        "on-primary-fixed": "#201c00",
+                        "on-secondary-container": "#646464",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f1f1f1",
+                        "primary-fixed": "#fee400",
+                        "outline-variant": "#cec7aa",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#4b4731"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "base": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Space Mono"],
+                        "label-md": ["Space Mono"],
+                        "display-lg": ["Bebas Neue"],
+                        "headline-md": ["Bebas Neue"],
+                        "body-lg": ["DM Sans"],
+                        "headline-lg-mobile": ["Bebas Neue"],
+                        "headline-lg": ["Bebas Neue"],
+                        "body-md": ["DM Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+                        "display-lg": ["84px", { "lineHeight": "80px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["48px", { "lineHeight": "48px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .neo-border { border: 3px solid #1a1c1c; }
+        .neo-shadow { box-shadow: 5px 5px 0px #1a1c1c; }
+        .neo-shadow-hover:hover { box-shadow: 8px 8px 0px #1a1c1c; transform: translate(-3px, -3px); }
+        .neo-shadow-active:active { box-shadow: 0px 0px 0px #1a1c1c; transform: translate(0px, 0px); }
+        .transition-transform-shadow { transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; }
+        
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop font-body-md">
+<!-- Screen 1: Email Entry -->
+<main class="w-full max-w-[480px] bg-surface-container-lowest neo-border neo-shadow p-8 flex flex-col gap-8 transition-opacity duration-300" id="screen-1">
+<header class="flex flex-col gap-2 border-b-[3px] border-on-background pb-6">
+<h1 class="font-display-lg text-display-lg uppercase tracking-wider text-on-background m-0">MURMUR</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Secure Communications Terminal</p>
+</header>
+<section class="flex flex-col gap-6">
+<div>
+<h2 class="font-headline-md text-headline-md mb-2">ACCESS REQUEST</h2>
+<p class="font-body-md text-on-surface-variant">Enter your institutional credentials to initiate sequence.</p>
+</div>
+<form class="flex flex-col gap-4" id="email-form">
+<div class="flex flex-col gap-1 relative group">
+<label class="font-label-sm text-label-sm uppercase bg-surface-container-lowest px-1 w-max relative top-2 left-2 z-10" for="email">Institutional Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="mail">mail</span>
+<input class="w-full bg-surface-container-lowest neo-border p-4 pl-10 font-label-md text-label-md focus:outline-none focus:bg-primary-container focus:border-on-background placeholder-on-secondary-container" id="email" placeholder="agent@sector7.org" required="" type="email"/>
+</div>
+<!-- Error Message Example -->
+<div class="flex items-start gap-2 mt-2 text-error font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span>
+<span>ACCESS DENIED: We only allow institutional or verified organizational emails. Public domains rejected.</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-background neo-border neo-shadow neo-shadow-hover neo-shadow-active transition-transform-shadow p-4 mt-4 font-headline-md text-headline-md uppercase cursor-pointer flex justify-center items-center gap-2" onclick="switchScreen()" type="button">
+                    INITIATE HANDSHAKE
+                    <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+</section>
+<footer class="mt-4 pt-4 border-t-[3px] border-on-background flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>v2.4.1 [ENCRYPTED]</span>
+<a class="hover:text-primary hover:underline" href="#">TERMINAL HELP</a>
+</footer>
+</main>
+<!-- Screen 2: OTP Verification (Hidden by default) -->
+<main class="hidden w-full max-w-[480px] bg-surface-container-lowest neo-border neo-shadow p-8 flex flex-col gap-8 transition-opacity duration-300 opacity-0" id="screen-2">
+<header class="flex flex-col gap-2 border-b-[3px] border-on-background pb-6">
+<h1 class="font-display-lg text-display-lg uppercase tracking-wider text-on-background m-0">MURMUR</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Identity Verification</p>
+</header>
+<section class="flex flex-col gap-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary-container bg-on-background p-1 neo-border" data-icon="shield_lock">shield_lock</span>
+<h2 class="font-headline-md text-headline-md m-0">VERIFY IDENTITY</h2>
+</div>
+<p class="font-body-md text-on-surface-variant">Transmission sent to <strong class="text-on-background">agent@sector7.org</strong>. Enter the 6-digit decryption key.</p>
+</div>
+<form class="flex flex-col gap-8">
+<!-- 6 Large Boxes for Code Entry -->
+<div class="flex justify-between gap-2" id="otp-container">
+<input autofocus="" class="w-full aspect-square bg-surface-container-lowest neo-border text-center font-headline-md text-headline-md focus:outline-none focus:bg-primary-container focus:border-on-background p-0" maxlength="1" type="text"/>
+<input class="w-full aspect-square bg-surface-container-lowest neo-border text-center font-headline-md text-headline-md focus:outline-none focus:bg-primary-container focus:border-on-background p-0" maxlength="1" type="text"/>
+<input class="w-full aspect-square bg-surface-container-lowest neo-border text-center font-headline-md text-headline-md focus:outline-none focus:bg-primary-container focus:border-on-background p-0" maxlength="1" type="text"/>
+<div class="w-4 flex items-center justify-center">-</div>
+<input class="w-full aspect-square bg-surface-container-lowest neo-border text-center font-headline-md text-headline-md focus:outline-none focus:bg-primary-container focus:border-on-background p-0" maxlength="1" type="text"/>
+<input class="w-full aspect-square bg-surface-container-lowest neo-border text-center font-headline-md text-headline-md focus:outline-none focus:bg-primary-container focus:border-on-background p-0" maxlength="1" type="text"/>
+<input class="w-full aspect-square bg-surface-container-lowest neo-border text-center font-headline-md text-headline-md focus:outline-none focus:bg-primary-container focus:border-on-background p-0" maxlength="1" type="text"/>
+</div>
+<div class="flex flex-col gap-4">
+<button class="w-full bg-on-background text-primary-container neo-border neo-shadow neo-shadow-hover neo-shadow-active transition-transform-shadow p-4 font-headline-md text-headline-md uppercase cursor-pointer flex justify-center items-center gap-2" type="button">
+                        DECRYPT &amp; ENTER
+                        <span class="material-symbols-outlined" data-icon="login">login</span>
+</button>
+<button class="bg-transparent border-none font-label-md text-label-md text-on-surface-variant hover:text-on-background underline cursor-pointer self-center" type="button">
+                        RESEND SIGNAL
+                    </button>
+</div>
+</form>
+</section>
+<footer class="mt-4 pt-4 border-t-[3px] border-on-background flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<button class="flex items-center gap-1 hover:text-on-background" onclick="switchScreenBack()" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_back">arrow_back</span>
+                ABORT
+            </button>
+<span>TIME REMAINING: 04:59</span>
+</footer>
+</main>
+<script>
+        // Simple logic to switch between screens for demonstration
+        function switchScreen() {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            
+            screen1.style.opacity = '0';
+            setTimeout(() => {
+                screen1.classList.add('hidden');
+                screen2.classList.remove('hidden');
+                // Small delay to allow display:block to apply before fading in
+                setTimeout(() => {
+                    screen2.style.opacity = '1';
+                    // Focus first input
+                    const inputs = document.querySelectorAll('#otp-container input');
+                    if(inputs.length > 0) inputs[0].focus();
+                }, 50);
+            }, 300);
+        }
+
+        function switchScreenBack() {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            
+            screen2.style.opacity = '0';
+            setTimeout(() => {
+                screen2.classList.add('hidden');
+                screen1.classList.remove('hidden');
+                setTimeout(() => {
+                    screen1.style.opacity = '1';
+                }, 50);
+            }, 300);
+        }
+
+        // OTP Input Logic (auto-advance)
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('#otp-container input');
+            
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+                
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+                        inputs[index - 1].focus();
+                        inputs[index - 1].value = '';
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,19 @@
+{
+  "name": "moremur",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev --prefix web",
+    "dev:api": "npm run dev --prefix api",
+    "dev:all": "npm run dev:api & npm run dev",
+    "build": "npm run build --prefix web",
+    "start": "npm run start --prefix web",
+    "api:seed": "npm run db:seed --prefix api",
+    "download:stitch": "bash scripts/download-stitch-curl.sh",
+    "download:stitch:dark": "bash scripts/download-stitch-dark.sh",
+    "download:stitch:sdk": "node scripts/download-stitch.mjs"
+  },
+  "dependencies": {
+    "@google/stitch-sdk": "^0.1.0"
+  }
+}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quarterly Culture Intel — Q3</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#ffdcd4",
+                        "surface-container": "#eeeeee",
+                        "primary-fixed": "#fee400",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a2",
+                        "on-secondary-container": "#646464",
+                        "surface-tint": "#6a5f00",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#4b4731",
+                        "surface-bright": "#f9f9f9",
+                        "on-tertiary-container": "#c12a00",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface": "#f9f9f9",
+                        "inverse-surface": "#2f3131",
+                        "primary-fixed-dim": "#dec800",
+                        "on-primary-container": "#726600",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#3d0700",
+                        "inverse-on-surface": "#f1f1f1",
+                        "secondary-fixed": "#e2e2e2",
+                        "outline-variant": "#cec7aa",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-background": "#1a1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-container": "#ffe500",
+                        "outline": "#7d775f",
+                        "on-surface": "#1a1c1c",
+                        "tertiary": "#b52700",
+                        "background": "#f9f9f9",
+                        "inverse-primary": "#dec800",
+                        "tertiary-fixed": "#ffdad2",
+                        "error-container": "#ffdad6",
+                        "secondary": "#5e5e5e",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "surface-dim": "#dadada",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#8a1c00",
+                        "primary": "#6a5f00",
+                        "on-primary-fixed": "#201c00"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    spacing: {
+                        "gutter": "16px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Bebas Neue", "sans-serif"],
+                        "label-sm": ["Space Mono", "monospace"],
+                        "headline-lg": ["Bebas Neue", "sans-serif"],
+                        "body-md": ["DM Sans", "sans-serif"],
+                        "label-md": ["Space Mono", "monospace"],
+                        "headline-md": ["Bebas Neue", "sans-serif"],
+                        "body-lg": ["DM Sans", "sans-serif"],
+                        "headline-lg-mobile": ["Bebas Neue", "sans-serif"]
+                    },
+                    fontSize: {
+                        "display-lg": ["84px", { lineHeight: "80px", letterSpacing: "0.02em", fontWeight: "700" }],
+                        "label-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }],
+                        "headline-lg": ["48px", { lineHeight: "48px", letterSpacing: "0.02em", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-md": ["14px", { lineHeight: "20px", letterSpacing: "-0.01em", fontWeight: "400" }],
+                        "headline-md": ["32px", { lineHeight: "32px", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "headline-lg-mobile": ["36px", { lineHeight: "36px", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .brutalist-border {
+                @apply border-[4px] border-black;
+            }
+            .brutalist-shadow {
+                @apply shadow-[8px_8px_0px_0px_rgba(0,0,0,1)];
+            }
+            .brutalist-shadow-sm {
+                @apply shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
+            }
+            .brutalist-interactive {
+                @apply transition-all hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 active:shadow-none active:translate-x-0 active:translate-y-0;
+            }
+            
+            /* Hide scrollbar for Chrome, Safari and Opera */
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+            /* Hide scrollbar for IE, Edge and Firefox */
+            .no-scrollbar {
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-surface w-full h-20 border-b-[4px] border-black flex justify-between items-center px-gutter sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-3xl cursor-pointer hover:bg-primary-container transition-colors p-2 brutalist-border">search</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter uppercase">
+            MURMUR_INTEL
+        </div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-3xl cursor-pointer hover:bg-primary-container transition-colors p-2 brutalist-border" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-3xl cursor-pointer hover:bg-primary-container transition-colors p-2 brutalist-border" data-icon="account_circle">account_circle</span>
+</div>
+</nav>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-80px)] w-64 border-r-[4px] border-black bg-surface sticky top-20 overflow-y-auto no-scrollbar p-4 gap-4">
+<!-- Header/Brand Area -->
+<div class="flex flex-col mb-8 border-b-[4px] border-black pb-4">
+<div class="w-16 h-16 brutalist-border brutalist-shadow-sm mb-4 bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Murmur Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzQL4Nn-6N6N5JNYPF1MEGvKZF6T58pHYZ6wuyOCxlV-PgBFEcsUjfxcfG8KT5qDay8HuML-qMKJoKZDhi-gNImHIihS9QETuVuyZtjC_nb_j6BqNk82H2jv1RKIatKjZ0pCIlRSdycquIIycmv9eAl3MUmIuXd861Z4ewHKK8zwde3JWYjuleCZRhSVZhhRiMlgvFwAqVf6kH3nLpSVy6A1cOR9Q6-0OzQHdHpGMHq3K62FQyD1pWgKz6Nx1Rd-_U48eS1mFDOKk"/>
+</div>
+<h1 class="font-display-lg text-[48px] leading-[48px] text-on-surface uppercase tracking-tighter">MURMUR</h1>
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">COMMUNITY INTEL</p>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex flex-col gap-3 flex-1">
+<a class="flex items-center gap-3 p-3 brutalist-border text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 brutalist-border text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-label-md text-label-md uppercase">Trending</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 p-3 bg-primary text-on-primary border-[4px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-1 -translate-y-1" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md uppercase font-bold">Intel Reports</span>
+</a>
+<a class="flex items-center gap-3 p-3 brutalist-border text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-md text-label-md uppercase">Organization</span>
+</a>
+<a class="flex items-center gap-3 p-3 brutalist-border text-on-surface hover:bg-secondary-container border-[4px] border-transparent hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md uppercase">Settings</span>
+</a>
+</nav>
+<!-- CTA -->
+<button class="mt-auto w-full py-4 bg-error text-on-error font-headline-md text-headline-md uppercase brutalist-border brutalist-shadow-sm brutalist-interactive">
+                REDACT INTEL
+            </button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8 bg-surface-container-low relative">
+<!-- Page Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<span class="inline-block bg-primary-container text-on-surface font-label-md text-label-md px-3 py-1 brutalist-border mb-4 uppercase font-bold">Enterprise Tier</span>
+<h1 class="font-display-lg text-display-lg md:text-[100px] md:line-height-[90px] uppercase tracking-tighter leading-none">Quarterly<br/>Culture Intel<br/><span class="text-tertiary">— Q3</span></h1>
+</div>
+<button class="bg-primary-container text-on-surface font-headline-md text-headline-md px-8 py-4 brutalist-border brutalist-shadow brutalist-interactive flex items-center gap-3 self-start md:self-end">
+<span class="material-symbols-outlined text-4xl">download</span>
+                    DOWNLOAD PDF REPORT
+                </button>
+</header>
+<!-- Grid Layout for Content -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Executive Summary (Spans 3 columns) -->
+<section class="xl:col-span-3 bg-surface brutalist-border brutalist-shadow p-8 relative">
+<div class="absolute -top-4 -left-4 bg-tertiary text-on-tertiary font-label-md text-label-md px-4 py-2 brutalist-border uppercase font-bold">
+                        Executive Summary
+                    </div>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-4 columns-1 md:columns-2 gap-8">
+                        The third quarter indicates a volatile shift in organizational sentiment, primarily driven by external macroeconomic pressures leaking into internal communication channels. We observed a <strong>42% spike in 'Rant' category content</strong> originating from engineering hubs, correlating with the recent Q3 product sprint delays. However, overall 'Positive Energy' metrics remain surprisingly resilient at 68%, buoyed by grassroots peer-recognition initiatives. Leadership must address the emerging siloed narratives before they solidify into permanent cultural fault lines. The data suggests an immediate intervention strategy prioritizing transparent town halls over automated HR messaging.
+                    </p>
+</section>
+<!-- Sentiment Analysis -->
+<section class="bg-surface brutalist-border brutalist-shadow p-6 flex flex-col">
+<h3 class="font-headline-md text-headline-md border-b-[4px] border-black pb-4 mb-6 uppercase">Sentiment Analysis</h3>
+<div class="flex-1 flex flex-col justify-end gap-6 h-64 relative">
+<!-- Y Axis labels -->
+<div class="absolute left-0 top-0 h-full flex flex-col justify-between font-label-sm text-label-sm text-on-surface-variant pb-8">
+<span>100%</span>
+<span>50%</span>
+<span>0%</span>
+</div>
+<!-- Chart Area -->
+<div class="flex justify-around items-end h-full ml-12 border-l-[4px] border-b-[4px] border-black pb-0 pt-4">
+<!-- Positive Bar -->
+<div class="w-16 bg-primary-container brutalist-border relative group flex flex-col justify-end items-center" style="height: 68%;">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 bg-black text-white font-label-md px-2 py-1 transition-opacity">68%</div>
+<span class="font-headline-md text-on-surface mb-2">POS</span>
+</div>
+<!-- Negative Bar -->
+<div class="w-16 bg-tertiary brutalist-border relative group flex flex-col justify-end items-center" style="height: 32%;">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 bg-black text-white font-label-md px-2 py-1 transition-opacity">32%</div>
+<span class="font-headline-md text-on-tertiary mb-2">NEG</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Content Categories -->
+<section class="bg-surface brutalist-border brutalist-shadow p-6 flex flex-col">
+<h3 class="font-headline-md text-headline-md border-b-[4px] border-black pb-4 mb-6 uppercase">Content Vectors</h3>
+<div class="flex-1 flex items-center justify-center relative">
+<!-- CSS Pie Chart representation -->
+<div class="w-48 h-48 rounded-full brutalist-border relative overflow-hidden" style="background: conic-gradient(
+                                 #ba1a1a 0% 42%, 
+                                 #ffe500 42% 75%, 
+                                 #e2e2e2 75% 100%
+                             );">
+<!-- Inner cutout for donut effect (optional, maybe keep it solid for brutalism) -->
+<div class="absolute inset-0 m-auto w-16 h-16 bg-surface brutalist-border rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined font-bold">target</span>
+</div>
+</div>
+</div>
+<!-- Legend -->
+<div class="mt-6 flex flex-col gap-2 font-label-md text-label-md uppercase">
+<div class="flex items-center justify-between border-b-[2px] border-black pb-1">
+<div class="flex items-center gap-2"><div class="w-4 h-4 bg-error brutalist-border"></div> Rants</div>
+<span class="font-bold">42%</span>
+</div>
+<div class="flex items-center justify-between border-b-[2px] border-black pb-1">
+<div class="flex items-center gap-2"><div class="w-4 h-4 bg-primary-container brutalist-border"></div> Opinions</div>
+<span class="font-bold">33%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2"><div class="w-4 h-4 bg-surface-variant brutalist-border"></div> Gossip</div>
+<span class="font-bold">25%</span>
+</div>
+</div>
+</section>
+<!-- Engagement Benchmarking -->
+<section class="bg-surface brutalist-border brutalist-shadow p-6 flex flex-col">
+<h3 class="font-headline-md text-headline-md border-b-[4px] border-black pb-4 mb-6 uppercase">Benchmarking</h3>
+<div class="flex-1 flex flex-col gap-6 justify-center">
+<!-- Metric 1 -->
+<div>
+<div class="flex justify-between font-label-md text-label-md uppercase mb-2">
+<span>Murmur Org Engagement</span>
+<span class="font-bold">8.4 / 10</span>
+</div>
+<div class="h-8 bg-surface-variant brutalist-border w-full relative">
+<div class="h-full bg-primary-container border-r-[4px] border-black absolute left-0 top-0" style="width: 84%;"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div>
+<div class="flex justify-between font-label-md text-label-md uppercase mb-2">
+<span>Tech Industry Avg</span>
+<span class="font-bold text-on-surface-variant">6.1 / 10</span>
+</div>
+<div class="h-8 bg-surface-variant brutalist-border w-full relative opacity-70">
+<div class="h-full bg-inverse-surface border-r-[4px] border-black absolute left-0 top-0" style="width: 61%;"></div>
+</div>
+</div>
+<div class="mt-4 p-4 bg-tertiary-container brutalist-border border-l-8 border-l-tertiary">
+<p class="font-label-md text-label-md uppercase">
+<span class="material-symbols-outlined align-middle mr-1">warning</span>
+                                Over-performing industry average by +37%. High risk of burnout detected in sub-nodes.
+                            </p>
+</div>
+</div>
+</section>
+</div>
+<!-- Atmospheric Pattern Overlay (Subtle dot grid via inline styles for brutalist texture) -->
+<div class="pointer-events-none fixed inset-0 z-[-1] opacity-[0.03]" style="background-image: radial-gradient(#000 2px, transparent 2px); background-size: 24px 24px;"></div>
+</main>
+</div>
+</body></html>

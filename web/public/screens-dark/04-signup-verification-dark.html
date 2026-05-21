@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Access Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "on-tertiary": "#690100",
+                            "on-surface-variant": "#cec7aa",
+                            "on-primary-container": "#716500",
+                            "error-container": "#93000a",
+                            "on-secondary-fixed": "#1c1b1b",
+                            "surface-tint": "#dec800",
+                            "primary-fixed-dim": "#dec800",
+                            "surface-variant": "#353535",
+                            "secondary-fixed": "#e5e2e1",
+                            "on-primary-fixed": "#201c00",
+                            "secondary-container": "#474746",
+                            "surface": "#131313",
+                            "on-secondary-container": "#b7b5b4",
+                            "secondary-fixed-dim": "#c8c6c5",
+                            "tertiary-container": "#ffdad4",
+                            "on-secondary": "#313030",
+                            "surface-dim": "#131313",
+                            "tertiary-fixed-dim": "#ffb4a8",
+                            "on-primary-fixed-variant": "#504700",
+                            "on-error-container": "#ffdad6",
+                            "on-background": "#e2e2e2",
+                            "primary-fixed": "#fee400",
+                            "surface-container-highest": "#353535",
+                            "background": "#131313",
+                            "tertiary-fixed": "#ffdad4",
+                            "secondary": "#c8c6c5",
+                            "outline-variant": "#4b4731",
+                            "primary": "#ffffff",
+                            "primary-container": "#fee400",
+                            "inverse-on-surface": "#303030",
+                            "tertiary": "#ffffff",
+                            "on-error": "#690005",
+                            "inverse-surface": "#e2e2e2",
+                            "on-tertiary-container": "#cc0100",
+                            "on-primary": "#373100",
+                            "error": "#ffb4ab",
+                            "on-tertiary-fixed-variant": "#930100",
+                            "inverse-primary": "#6a5f00",
+                            "surface-container": "#1f1f1f",
+                            "surface-container-high": "#2a2a2a",
+                            "on-secondary-fixed-variant": "#474746",
+                            "surface-container-low": "#1b1b1b",
+                            "outline": "#979177",
+                            "surface-bright": "#393939",
+                            "on-surface": "#e2e2e2",
+                            "surface-container-lowest": "#0e0e0e",
+                            "on-tertiary-fixed": "#410000"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "shadow-offset": "6px",
+                            "unit": "4px",
+                            "gutter": "24px",
+                            "container-padding": "16px",
+                            "margin": "32px",
+                            "border-width": "4px"
+                    },
+                    "fontFamily": {
+                            "body-md": [
+                                    "JetBrains Mono"
+                            ],
+                            "headline-md": [
+                                    "Bebas Neue"
+                            ],
+                            "body-lg": [
+                                    "JetBrains Mono"
+                            ],
+                            "headline-xl": [
+                                    "Bebas Neue"
+                            ],
+                            "headline-xl-mobile": [
+                                    "Bebas Neue"
+                            ],
+                            "label-md": [
+                                    "JetBrains Mono"
+                            ],
+                            "headline-lg": [
+                                    "Bebas Neue"
+                            ]
+                    },
+                    "fontSize": {
+                            "body-md": [
+                                    "14px",
+                                    {
+                                            "lineHeight": "1.5",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "headline-md": [
+                                    "24px",
+                                    {
+                                            "lineHeight": "1.2",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "body-lg": [
+                                    "18px",
+                                    {
+                                            "lineHeight": "1.6",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "headline-xl": [
+                                    "64px",
+                                    {
+                                            "lineHeight": "1",
+                                            "letterSpacing": "0.05em",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "headline-xl-mobile": [
+                                    "48px",
+                                    {
+                                            "lineHeight": "1",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "label-md": [
+                                    "12px",
+                                    {
+                                            "lineHeight": "1",
+                                            "letterSpacing": "0.1em",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "headline-lg": [
+                                    "40px",
+                                    {
+                                            "lineHeight": "1.1",
+                                            "letterSpacing": "0.02em",
+                                            "fontWeight": "400"
+                                    }
+                            ]
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' },
+                        },
+                        glitch: {
+                            '0%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' },
+                            '100%': { transform: 'translate(0)' }
+                        }
+                    },
+                    animation: {
+                        blink: 'blink 1s step-end infinite',
+                        glitch: 'glitch 0.2s linear infinite'
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for terminal feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+            border-left: 4px solid #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center p-margin overflow-hidden relative selection:bg-primary-container selection:text-on-primary-container">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-10" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Main Terminal Card -->
+<main class="relative z-10 w-full max-w-2xl bg-surface border-border-width border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] flex flex-col">
+<!-- Terminal Header Bar -->
+<header class="bg-primary text-on-primary border-b-border-width border-primary p-unit flex justify-between items-center">
+<div class="flex items-center gap-2 px-2">
+<span class="material-symbols-outlined fill-icon text-on-primary" style="font-size: 16px;">terminal</span>
+<span class="font-label-md text-label-md uppercase tracking-widest text-on-primary">Secure Communications Terminal</span>
+</div>
+<div class="flex gap-1">
+<div class="w-4 h-4 bg-surface border-2 border-surface"></div>
+<div class="w-4 h-4 bg-surface border-2 border-surface"></div>
+<div class="w-4 h-4 bg-surface border-2 border-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[12px]">close</span>
+</div>
+</div>
+</header>
+<!-- Card Content -->
+<div class="p-8 md:p-12 flex flex-col gap-8 relative">
+<!-- Access Request Header -->
+<div class="flex flex-col gap-2">
+<h1 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl uppercase text-primary">ACCESS REQUEST</h1>
+<div class="h-1 w-24 bg-primary-container"></div>
+<p class="font-body-md text-body-md text-on-surface mt-4 uppercase max-w-md">
+                    Identify yourself to the network. Unauthorized access attempts are logged and monitored.
+                </p>
+</div>
+<!-- Form Area -->
+<form class="flex flex-col gap-6 mt-4" id="access-form">
+<!-- Institutional Email Input -->
+<div class="flex flex-col gap-2 relative group">
+<label class="font-label-md text-label-md uppercase text-on-surface" for="email">Institutional Identifier</label>
+<div class="relative flex items-center">
+<span class="absolute left-4 font-body-lg text-body-lg text-primary-container select-none">&gt;</span>
+<input autocomplete="off" class="w-full bg-[#1a1a1a] border-border-width border-primary font-body-lg text-body-lg text-primary p-4 pl-10 focus:outline-none focus:border-primary-container focus:shadow-[6px_6px_0px_0px_rgba(254,228,0,1)] transition-shadow placeholder:text-primary/50 rounded-none" id="email" placeholder="agent@murmur.net" required="" type="email"/>
+<!-- Blinking Cursor Effect built into input padding, but for visual flair we add a pseudo element in JS or CSS -->
+</div>
+</div>
+<!-- Action Button -->
+<button class="mt-4 bg-surface border-border-width border-primary font-body-lg text-body-lg uppercase text-primary p-4 shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:bg-primary-container hover:text-on-primary-container hover:border-primary-container hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[4px] hover:translate-y-[4px] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] transition-all flex justify-center items-center gap-3" id="submit-btn" type="submit">
+<span class="material-symbols-outlined">key</span>
+<span>INITIATE HANDSHAKE</span>
+</button>
+</form>
+<!-- Error State Container (Hidden by default) -->
+<div class="hidden mt-6 border-border-width border-error p-4 bg-[#1a1a1a] relative overflow-hidden" id="error-state">
+<div class="absolute inset-0 bg-error/10 mix-blend-overlay"></div>
+<div class="flex items-center gap-4 relative z-10">
+<span class="material-symbols-outlined text-error text-4xl animate-pulse">warning</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-error uppercase animate-glitch tracking-widest">ACCESS DENIED</span>
+<span class="font-body-md text-body-md text-on-surface uppercase">Credentials rejected. Protocol breach recorded.</span>
+</div>
+</div>
+</div>
+<!-- Decorative Terminal Footer -->
+<div class="mt-8 pt-4 border-t-border-width border-primary/30 flex justify-between items-end font-label-md text-label-md text-on-surface/50">
+<span class="uppercase">SYS.V.4.2.9</span>
+<span class="uppercase animate-pulse">Awaiting Input_</span>
+</div>
+</div>
+</main>
+<script>
+        document.getElementById('access-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submit-btn');
+            const errorState = document.getElementById('error-state');
+            const emailInput = document.getElementById('email');
+            
+            // Simulate processing state
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span><span>PROCESSING...</span>';
+            btn.classList.add('bg-surface-variant', 'text-on-surface-variant', 'pointer-events-none');
+            
+            setTimeout(() => {
+                // Simulate denial
+                errorState.classList.remove('hidden');
+                errorState.classList.add('flex');
+                
+                emailInput.classList.remove('border-primary', 'focus:border-primary-container');
+                emailInput.classList.add('border-error', 'text-error', 'focus:border-error');
+                
+                btn.innerHTML = '<span class="material-symbols-outlined">lock</span><span>SYSTEM LOCKED</span>';
+                btn.classList.remove('bg-surface-variant', 'text-on-surface-variant');
+                btn.classList.add('bg-error', 'text-on-error', 'border-error', 'shadow-[6px_6px_0px_0px_rgba(255,180,171,1)]');
+                
+                // Optional: Play a tiny glitch sound or screen shake effect here if desired
+                document.body.classList.add('animate-pulse');
+                setTimeout(() => document.body.classList.remove('animate-pulse'), 300);
+
+            }, 1200);
+        });
+    </script>
+</body></html>

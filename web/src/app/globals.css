@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/*
+ * Cyber-Terminal NeoBrutalism (Stitch design system)
+ * Primary #FFE500 · Secondary #1A1A1A (dark surfaces) · Tertiary #FF0000 · Neutral #000
+ *
+ * Light: yellow page + strips
+ * Dark:  dark page — yellow strips (chrome) with black type for readability
+ */
+
+:root,
+[data-theme="light"] {
+  --m-canvas: #ffe500;
+  --m-chrome: #ffe500;
+  --m-chrome-fg: #000000;
+  --m-chrome-hover: #fff04d;
+  --m-surface: #ffffff;
+  --m-surface-2: #fff9c4;
+  --m-accent: #ffe500;
+  --m-accent-fg: #000000;
+  --m-ink: #000000;
+  --m-muted: #3d3a36;
+  --m-border: #000000;
+  --m-shadow: #000000;
+  --m-danger: #ff0000;
+  --m-danger-surface: #ffffff;
+  --m-overlay: rgb(0 0 0 / 0.25);
+  --m-input-focus: #ffffff;
+  --m-pattern: rgb(0 0 0 / 0.12);
+  --m-stripe: rgb(0 0 0 / 0.1);
+  --m-watermark: #c9a300;
+  --m-footer-bg: #000000;
+  --m-footer-fg: #ffe500;
+}
+
+[data-theme="dark"] {
+  --m-canvas: #1a1a1a;
+  --m-chrome: #ffe500;
+  --m-chrome-fg: #000000;
+  --m-chrome-hover: #fff04d;
+  --m-surface: #1a1a1a;
+  --m-surface-2: #0d0d0d;
+  --m-accent: #ffe500;
+  --m-accent-fg: #000000;
+  --m-ink: #ffffff;
+  --m-muted: #b8b0a0;
+  --m-border: #ffffff;
+  --m-shadow: #000000;
+  --m-danger: #ff0000;
+  --m-danger-surface: #1a1a1a;
+  --m-overlay: rgb(0 0 0 / 0.75);
+  --m-input-focus: #2a2a2a;
+  --m-pattern: rgb(255 255 255 / 0.06);
+  --m-stripe: #ffe500;
+  --m-watermark: #262626;
+  --m-footer-bg: #000000;
+  --m-footer-fg: #ffe500;
+}
+
+@theme inline {
+  --font-display: var(--font-bebas), "Bebas Neue", sans-serif;
+  --font-body: var(--font-dm-sans), "DM Sans", sans-serif;
+  --font-mono: var(--font-space-mono), "Space Mono", monospace;
+  --color-canvas: var(--m-canvas);
+  --color-chrome: var(--m-chrome);
+  --color-chrome-fg: var(--m-chrome-fg);
+  --color-surface: var(--m-surface);
+  --color-surface-2: var(--m-surface-2);
+  --color-accent: var(--m-accent);
+  --color-accent-fg: var(--m-accent-fg);
+  --color-ink: var(--m-ink);
+  --color-muted: var(--m-muted);
+  --color-border: var(--m-border);
+  --color-danger: var(--m-danger);
+  --color-danger-surface: var(--m-danger-surface);
+}
+
+* {
+  border-radius: 0;
+}
+
+body {
+  margin: 0;
+  background-color: var(--m-canvas);
+  color: var(--m-ink);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+[data-theme="dark"] body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  opacity: 0.05;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    transparent 50%,
+    rgb(255 255 255 / 0.04) 50%,
+    rgb(255 255 255 / 0.04)
+  );
+  background-size: 100% 4px;
+}
+
+@utility shadow-brutal {
+  box-shadow: 5px 5px 0 var(--m-shadow);
+}
+
+@utility shadow-brutal-sm {
+  box-shadow: 3px 3px 0 var(--m-shadow);
+}
+
+@utility shadow-brutal-lg {
+  box-shadow: 8px 8px 0 var(--m-shadow);
+}
+
+@utility border-brutal {
+  border-width: 3px;
+  border-style: solid;
+  border-color: var(--m-border);
+}
+
+@utility bg-chrome {
+  background-color: var(--m-chrome);
+}
+
+@utility text-chrome-fg {
+  color: var(--m-chrome-fg);
+}
+
+@utility hover-chrome {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+@utility hover-chrome-hover {
+  background-color: var(--m-chrome-hover);
+  color: var(--m-chrome-fg);
+}
+
+/* Landing — same diagonal stripes as Core Doctrine (Stitch: 45deg, 2px, 8px gap) */
+.landing-stripes {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--m-stripe) 0,
+    var(--m-stripe) 2px,
+    transparent 2px,
+    transparent 8px
+  );
+}
+
+[data-theme="dark"] .landing-stripes {
+  opacity: 0.14;
+}
+
+/* Landing — giant background wordmark (dark mode only) */
+.landing-watermark {
+  display: none;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+[data-theme="dark"] .landing-watermark {
+  display: block;
+}
+
+.landing-watermark__text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-family: var(--font-display);
+  /* One word edge-to-edge; vertically cropped by viewport */
+  font-size: max(26rem, 78vw);
+  font-weight: 400;
+  line-height: 0.72;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--m-watermark);
+  transform: translate(-50%, -50%);
+}
+
+@media (min-width: 768px) {
+  .landing-watermark__text {
+    font-size: max(32rem, 82vw);
+  }
+}
+
+@media (min-width: 1280px) {
+  .landing-watermark__text {
+    font-size: max(36rem, 86vw);
+  }
+}

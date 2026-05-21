@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MURMUR - Anonymous Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#690100",
+                        "on-surface-variant": "#cec7aa",
+                        "on-primary-container": "#716500",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface-tint": "#dec800",
+                        "primary-fixed-dim": "#dec800",
+                        "surface-variant": "#353535",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary-fixed": "#201c00",
+                        "secondary-container": "#474746",
+                        "surface": "#131313",
+                        "on-secondary-container": "#b7b5b4",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary-container": "#ffdad4",
+                        "on-secondary": "#313030",
+                        "surface-dim": "#131313",
+                        "tertiary-fixed-dim": "#ffb4a8",
+                        "on-primary-fixed-variant": "#504700",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e2e2e2",
+                        "primary-fixed": "#fee400",
+                        "surface-container-highest": "#353535",
+                        "background": "#131313",
+                        "tertiary-fixed": "#ffdad4",
+                        "secondary": "#c8c6c5",
+                        "outline-variant": "#4b4731",
+                        "primary": "#ffffff",
+                        "primary-container": "#fee400",
+                        "inverse-on-surface": "#303030",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "inverse-surface": "#e2e2e2",
+                        "on-tertiary-container": "#cc0100",
+                        "on-primary": "#373100",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#930100",
+                        "inverse-primary": "#6a5f00",
+                        "surface-container": "#1f1f1f",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "surface-container-low": "#1b1b1b",
+                        "outline": "#979177",
+                        "surface-bright": "#393939",
+                        "on-surface": "#e2e2e2",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed": "#410000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "shadow-offset": "6px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-padding": "16px",
+                        "margin": "32px",
+                        "border-width": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["JetBrains Mono"],
+                        "headline-md": ["Bebas Neue"],
+                        "body-lg": ["JetBrains Mono"],
+                        "headline-xl": ["Bebas Neue"],
+                        "headline-xl-mobile": ["Bebas Neue"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-xl": ["64px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["48px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .terminal-bg {
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        
+        .cursor-blink::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            color: #fee400; /* primary-container */
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .neo-shadow {
+            box-shadow: 6px 6px 0px 0px rgba(255,255,255,1);
+        }
+        
+        .neo-shadow-yellow {
+            box-shadow: 6px 6px 0px 0px #fee400;
+        }
+        
+        .neo-shadow-red {
+            box-shadow: 6px 6px 0px 0px #ffb4ab;
+        }
+
+        .neo-hover:hover {
+            box-shadow: 2px 2px 0px 0px rgba(255,255,255,1);
+            transform: translate(4px, 4px);
+        }
+
+        .neo-hover-yellow:hover {
+            box-shadow: 2px 2px 0px 0px #fee400;
+            transform: translate(4px, 4px);
+        }
+        
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313; 
+            border-left: 4px solid #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffffff; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen overflow-hidden flex flex-col md:flex-row terminal-bg">
+<!-- TopNavBar (Mobile Focus) / Hidden on Desktop -->
+<header class="md:hidden flex justify-between items-center w-full px-gutter h-16 z-50 bg-surface dark:bg-surface border-b-border-width border-primary dark:border-primary shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] fixed top-0 full-width">
+<div class="font-headline-md text-headline-md text-primary-container tracking-widest uppercase">MURMUR_INTEL</div>
+<div class="flex gap-4">
+<button class="text-primary-container hover:text-on-primary-container active:translate-x-[2px] active:translate-y-[2px] transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</button>
+<button class="text-primary-container hover:text-on-primary-container active:translate-x-[2px] active:translate-y-[2px] transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen fixed left-0 top-0 pt-20 z-40 bg-surface dark:bg-surface border-r-border-width border-primary dark:border-primary shadow-[6px_0px_0px_0px_rgba(255,255,255,1)] w-64 docked">
+<div class="px-gutter mb-8">
+<h1 class="font-headline-lg text-headline-lg text-primary-container">MURMUR</h1>
+<p class="font-label-md text-label-md text-on-surface mt-2">SYSTEM_ADMIN</p>
+</div>
+<div class="flex flex-col gap-4 px-gutter flex-1">
+<a class="flex items-center gap-4 p-2 font-body-md text-body-md uppercase text-on-surface dark:text-on-surface hover:bg-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-4 p-2 font-body-md text-body-md uppercase bg-primary-container text-on-primary-container font-bold border-4 border-surface shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] transition-transform duration-75 active:scale-95 cursor-default" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+                Trending
+            </a>
+<a class="flex items-center gap-4 p-2 font-body-md text-body-md uppercase text-on-surface dark:text-on-surface hover:bg-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined">description</span>
+                Intel Reports
+            </a>
+<a class="flex items-center gap-4 p-2 font-body-md text-body-md uppercase text-on-surface dark:text-on-surface hover:bg-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined">corporate_fare</span>
+                Organization
+            </a>
+<a class="flex items-center gap-4 p-2 font-body-md text-body-md uppercase text-on-surface dark:text-on-surface hover:bg-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-transform duration-75 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+<div class="p-gutter mt-auto border-t-border-width border-primary">
+<button class="w-full bg-black border-border-width border-primary text-primary font-body-md uppercase py-3 neo-shadow neo-hover hover:bg-primary-container hover:text-black transition-all">
+                REBOOT_TERMINAL
+            </button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 mt-16 md:mt-0 md:ml-64 flex flex-col h-full overflow-y-auto overflow-x-hidden relative">
+<!-- Canvas Header Area -->
+<div class="px-gutter py-margin border-b-border-width border-primary sticky top-0 bg-surface/90 backdrop-blur-sm z-30">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+<div>
+<h2 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary">SECTOR-7 VERIFIED ORG</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-container inline-block"></span>
+                        Live Encrypted Feed
+                    </p>
+</div>
+<!-- Search / Command Line -->
+<div class="w-full md:w-auto relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/50 group-focus-within:text-primary-container">terminal</span>
+<input class="w-full md:w-64 bg-[#1a1a1a] border-border-width border-primary text-primary font-body-md py-3 pl-10 pr-4 focus:outline-none focus:border-primary-container focus:shadow-[6px_6px_0px_0px_#fee400] transition-all placeholder:text-on-surface/50 cursor-blink" placeholder="QUERY_DB..." type="text"/>
+</div>
+</div>
+<!-- Category Filters -->
+<div class="flex gap-4 mt-8 overflow-x-auto pb-2">
+<button class="bg-primary-container text-black font-label-md text-label-md px-4 py-2 border-2 border-primary uppercase neo-shadow-yellow neo-hover-yellow flex-shrink-0">ALL_INTEL</button>
+<button class="bg-black text-primary font-label-md text-label-md px-4 py-2 border-2 border-primary uppercase hover:bg-primary-container hover:text-black transition-colors flex-shrink-0">GOSSIP</button>
+<button class="bg-black text-primary font-label-md text-label-md px-4 py-2 border-2 border-primary uppercase hover:bg-primary-container hover:text-black transition-colors flex-shrink-0">RANT</button>
+<button class="bg-black text-primary font-label-md text-label-md px-4 py-2 border-2 border-primary uppercase hover:bg-primary-container hover:text-black transition-colors flex-shrink-0">OPINION</button>
+<button class="bg-black text-error font-label-md text-label-md px-4 py-2 border-2 border-error uppercase hover:bg-error hover:text-black transition-colors flex-shrink-0">CRITICAL</button>
+</div>
+</div>
+<!-- Feed Grid (Bento-style mixed layout) -->
+<div class="p-gutter grid grid-cols-1 md:grid-cols-12 gap-gutter mb-32">
+<!-- Highlight Post (Spans 8 cols) -->
+<article class="col-span-1 md:col-span-8 bg-black border-border-width border-primary p-6 neo-shadow relative group">
+<div class="absolute -top-4 -right-4 bg-primary-container text-black font-label-md px-3 py-1 border-2 border-primary neo-shadow-yellow transform rotate-3">GOSSIP</div>
+<div class="flex justify-between items-start mb-6 border-b-border-width border-primary pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-[#1a1a1a] border-2 border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">incognito</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">ANON_USER_994</p>
+<p class="font-label-md text-label-md text-on-surface-variant">DEPT: ENGINEERING // 14:02 EST</p>
+</div>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4 uppercase">The new coffee machine in sector 4 is bugged.</h3>
+<p class="font-body-lg text-body-lg text-on-surface mb-6">I swear it's recording conversations. Every time someone mentions "budget cuts," it dispensed decaf. Has anyone else noticed this or am I losing my mind?</p>
+<div class="flex gap-4 mt-auto">
+<button class="flex items-center gap-2 bg-[#1a1a1a] border-2 border-primary px-4 py-2 hover:bg-primary-container hover:text-black transition-colors group/btn">
+<span class="material-symbols-outlined text-primary-container group-hover/btn:text-black">arrow_upward</span>
+<span class="font-body-md font-bold">142</span>
+</button>
+<button class="flex items-center gap-2 bg-[#1a1a1a] border-2 border-primary px-4 py-2 hover:bg-primary hover:text-black transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-body-md font-bold">38</span>
+</button>
+<button class="flex items-center gap-2 bg-[#1a1a1a] border-2 border-primary px-4 py-2 hover:bg-primary hover:text-black transition-colors ml-auto">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</article>
+<!-- Small Post (Spans 4 cols) -->
+<article class="col-span-1 md:col-span-4 bg-black border-border-width border-primary p-6 neo-shadow relative flex flex-col">
+<div class="absolute -top-4 -left-4 bg-error text-black font-label-md px-3 py-1 border-2 border-primary neo-shadow-red transform -rotate-2">RANT</div>
+<div class="flex items-center gap-3 mb-4 mt-2">
+<p class="font-label-md text-label-md text-on-surface-variant">DEPT: HR // 13:45 EST</p>
+</div>
+<p class="font-body-md text-body-md text-primary mb-6 flex-1">Stop microwaving fish in the breakroom. This is a secure facility, not a seafood market. Next person to do it gets their clearance revoked.</p>
+<div class="flex gap-2 justify-between border-t-2 border-surface-variant pt-4">
+<button class="text-primary hover:text-primary-container flex items-center gap-1">
+<span class="material-symbols-outlined">arrow_upward</span> 89
+                    </button>
+<button class="text-primary hover:text-primary-container flex items-center gap-1">
+<span class="material-symbols-outlined">chat_bubble</span> 12
+                    </button>
+</div>
+</article>
+<!-- Image Post (Spans 6 cols) -->
+<article class="col-span-1 md:col-span-6 bg-black border-border-width border-primary p-6 neo-shadow flex flex-col group">
+<div class="mb-4 flex justify-between">
+<span class="bg-primary text-black font-label-md px-2 py-1">OPINION</span>
+<span class="font-label-md text-label-md text-on-surface-variant">DEPT: DESIGN // 11:20 EST</span>
+</div>
+<div class="w-full h-48 border-2 border-primary mb-4 relative overflow-hidden bg-surface-variant">
+<div class="absolute inset-0 bg-cover bg-center mix-blend-luminosity opacity-50 group-hover:opacity-100 transition-opacity" data-alt="A stark, high-contrast black and white photograph of an empty, brutalist concrete hallway lit by harsh, flickering fluorescent lights. The scene evokes a sense of paranoia and underground corporate secrecy, aligning with a dark mode, neo-brutalist aesthetic with deep shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXRU00lK8j-yPX8vc4hVH2L5qayAN6pnBOjzOAMRo1TFMujvWzsOg3BsYyCwxq0XaWtZCWEkXEg18W0LARhGjIUJi_SxNPEibwL_bVz6ljJhM-UG0saOq0zOc5PyaCC-C5Y-vqcPtZkDReFfxMsX5QHihjtQsg5sB-K75jox7xgXH_gktaIC0S9nxNCccF1Z4dQ_8xU7BFlqEGX-C1a4QkHczPaM1rBc7J4MhTmU8BhBmZSNYR3C7A6xcQhuZDyVoC5K9j1toJGJg');"></div>
+<div class="absolute bottom-2 right-2 bg-black border-2 border-primary px-2 py-1 text-primary font-label-md text-xs">ATTACHMENT_01.JPG</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2 uppercase">The brutalist rebrand goes too far</h3>
+<p class="font-body-md text-body-md text-on-surface line-clamp-2">Look at this hallway. We work in software, not a dystopian concrete bunker. Morale is down 20% since they painted over the windows.</p>
+<div class="flex gap-4 mt-6">
+<button class="flex items-center gap-2 bg-[#1a1a1a] border-2 border-primary px-3 py-1 hover:bg-primary hover:text-black transition-colors">
+<span class="material-symbols-outlined">arrow_upward</span> 245
+                    </button>
+</div>
+</article>
+<!-- Data/Poll Post (Spans 6 cols) -->
+<article class="col-span-1 md:col-span-6 bg-surface-container-low border-border-width border-primary p-6 neo-shadow">
+<div class="flex items-center gap-3 mb-6 border-b-border-width border-primary pb-4">
+<span class="material-symbols-outlined text-primary-container text-3xl">poll</span>
+<h3 class="font-headline-md text-headline-md text-primary uppercase">MANDATORY SURVEY: CATERING</h3>
+</div>
+<div class="space-y-4 mb-6">
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-primary-container w-[75%] border-2 border-primary transition-all group-hover:w-[80%]"></div>
+<div class="relative flex justify-between p-3 border-2 border-primary bg-transparent text-black font-bold font-body-md z-10 mix-blend-exclusion text-primary">
+<span>BRING BACK PIZZA FRIDAYS</span>
+<span>75%</span>
+</div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-surface-variant w-[15%] border-2 border-primary"></div>
+<div class="relative flex justify-between p-3 border-2 border-primary bg-transparent text-primary font-body-md z-10">
+<span>KEEP KALE SALAD MONDAYS</span>
+<span>15%</span>
+</div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-surface-variant w-[10%] border-2 border-primary"></div>
+<div class="relative flex justify-between p-3 border-2 border-primary bg-transparent text-primary font-body-md z-10">
+<span>I DO NOT REQUIRE SUSTENANCE</span>
+<span>10%</span>
+</div>
+</div>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant text-right">842 RESPONSES // CLOSES IN 2H</p>
+</article>
+<!-- Loading Indicator Row -->
+<div class="col-span-1 md:col-span-12 flex justify-center py-8">
+<div class="flex items-center gap-4 text-primary-container font-label-md uppercase">
+<span class="material-symbols-outlined animate-spin">refresh</span>
+<span class="cursor-blink">DECRYPTING_MORE_RECORDS...</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-margin right-margin md:right-8 bg-primary-container border-border-width border-black p-4 neo-shadow-yellow neo-hover-yellow z-50 group flex items-center gap-3">
+<span class="material-symbols-outlined text-black text-3xl group-hover:rotate-90 transition-transform">add</span>
+<span class="font-headline-md text-headline-md text-black uppercase hidden md:block pr-2">NEW MURMUR</span>
+</button>
+</body></html>
