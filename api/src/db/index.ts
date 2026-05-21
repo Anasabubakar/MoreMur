@@ -16,8 +16,8 @@ export function getPool(): pg.Pool {
     pool = new pg.Pool({
       connectionString,
       max: 10,
-      connectionTimeoutMillis: 20_000,
-      // TLS: use ?sslmode=require (or verify-full) on DATABASE_URL for Neon
+      connectionTimeoutMillis: 30_000,
+      // Neon: copy the full connection string from Console → Connect (includes sslmode)
     });
   }
   return pool;

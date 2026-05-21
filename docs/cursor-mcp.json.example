@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "neon": {
+      "url": "https://mcp.neon.tech/mcp"
+    },
+    "stitch": {
+      "type": "http",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "YOUR_STITCH_API_KEY"
+      }
+    }
+  }
+}
