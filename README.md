@@ -70,7 +70,7 @@ npm run dev
 - Env (required):
   - `DATABASE_URL` — same Neon connection string as local
   - `JWT_SECRET` — long random string
-  - `CORS_ORIGIN` — `https://your-app.vercel.app`
+  - `CORS_ORIGIN` — `https://moremur.vercel.app`
   - `NODE_ENV=production`
   - `RESEND_API_KEY` + `OTP_FROM_EMAIL` (for real OTP emails)
 - After first deploy, run once locally: `cd api && npm run db:seed` (creates tables + demo org)

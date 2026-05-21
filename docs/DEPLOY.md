@@ -8,7 +8,7 @@ Repo: `https://github.com/Anasabubakar/MoreMur`
 |---------|-----------|-------------|
 | **Neon** | PostgreSQL only (no Neon Auth) | connection string in env |
 | **Render** | Fastify API (`api/`) | `https://murmur-api.onrender.com` |
-| **Vercel** | Next.js app (`web/`) | `https://your-app.vercel.app` |
+| **Vercel** | Next.js app (`web/`) | `https://moremur.vercel.app` |
 
 ---
 
@@ -72,9 +72,9 @@ git push -u origin main
    | Key | Value |
    |-----|--------|
    | `NODE_ENV` | `production` |
-   | `DATABASE_URL` | Your full Neon connection string |
+   | `DATABASE_URL` | **Required.** Full Neon connection string from Console → Connect |
    | `JWT_SECRET` | Long random string (`openssl rand -hex 32`) |
-   | `CORS_ORIGIN` | Your Vercel URL (set after step 4), e.g. `https://moremur.vercel.app` |
+   | `CORS_ORIGIN` | `https://moremur.vercel.app` (exact, no trailing slash) |
    | `ADMIN_KEY` | Random secret for admin routes |
    | `RESEND_API_KEY` | From [resend.com](https://resend.com) (optional in dev) |
    | `OTP_FROM_EMAIL` | `Murmur <auth@yourdomain.com>` after domain verify |
@@ -162,6 +162,7 @@ Free Render services **spin down** after ~15 min idle. First request after sleep
 |---------|-----|
 | Vercel `next: command not found` | Set **Root Directory** to `web`, or use root `vercel.json` (`npm install --prefix web`) |
 | `db:seed` timeout / ECONNRESET on `db:check` step 2 | Run `npm run db:check` — if step 3 (WebSocket) passes, run `db:seed` again (API uses Neon WebSocket driver). If all fail, refresh connection string in Neon Console. |
+| Render crash: `DATABASE_URL is required` | Render → **Environment** → add `DATABASE_URL` (Neon connection string) → **Manual Deploy** |
 | API 500 on login | Render logs; check `DATABASE_URL`, run `db:seed` against that DB |
 | CORS error in browser | `CORS_ORIGIN` must match Vercel URL exactly (https, no path) |
 | Cold start slow | Upgrade Render to Starter or wait ~1 min |
