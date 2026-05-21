@@ -63,7 +63,7 @@ git push -u origin main
    | **Branch** | `main` |
    | **Root Directory** | `api` |
    | **Runtime** | Node |
-   | **Build Command** | `npm install && npm run build` |
+   | **Build Command** | `npm install --include=dev && npm run build` |
    | **Start Command** | `npm start` |
    | **Instance type** | Free (sleeps) or **Starter $7/mo** (always on) |
 
@@ -162,6 +162,7 @@ Free Render services **spin down** after ~15 min idle. First request after sleep
 |---------|-----|
 | Vercel `next: command not found` | Set **Root Directory** to `web`, or use root `vercel.json` (`npm install --prefix web`) |
 | `db:seed` timeout / ECONNRESET on `db:check` step 2 | Run `npm run db:check` — if step 3 (WebSocket) passes, run `db:seed` again (API uses Neon WebSocket driver). If all fail, refresh connection string in Neon Console. |
+| Render `Cannot find name 'process'` / TS2591 on build | Set **Build Command** to `npm install --include=dev && npm run build` (production `npm install` skips devDependencies) |
 | Render crash: `DATABASE_URL is required` | Render → **Environment** → add `DATABASE_URL` (Neon connection string) → **Manual Deploy** |
 | API 500 on login | Render logs; check `DATABASE_URL`, run `db:seed` against that DB |
 | CORS error in browser | `CORS_ORIGIN` must match Vercel URL exactly (https, no path) |

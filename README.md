@@ -65,7 +65,7 @@ npm run dev
 ### Render (API)
 
 - Root directory: `api`  
-- Build: `npm install && npm run build`  
+- Build: `npm install --include=dev && npm run build` (dev deps needed for `tsc`; `NODE_ENV=production` omits them otherwise)  
 - Start: `npm start`  
 - Env (required):
   - `DATABASE_URL` — same Neon connection string as local
@@ -78,7 +78,7 @@ npm run dev
 ### Vercel (Web)
 
 - Root directory: `web`  
-- Env: `NEXT_PUBLIC_API_URL=https://your-service.onrender.com`  
+- Env: `NEXT_PUBLIC_API_URL=https://murmur-api.onrender.com` (your Render service URL)  
 
 ### Resend
 
