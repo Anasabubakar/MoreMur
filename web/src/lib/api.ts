@@ -56,7 +56,7 @@ export function saveSession(token: string) {
 }
 
 export function signupRequestOtp(email: string) {
-  return api<{ ok: boolean; orgName: string; devCode?: string }>(
+  return api<{ ok: boolean; orgName: string }>(
     "/auth/signup/request-otp",
     { method: "POST", body: JSON.stringify({ email }) },
   );
@@ -88,7 +88,7 @@ export function login(email: string, password: string) {
 }
 
 export function passwordRequestOtp(email: string) {
-  return api<{ ok: boolean; message?: string; devCode?: string }>(
+  return api<{ ok: boolean; message?: string }>(
     "/auth/password/request-otp",
     { method: "POST", body: JSON.stringify({ email }) },
   );

@@ -86,16 +86,14 @@ export async function authRoutes(app: FastifyInstance) {
       });
     }
 
-    let devCode: string | undefined;
     try {
-      const code = await createOtpSession(normalized, org.id, "signup", org.name);
-      if (process.env.NODE_ENV !== "production") devCode = code;
+      await createOtpSession(normalized, org.id, "signup", org.name);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Could not send code.";
       return reply.status(429).send({ error: message });
     }
 
-    return { ok: true, orgName: org.name, ...(devCode ? { devCode } : {}) };
+    return { ok: true, orgName: org.name };
   });
 
   /** Sign up — step 2: verify OTP, get setup token (password not set yet) */
@@ -275,15 +273,13 @@ export async function authRoutes(app: FastifyInstance) {
       [user.org_id],
     );
 
-    let devCode: string | undefined;
     try {
-      const code = await createOtpSession(
+      await createOtpSession(
         normalized,
         org?.id ?? null,
         "reset",
         org?.name,
       );
-      if (process.env.NODE_ENV !== "production") devCode = code;
     } catch (err) {
       const message = err instanceof Error ? err.message : "Could not send code.";
       return reply.status(429).send({ error: message });
@@ -292,7 +288,6 @@ export async function authRoutes(app: FastifyInstance) {
     return {
       ok: true,
       message: "If an account exists, a reset code was sent.",
-      ...(devCode ? { devCode } : {}),
     };
   });
 

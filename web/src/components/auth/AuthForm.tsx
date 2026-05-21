@@ -32,7 +32,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [setupToken, setSetupToken] = useState<string | null>(null);
   const [orgName, setOrgName] = useState("");
-  const [devCode, setDevCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,7 +43,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
     setPassword("");
     setConfirmPassword("");
     setSetupToken(null);
-    setDevCode(null);
     setError(null);
     setInfo(null);
   }
@@ -80,7 +78,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
     try {
       const res = await signupRequestOtp(email);
       setOrgName(res.orgName);
-      setDevCode(res.devCode ?? null);
       setSignupStep("otp");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Request failed");
@@ -127,7 +124,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
     setInfo(null);
     try {
       const res = await passwordRequestOtp(email);
-      setDevCode(res.devCode ?? null);
       setInfo(res.message ?? "If an account exists, a reset code was sent.");
       setForgotStep("otp");
     } catch (err) {
@@ -258,11 +254,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
               Code sent to <strong>{email}</strong>
               {orgName ? ` · ${orgName}` : ""}
             </p>
-            {devCode && (
-              <p className="border-brutal border-danger bg-accent p-2 font-mono text-xs text-accent-fg">
-                Dev OTP: <strong>{devCode}</strong>
-              </p>
-            )}
             <input
               type="text"
               inputMode="numeric"
@@ -357,11 +348,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
           <form onSubmit={onForgotReset} className="mt-8 flex flex-col gap-4">
             {info && (
               <p className="font-mono text-xs text-muted">{info}</p>
-            )}
-            {devCode && (
-              <p className="border-brutal border-danger bg-accent p-2 font-mono text-xs text-accent-fg">
-                Dev reset OTP: <strong>{devCode}</strong>
-              </p>
             )}
             <input
               type="text"

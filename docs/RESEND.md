@@ -86,8 +86,6 @@ Leave `RESEND_API_KEY` unset in `api/.env`. OTP codes are logged:
 [MURMUR OTP:signup] user@company.com → 123456
 ```
 
-The API may also return `devCode` in JSON when `NODE_ENV` is not `production` (dev only).
-
 ---
 
 ## Free tier
