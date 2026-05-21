@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
+import { createPool } from "./pool.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -13,12 +14,7 @@ export function getPool(): pg.Pool {
     if (!connectionString) {
       throw new Error("DATABASE_URL is required (use Neon Postgres in production).");
     }
-    pool = new pg.Pool({
-      connectionString,
-      max: 10,
-      connectionTimeoutMillis: 30_000,
-      // Neon: copy the full connection string from Console → Connect (includes sslmode)
-    });
+    pool = createPool(connectionString) as pg.Pool;
   }
   return pool;
 }

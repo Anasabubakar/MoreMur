@@ -115,9 +115,11 @@ Free Render services **spin down** after ~15 min idle. First request after sleep
 
    **Option B — repo root** (uses root [`vercel.json`](../vercel.json))
 
-   Leave **Root Directory** empty. Vercel runs `npm install --prefix web` then `npm run build --prefix web`.
+   Leave **Root Directory** empty. Vercel runs `npm install --prefix web` then `npm run build --prefix web`. Do **not** set Output Directory to `web/.next` in the dashboard (that doubles the path).
 
-   If you see `next: command not found`, you are building from repo root without installing `web/` dependencies — use Option A or pull the root `vercel.json`.
+   If you see `next: command not found`, you are building from repo root without installing `web/` dependencies — use Option A.
+
+   If you see `web/web/.next` not found, you have **Root Directory = `web`** but a custom Output Directory of `web/.next` — clear Output Directory or use Option A only.
 
 3. **Environment variable**:
 
@@ -159,7 +161,7 @@ Free Render services **spin down** after ~15 min idle. First request after sleep
 | Problem | Fix |
 |---------|-----|
 | Vercel `next: command not found` | Set **Root Directory** to `web`, or use root `vercel.json` (`npm install --prefix web`) |
-| `db:seed` timeout / ECONNRESET | Run `npm run db:check`. Re-copy **full** connection string from Neon → Connect (especially after password reset). Test **SQL Editor** in Neon. Try without VPN. |
+| `db:seed` timeout / ECONNRESET on `db:check` step 2 | Run `npm run db:check` — if step 3 (WebSocket) passes, run `db:seed` again (API uses Neon WebSocket driver). If all fail, refresh connection string in Neon Console. |
 | API 500 on login | Render logs; check `DATABASE_URL`, run `db:seed` against that DB |
 | CORS error in browser | `CORS_ORIGIN` must match Vercel URL exactly (https, no path) |
 | Cold start slow | Upgrade Render to Starter or wait ~1 min |
