@@ -62,29 +62,27 @@ npm run dev
 
 ## Production deploy
 
+**Live:** [moremur.vercel.app](https://moremur.vercel.app) · API [moremur.onrender.com](https://moremur.onrender.com)
+
+Full guides: [docs/DEPLOY.md](docs/DEPLOY.md) · [docs/NEON.md](docs/NEON.md) · [docs/RESEND.md](docs/RESEND.md)
+
 ### Render (API)
 
-- Root directory: `api`  
-- Build: `npm install --include=dev && npm run build` (dev deps needed for `tsc`; `NODE_ENV=production` omits them otherwise)  
-- Start: `npm start`  
-- Env (required):
-  - `DATABASE_URL` — same Neon connection string as local
-  - `JWT_SECRET` — long random string
-  - `CORS_ORIGIN` — `https://moremur.vercel.app`
-  - `NODE_ENV=production`
-  - `RESEND_API_KEY` + `OTP_FROM_EMAIL` (for real OTP emails)
-- After first deploy, run once locally: `cd api && npm run db:seed` (creates tables + demo org)
+- Service URL: `https://moremur.onrender.com`
+- Root directory: `api`
+- Build: `npm install --include=dev && npm run build`
+- Start: `npm start`
+- Required env: `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN=https://moremur.vercel.app`, `RESEND_API_KEY`, `OTP_FROM_EMAIL`
+- Once locally: `cd api && npm run db:seed` (same Neon DB as Render)
 
 ### Vercel (Web)
 
-- Root directory: `web`  
-- Env: `NEXT_PUBLIC_API_URL=https://murmur-api.onrender.com` (your Render service URL)  
+- Root directory: `web`
+- Env: `NEXT_PUBLIC_API_URL=https://moremur.onrender.com`
 
 ### Resend
 
-1. Verify your sending domain  
-2. Set `OTP_FROM_EMAIL=Murmur <auth@yourdomain.com>`  
-3. Free tier: 3,000 emails/month  
+See [docs/RESEND.md](docs/RESEND.md) — sandbox `onboarding@resend.dev` for quick tests, verified domain for production OTP mail.
 
 ## API routes
 

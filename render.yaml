@@ -1,7 +1,7 @@
 # Render Blueprint — https://render.com/docs/blueprint-spec
 services:
   - type: web
-    name: murmur-api
+    name: moremur
     runtime: node
     rootDir: api
     buildCommand: npm install --include=dev && npm run build

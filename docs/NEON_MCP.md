@@ -65,10 +65,8 @@ Creates an API key, wires MCP for Cursor, and installs Neon agent skills.
 
 ## MoreMur app database
 
-The MURMUR API uses `DATABASE_URL` in `api/.env` (not Neon Auth). MCP is separate tooling for AI-assisted DB work. Initialize schema:
+The API uses `DATABASE_URL` in `api/.env` and on Render (`https://moremur.onrender.com`). MCP is optional AI tooling — not required to run the app.
 
-```bash
-cd api && npm run db:seed
-```
+Initialize schema: [NEON.md](./NEON.md) (`npm run db:check` then `npm run db:seed`).
 
 See [Neon: Connect MCP clients](https://neon.com/docs/ai/connect-mcp-clients-to-neon).

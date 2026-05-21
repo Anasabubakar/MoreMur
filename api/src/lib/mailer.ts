@@ -54,6 +54,10 @@ export async function sendOtpEmail(
   });
 
   if (error) {
-    throw new Error(error.message ?? "Failed to send email.");
+    const hint =
+      error.message?.includes("domain") || error.message?.includes("from")
+        ? " Check OTP_FROM_EMAIL uses a verified Resend domain (see docs/RESEND.md)."
+        : "";
+    throw new Error(`${error.message ?? "Failed to send email."}${hint}`);
   }
 }
