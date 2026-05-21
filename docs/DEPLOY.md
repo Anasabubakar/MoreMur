@@ -90,10 +90,6 @@ git push origin main
 ```bash
 curl https://moremur.onrender.com/health
 # {"ok":true,"service":"murmur-api"}
-
-curl -X POST https://moremur.onrender.com/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"fellow@learn2earn.ng","password":"demo-password-change-me"}'
 ```
 
 Free tier sleeps after ~15 min idle; first request may take 30–60s.
@@ -129,7 +125,7 @@ Repo root [`vercel.json`](../vercel.json) is for monorepo deploys (Root Director
 
 - [ ] Neon: `npm run db:seed` OK ([NEON.md](./NEON.md))
 - [ ] Render: `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN`, Resend vars
-- [ ] Render: `/health` + demo login curl OK
+- [ ] Render: `/health` OK
 - [ ] Vercel: `NEXT_PUBLIC_API_URL=https://moremur.onrender.com`
 - [ ] Browser login on Vercel works
 - [ ] Resend: OTP email received on signup ([RESEND.md](./RESEND.md))

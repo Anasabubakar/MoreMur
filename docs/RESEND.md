@@ -46,7 +46,7 @@ Use Resend’s sandbox sender for development only:
 
 ## Option B — Production (domain you own)
 
-Use a real domain you control (paid registrar is fine — e.g. `.com`, `.ng`, `.io`). Subdomains work well: `mail.learn2earn.ng`.
+Use a real domain you control (paid registrar is fine — e.g. `.com`, `.ng`, `.dev`). Subdomains work well: `mail.anasmasama.dev` or the apex `anasmasama.dev`.
 
 1. Resend → [**Domains**](https://resend.com/domains) → **Add domain** → enter e.g. `mail.learn2earn.ng` (not a placeholder).
 2. At your DNS host (Cloudflare, Namecheap, etc.), add the **SPF** and **DKIM** records Resend shows.
@@ -55,7 +55,7 @@ Use a real domain you control (paid registrar is fine — e.g. `.com`, `.ng`, `.
 
    ```
    RESEND_API_KEY=re_xxxxxxxx
-   OTP_FROM_EMAIL=Murmur <noreply@mail.learn2earn.ng>
+   OTP_FROM_EMAIL=Murmur <noreply@anasmasama.dev>
    ```
 
    Any local part is fine (`noreply`, `auth`, `hello`) as long as the domain part matches the verified domain.
