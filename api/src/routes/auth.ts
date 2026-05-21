@@ -15,6 +15,16 @@ const emailSchema = z.object({
   email: z.string().email(),
 });
 
+const requestOtpSchema = z.object({
+  email: z.string().email(),
+  resend: z.boolean().optional().default(false),
+});
+
+const OTP_ALREADY_SENT =
+  "We already sent a code to this email. Check your inbox and enter it below, or use Resend code for a new one.";
+const OTP_LIMIT_REACHED =
+  "You've used both codes allowed for this email. Contact your admin if you're locked out.";
+
 const verifySchema = z.object({
   email: z.string().email(),
   code: z.string().length(6),
@@ -58,7 +68,7 @@ function checkOrgEmail(email: string): { ok: true; normalized: string; domain: s
 export async function authRoutes(app: FastifyInstance) {
   /** Sign up — step 1: send OTP to org email */
   app.post("/auth/signup/request-otp", async (req, reply) => {
-    const parsed = emailSchema.safeParse(req.body);
+    const parsed = requestOtpSchema.safeParse(req.body);
     if (!parsed.success) {
       return reply.status(400).send({ error: "Enter a valid organization email address." });
     }
@@ -86,14 +96,29 @@ export async function authRoutes(app: FastifyInstance) {
       });
     }
 
+    let codesRemaining: number | undefined;
     try {
-      await createOtpSession(normalized, org.id, "signup", org.name);
+      const result = await createOtpSession(normalized, org.id, "signup", org.name, {
+        resend: parsed.data.resend,
+      });
+      if (result.status === "limit_reached") {
+        return reply.status(429).send({ error: OTP_LIMIT_REACHED });
+      }
+      if (result.status === "already_sent") {
+        return {
+          ok: true,
+          orgName: org.name,
+          alreadySent: true,
+          message: OTP_ALREADY_SENT,
+        };
+      }
+      codesRemaining = result.codesRemaining;
     } catch (err) {
       const message = err instanceof Error ? err.message : "Could not send code.";
-      return reply.status(429).send({ error: message });
+      return reply.status(500).send({ error: message });
     }
 
-    return { ok: true, orgName: org.name };
+    return { ok: true, orgName: org.name, codesRemaining };
   });
 
   /** Sign up — step 2: verify OTP, get setup token (password not set yet) */
@@ -244,7 +269,7 @@ export async function authRoutes(app: FastifyInstance) {
 
   /** Forgot password — send OTP */
   app.post("/auth/password/request-otp", async (req, reply) => {
-    const parsed = emailSchema.safeParse(req.body);
+    const parsed = requestOtpSchema.safeParse(req.body);
     if (!parsed.success) {
       return reply.status(400).send({ error: "Enter a valid email address." });
     }
@@ -274,15 +299,26 @@ export async function authRoutes(app: FastifyInstance) {
     );
 
     try {
-      await createOtpSession(
+      const result = await createOtpSession(
         normalized,
         org?.id ?? null,
         "reset",
         org?.name,
+        { resend: parsed.data.resend },
       );
+      if (result.status === "limit_reached") {
+        return reply.status(429).send({ error: OTP_LIMIT_REACHED });
+      }
+      if (result.status === "already_sent") {
+        return {
+          ok: true,
+          alreadySent: true,
+          message: OTP_ALREADY_SENT,
+        };
+      }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Could not send code.";
-      return reply.status(429).send({ error: message });
+      return reply.status(500).send({ error: message });
     }
 
     return {

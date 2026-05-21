@@ -55,10 +55,18 @@ export function saveSession(token: string) {
   localStorage.setItem("murmur_token", token);
 }
 
-export function signupRequestOtp(email: string) {
-  return api<{ ok: boolean; orgName: string }>(
+export type OtpRequestResponse = {
+  ok: boolean;
+  orgName?: string;
+  message?: string;
+  alreadySent?: boolean;
+  codesRemaining?: number;
+};
+
+export function signupRequestOtp(email: string, resend = false) {
+  return api<OtpRequestResponse & { orgName: string }>(
     "/auth/signup/request-otp",
-    { method: "POST", body: JSON.stringify({ email }) },
+    { method: "POST", body: JSON.stringify({ email, resend }) },
   );
 }
 
@@ -87,10 +95,10 @@ export function login(email: string, password: string) {
   });
 }
 
-export function passwordRequestOtp(email: string) {
-  return api<{ ok: boolean; message?: string }>(
+export function passwordRequestOtp(email: string, resend = false) {
+  return api<OtpRequestResponse>(
     "/auth/password/request-otp",
-    { method: "POST", body: JSON.stringify({ email }) },
+    { method: "POST", body: JSON.stringify({ email, resend }) },
   );
 }
 

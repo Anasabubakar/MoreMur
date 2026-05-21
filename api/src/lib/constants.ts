@@ -24,6 +24,6 @@ export const POST_CATEGORIES = [
 
 export const PROFANITY_BLOCKLIST = ["spamtest_blocked"];
 
-export const OTP_TTL_MS = 10 * 60 * 1000;
-export const OTP_RESEND_MS = 60 * 1000;
+/** Lifetime OTP emails allowed per email + purpose (signup vs reset are separate). */
+export const OTP_MAX_CODES_PER_EMAIL = 2;
 export const OTP_MAX_ATTEMPTS = 5;

@@ -44,6 +44,8 @@ Custom auth only — **do not** enable Neon Auth on the database project.
 
 OTP codes are sent by email only (no dev OTP on the website). In local dev without Resend, codes are logged in the API terminal.
 
+**OTP limits:** up to **2 codes per email** (per signup or reset flow). Re-requesting without **Resend code** does not send again — the API tells the user to enter the code already sent. Codes do not time out; requesting a new code invalidates the previous one.
+
 ---
 
 ## Project layout

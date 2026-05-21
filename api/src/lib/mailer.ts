@@ -18,7 +18,7 @@ function otpHtml(code: string, purpose: OtpPurpose, orgName?: string): string {
       <h1 style="font-size: 22px; margin: 16px 0 8px;">${headline}</h1>
       <p style="color: #333; line-height: 1.5;">${detail}</p>
       <p style="font-size: 32px; font-weight: bold; letter-spacing: 0.35em; margin: 24px 0; color: #000;">${code}</p>
-      <p style="font-size: 13px; color: #666;">Expires in 10 minutes. If you didn't request this, ignore this email.</p>
+      <p style="font-size: 13px; color: #666;">If you request a new code, this one stops working. If you didn't request this, ignore this email.</p>
     </div>
   `;
 }

@@ -75,12 +75,37 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setInfo(null);
     try {
       const res = await signupRequestOtp(email);
       setOrgName(res.orgName);
+      if (res.alreadySent && res.message) {
+        setInfo(res.message);
+      } else if (res.codesRemaining === 0) {
+        setInfo("This was your last code for this email.");
+      }
       setSignupStep("otp");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Request failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onSignupResendCode() {
+    setLoading(true);
+    setError(null);
+    setInfo(null);
+    try {
+      const res = await signupRequestOtp(email, true);
+      setOrgName(res.orgName);
+      if (res.codesRemaining === 0) {
+        setInfo("New code sent. That was your last code for this email.");
+      } else {
+        setInfo("New code sent. Your previous code no longer works.");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not resend code");
     } finally {
       setLoading(false);
     }
@@ -124,10 +149,32 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
     setInfo(null);
     try {
       const res = await passwordRequestOtp(email);
-      setInfo(res.message ?? "If an account exists, a reset code was sent.");
+      setInfo(
+        res.alreadySent && res.message
+          ? res.message
+          : res.message ?? "If an account exists, a reset code was sent.",
+      );
       setForgotStep("otp");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Request failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onForgotResendCode() {
+    setLoading(true);
+    setError(null);
+    setInfo(null);
+    try {
+      const res = await passwordRequestOtp(email, true);
+      if (res.codesRemaining === 0) {
+        setInfo("New code sent. That was your last code for this email.");
+      } else {
+        setInfo("New code sent. Your previous code no longer works.");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not resend code");
     } finally {
       setLoading(false);
     }
@@ -250,6 +297,9 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
 
         {mode === "signup" && signupStep === "otp" && (
           <form onSubmit={onSignupVerifyOtp} className="mt-8 flex flex-col gap-4">
+            {info && (
+              <p className="font-mono text-xs text-muted">{info}</p>
+            )}
             <p className="font-mono text-xs text-ink">
               Code sent to <strong>{email}</strong>
               {orgName ? ` · ${orgName}` : ""}
@@ -272,6 +322,14 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
             >
               {loading ? "Verifying…" : "Verify email"}
             </NeoButton>
+            <button
+              type="button"
+              onClick={onSignupResendCode}
+              disabled={loading}
+              className="font-mono text-xs text-ink underline"
+            >
+              Resend code
+            </button>
             <button
               type="button"
               onClick={() => setSignupStep("email")}
@@ -384,6 +442,14 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
             <NeoButton type="submit" variant="black" disabled={loading} className="w-full px-4 py-3">
               {loading ? "Resetting…" : "Set new password"}
             </NeoButton>
+            <button
+              type="button"
+              onClick={onForgotResendCode}
+              disabled={loading}
+              className="font-mono text-xs text-ink underline"
+            >
+              Resend code
+            </button>
           </form>
         )}
 
