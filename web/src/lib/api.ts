@@ -1,4 +1,9 @@
+import { ApiError, formatApiError } from "./errors";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+
+export type FeedSort = "new" | "trending" | "top" | "hot";
+export type FeedWindow = "24h" | "7d" | "all";
 
 export type Author = { displayName: string };
 
@@ -11,7 +16,18 @@ export type Post = {
   repostCount: number;
   createdAt: string;
   likedByMe: boolean;
+  isHot?: boolean;
+  velocityScore?: number;
+  linkUrls?: string[];
   author: Author;
+};
+
+export type LinkPreview = {
+  url: string;
+  title: string | null;
+  description: string | null;
+  image: string | null;
+  siteName: string | null;
 };
 
 export type Comment = {
@@ -46,7 +62,8 @@ async function api<T>(
   const res = await fetch(`${API_BASE}${path}`, { ...init, headers });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error((data as { error?: string }).error ?? res.statusText);
+    const message = formatApiError(data, res.statusText || "Request failed");
+    throw new ApiError(message, res.status);
   }
   return data as T;
 }
@@ -114,8 +131,32 @@ export function passwordReset(
   });
 }
 
-export function fetchPosts(token: string, sort: "new" | "trending" = "new") {
-  return api<{ posts: Post[] }>(`/posts?sort=${sort}`, { token });
+export function fetchPosts(
+  token: string,
+  sort: FeedSort = "new",
+  options?: { window?: FeedWindow; q?: string },
+) {
+  const params = new URLSearchParams({ sort });
+  if (options?.window) params.set("window", options.window);
+  if (options?.q?.trim()) params.set("q", options.q.trim());
+  return api<{ posts: Post[]; sort: FeedSort; window: FeedWindow; query: string | null }>(
+    `/posts?${params}`,
+    { token },
+  );
+}
+
+export function fetchPostUpdates(token: string, since: string) {
+  return api<{ count: number; newestAt: string | null }>(
+    `/posts/updates?since=${encodeURIComponent(since)}`,
+    { token },
+  );
+}
+
+export function fetchLinkPreview(token: string, url: string) {
+  return api<{ preview: LinkPreview }>(
+    `/preview?url=${encodeURIComponent(url)}`,
+    { token },
+  );
 }
 
 export function fetchPostThread(token: string, postId: string) {

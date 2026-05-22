@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { LoadingScreen } from "@/components/brand/LoadingScreen";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import {
   createComment,
   fetchPostThread,
@@ -10,6 +12,7 @@ import {
   type Comment,
   type Post,
 } from "@/lib/api";
+import { ApiError } from "@/lib/errors";
 import { CommentItem } from "./CommentItem";
 import { PostCard } from "./PostCard";
 
@@ -49,7 +52,7 @@ export function PostThread({ postId }: Props) {
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async (t: string) => {
@@ -60,7 +63,14 @@ export function PostThread({ postId }: Props) {
       setPost(res.post);
       setComments(res.comments);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load thread");
+      setError(
+        err instanceof ApiError
+          ? err
+          : new ApiError(
+              err instanceof Error ? err.message : "Failed to load thread",
+              0,
+            ),
+      );
     } finally {
       setLoading(false);
     }
@@ -82,7 +92,11 @@ export function PostThread({ postId }: Props) {
       const res = await togglePostLike(token, id);
       setPost((p) => (p ? { ...p, likeCount: res.likeCount, likedByMe: res.likedByMe } : p));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Like failed");
+      setError(
+        err instanceof ApiError
+          ? err
+          : new ApiError(err instanceof Error ? err.message : "Like failed", 0),
+      );
     }
   }
 
@@ -94,7 +108,11 @@ export function PostThread({ postId }: Props) {
         patchCommentLikes(prev, commentId, res.likeCount, res.likedByMe),
       );
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Like failed");
+      setError(
+        err instanceof ApiError
+          ? err
+          : new ApiError(err instanceof Error ? err.message : "Like failed", 0),
+      );
     }
   }
 
@@ -107,7 +125,11 @@ export function PostThread({ postId }: Props) {
       setComments((prev) => [...prev, res.comment]);
       setCommentText("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Comment failed");
+      setError(
+        err instanceof ApiError
+          ? err
+          : new ApiError(err instanceof Error ? err.message : "Comment failed", 0),
+      );
     }
   }
 
@@ -123,19 +145,21 @@ export function PostThread({ postId }: Props) {
       <AppHeader backHref="/feed" backLabel="← Back to feed" />
 
       <main className="mx-auto max-w-2xl p-4">
-        {loading && (
-          <p className="font-mono text-xs uppercase text-muted">Loading thread…</p>
-        )}
+        {loading && !post && <LoadingScreen label="Loading thread…" />}
 
         {error && (
-          <p className="mb-4 border-brutal border-danger bg-danger-surface p-2 font-mono text-xs text-danger">
-            {error}
-          </p>
+          <ErrorBanner
+            title="Thread error"
+            message={error.message}
+            code={error.status ? String(error.status) : error.code}
+            onRetry={() => token && load(token)}
+            onDismiss={() => setError(null)}
+          />
         )}
 
         {post && (
           <>
-            <PostCard post={post} onLike={onPostLike} />
+            <PostCard post={post} onLike={onPostLike} token={token} />
 
             <form
               onSubmit={onTopLevelComment}

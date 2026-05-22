@@ -6,6 +6,7 @@ import { verifySession, type SessionPayload } from "./lib/jwt.js";
 import { authRoutes } from "./routes/auth.js";
 import { postRoutes } from "./routes/posts.js";
 import { adminRoutes } from "./routes/admin.js";
+import { previewRoutes } from "./routes/preview.js";
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -36,6 +37,7 @@ app.get("/health", async () => ({ ok: true, service: "murmur-api" }));
 await app.register(authRoutes);
 await app.register(postRoutes);
 await app.register(adminRoutes);
+await app.register(previewRoutes);
 
 const port = Number(process.env.PORT ?? 4000);
 const host = process.env.HOST ?? "0.0.0.0";

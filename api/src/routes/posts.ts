@@ -3,6 +3,13 @@ import { z } from "zod";
 import { exec, newId, query, queryOne } from "../db/index.js";
 import { POST_CATEGORIES, PROFANITY_BLOCKLIST } from "../lib/constants.js";
 import {
+  buildPostsQuery,
+  isPostHot,
+  parseFeedSort,
+  parseFeedWindow,
+} from "../lib/feed-sort.js";
+import { extractUrls } from "../lib/link-preview.js";
+import {
   bumpPostCommentCount,
   fetchCommentsForPost,
   postLikedByMe,
@@ -23,15 +30,21 @@ const commentSchema = z.object({
 });
 
 function publicPost(row: Record<string, unknown>, likedByMe: boolean) {
+  const createdAt = row.created_at as string;
+  const velocityScore = Number(row.velocity_score ?? 0);
+  const content = row.content as string;
   return {
     id: row.id as string,
-    content: row.content as string,
+    content,
     categoryTag: row.category_tag as string,
     likeCount: Number(row.like_count),
     commentCount: Number(row.comment_count),
     repostCount: Number(row.repost_count),
-    createdAt: row.created_at as string,
+    createdAt,
     likedByMe,
+    isHot: isPostHot(velocityScore, createdAt),
+    velocityScore,
+    linkUrls: extractUrls(content),
     author: { displayName: "ANONYMOUS" },
   };
 }
@@ -45,22 +58,44 @@ async function assertPostInOrg(postId: string, orgId: string) {
 }
 
 export async function postRoutes(app: FastifyInstance) {
+  app.get("/posts/updates", async (req, reply) => {
+    const session = req.user;
+    if (!session) return reply.status(401).send({ error: "Unauthorized" });
+
+    const since = (req.query as { since?: string }).since;
+    if (!since) {
+      return { count: 0, newestAt: null };
+    }
+
+    const parsed = new Date(since);
+    if (Number.isNaN(parsed.getTime())) {
+      return reply.status(400).send({ error: "Invalid since timestamp." });
+    }
+
+    const row = await queryOne<{ count: number; newest_at: string | null }>(
+      `SELECT COUNT(*)::int AS count, MAX(created_at) AS newest_at
+       FROM posts
+       WHERE org_id = $1 AND status = 'published' AND created_at > $2`,
+      [session.orgId, parsed.toISOString()],
+    );
+
+    return {
+      count: row?.count ?? 0,
+      newestAt: row?.newest_at ?? null,
+    };
+  });
+
   app.get("/posts", async (req, reply) => {
     const session = req.user;
     if (!session) return reply.status(401).send({ error: "Unauthorized" });
 
-    const sort = (req.query as { sort?: string }).sort ?? "new";
-    const order =
-      sort === "trending"
-        ? `(like_count + comment_count * 2 + repost_count) DESC, created_at DESC`
-        : `created_at DESC`;
+    const queryParams = req.query as { sort?: string; window?: string; q?: string };
+    const sort = parseFeedSort(queryParams.sort);
+    const window = parseFeedWindow(queryParams.window);
+    const q = queryParams.q?.trim();
 
-    const rows = await query<Record<string, unknown>>(
-      `SELECT id, content, category_tag, like_count, comment_count, repost_count, created_at
-       FROM posts WHERE org_id = $1 AND status = 'published'
-       ORDER BY ${order} LIMIT 50`,
-      [session.orgId],
-    );
+    const { sql, params } = buildPostsQuery(session.orgId, sort, window, q);
+    const rows = await query<Record<string, unknown>>(sql, params);
 
     const posts = await Promise.all(
       rows.map(async (row) =>
@@ -68,7 +103,7 @@ export async function postRoutes(app: FastifyInstance) {
       ),
     );
 
-    return { posts };
+    return { posts, sort, window, query: q ?? null };
   });
 
   app.get("/posts/:id", async (req, reply) => {
