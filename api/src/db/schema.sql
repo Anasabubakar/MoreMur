@@ -29,8 +29,16 @@ CREATE TABLE IF NOT EXISTS otp_sessions (
   org_id TEXT REFERENCES organisations(id),
   attempts INTEGER NOT NULL DEFAULT 0,
   expires_at TIMESTAMPTZ NOT NULL,
-  superseded_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE otp_sessions ADD COLUMN IF NOT EXISTS superseded_at TIMESTAMPTZ;
+
+CREATE TABLE IF NOT EXISTS otp_send_ledger (
+  email TEXT NOT NULL,
+  purpose TEXT NOT NULL,
+  send_count INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (email, purpose)
 );
 
 CREATE INDEX IF NOT EXISTS idx_otp_sessions_email_created
@@ -41,15 +49,6 @@ CREATE INDEX IF NOT EXISTS idx_otp_sessions_active
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_otp_one_active_per_email
   ON otp_sessions (email, purpose) WHERE (superseded_at IS NULL);
-
-CREATE TABLE IF NOT EXISTS otp_send_ledger (
-  email TEXT NOT NULL,
-  purpose TEXT NOT NULL,
-  send_count INTEGER NOT NULL DEFAULT 0,
-  PRIMARY KEY (email, purpose)
-);
-
-ALTER TABLE otp_sessions ADD COLUMN IF NOT EXISTS superseded_at TIMESTAMPTZ;
 
 CREATE TABLE IF NOT EXISTS posts (
   id TEXT PRIMARY KEY,

@@ -40,8 +40,21 @@ export async function exec(text: string, params: unknown[] = []): Promise<void> 
 }
 
 export async function initDb(): Promise<void> {
+  const pool = getPool();
+  // Run before full schema so indexes on superseded_at succeed on existing DBs.
+  await pool.query(
+    `ALTER TABLE otp_sessions ADD COLUMN IF NOT EXISTS superseded_at TIMESTAMPTZ`,
+  );
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS otp_send_ledger (
+      email TEXT NOT NULL,
+      purpose TEXT NOT NULL,
+      send_count INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY (email, purpose)
+    )
+  `);
   const schema = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
-  await getPool().query(schema);
+  await pool.query(schema);
 }
 
 export function newId(): string {
