@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -50,11 +51,42 @@ export function LegalPage() {
   }, [docParam, activeDoc]);
 
   useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (hash && doc.navItems.some((item) => item.id === hash)) {
-      setActiveSection(hash);
+    function applyLocationHash() {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) return;
+
+      const panelFromHash: Record<string, LegalDocKey> = {
+        pp: "pp",
+        "panel-pp": "pp",
+        tc: "tc",
+        "panel-tc": "tc",
+        cp: "cp",
+        "panel-cp": "cp",
+      };
+
+      const docFromHash = panelFromHash[hash];
+      if (docFromHash) {
+        setActiveDoc(docFromHash);
+        if (hash.startsWith("panel-")) return;
+      }
+
+      const sectionDoc =
+        docFromHash ??
+        (hash.startsWith("pp-") ? "pp" : hash.startsWith("tc-") ? "tc" : hash.startsWith("cp-") ? "cp" : null);
+
+      if (sectionDoc && LEGAL_DOCS[sectionDoc].navItems.some((item) => item.id === hash)) {
+        setActiveDoc(sectionDoc);
+        setActiveSection(hash);
+        requestAnimationFrame(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        });
+      }
     }
-  }, [activeDoc, doc.navItems]);
+
+    applyLocationHash();
+    window.addEventListener("hashchange", applyLocationHash);
+    return () => window.removeEventListener("hashchange", applyLocationHash);
+  }, []);
 
   useEffect(() => {
     const panel = document.querySelector(`[data-legal-panel="${activeDoc}"]`);
@@ -135,6 +167,9 @@ export function LegalPage() {
             <span className="legal-topbar-title">{doc.title}</span>
           </div>
           <div className="legal-topbar-right">
+            <Link href="/" className="legal-topbar-back hide-sm">
+              ← Back to site
+            </Link>
             <span className="legal-chip legal-chip-y">Effective May 22, 2026</span>
             <span className="legal-chip legal-chip-b hide-sm">v1.0</span>
           </div>

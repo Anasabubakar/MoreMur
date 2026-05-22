@@ -53,7 +53,7 @@ export function LegalSidebar({
       <div className="legal-sidebar-logo">
         {showClose ? (
           <div className="legal-drawer-header" style={{ padding: 0, border: "none" }}>
-            <Link href="/feed" className="wordmark">
+            <Link href="/" className="wordmark">
               MURMUR
             </Link>
             {onClose ? (
@@ -68,13 +68,13 @@ export function LegalSidebar({
             ) : null}
           </div>
         ) : (
-          <Link href="/feed" className="wordmark">
+          <Link href="/" className="wordmark">
             MURMUR
           </Link>
         )}
         <div className="tagline">Legal Documents // moremur.vercel.app</div>
-        <Link href="/feed" className="legal-back-link">
-          ← Back to Feed
+        <Link href="/" className="legal-back-link">
+          ← Back to site
         </Link>
       </div>
 

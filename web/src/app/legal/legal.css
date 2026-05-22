@@ -301,6 +301,24 @@
   display: flex;
   gap: 6px;
   flex-shrink: 0;
+  align-items: center;
+}
+
+.legal-topbar-back {
+  font-family: var(--legal-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: var(--legal-dgray);
+  padding: 4px 8px;
+  border: 2px solid var(--legal-black);
+  background: var(--legal-white);
+}
+
+.legal-topbar-back:hover {
+  background: var(--legal-yellow);
 }
 
 .legal-chip {

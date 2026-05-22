@@ -39,10 +39,9 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+  const [acceptLegal, setAcceptLegal] = useState(false);
 
-  const signupLegalOk = signupLegalReady(acceptTerms, acceptPrivacy);
+  const signupLegalOk = signupLegalReady(acceptLegal);
 
   function resetFlow() {
     setSignupStep("email");
@@ -59,8 +58,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
     setMode(next);
     resetFlow();
     if (next !== "signup") {
-      setAcceptTerms(false);
-      setAcceptPrivacy(false);
+      setAcceptLegal(false);
     }
   }
 
@@ -309,12 +307,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
                   className={inputClass}
                 />
               </label>
-              <LegalAcceptance
-                acceptTerms={acceptTerms}
-                acceptPrivacy={acceptPrivacy}
-                onAcceptTerms={setAcceptTerms}
-                onAcceptPrivacy={setAcceptPrivacy}
-              />
+              <LegalAcceptance accepted={acceptLegal} onAcceptedChange={setAcceptLegal} />
               <NeoButton
                 type="submit"
                 disabled={loading || !signupLegalOk}
@@ -399,12 +392,6 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
                 className={inputClass}
               />
             </label>
-            <LegalAcceptance
-              acceptTerms={acceptTerms}
-              acceptPrivacy={acceptPrivacy}
-              onAcceptTerms={setAcceptTerms}
-              onAcceptPrivacy={setAcceptPrivacy}
-            />
             <NeoButton
               type="submit"
               variant="black"
