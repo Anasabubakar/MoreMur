@@ -73,11 +73,18 @@ export function LandingPage() {
               Verified org communities
             </span>
             <h1 className="mt-8 font-[family-name:var(--font-display)] text-[clamp(3.5rem,12vw,7.5rem)] uppercase leading-[0.9]">
-              WHERE THE
-              <br />
-              REAL TALK
-              <br />
-              LIVES.
+              <span className="hidden lg:block">
+                WHERE THE REAL TALK
+                <br />
+                LIVES
+              </span>
+              <span className="lg:hidden">
+                WHERE THE
+                <br />
+                REAL TALK
+                <br />
+                LIVES
+              </span>
             </h1>
             <p className="mt-6 max-w-xl font-[family-name:var(--font-body)] text-lg font-medium text-muted">
               Anonymous, organisation-scoped feeds for any team or campus that needs honest
