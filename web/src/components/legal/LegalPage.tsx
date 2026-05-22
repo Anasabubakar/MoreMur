@@ -242,7 +242,7 @@ export function LegalPage() {
             <br />
             moremur.vercel.app
             <br />
-            anasabubakar840@gmail.com
+            anasabubakar7000@gmail.com
           </div>
         </footer>
       </div>

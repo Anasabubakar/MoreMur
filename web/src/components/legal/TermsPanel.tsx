@@ -321,8 +321,8 @@ export function TermsPanel() {
         <p className="legal-body-text">
           If you do not consent to your anonymised data being included in aggregate reports,
           you must not use Murmur, or contact us at{" "}
-          <a className="legal-mail-link" href="mailto:anasabubakar840@gmail.com">
-            anasabubakar840@gmail.com
+          <a className="legal-mail-link" href="mailto:anasabubakar7000@gmail.com">
+            anasabubakar7000@gmail.com
           </a>{" "}
           to request exclusion before deleting your account.
         </p>

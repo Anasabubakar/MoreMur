@@ -196,8 +196,8 @@ export function CookiePolicyPanel() {
         <p className="legal-body-text">For questions about cookies or this policy, contact us at:</p>
         <div className="legal-contact-block">
           <div className="c-label">Contact</div>
-          <a className="c-val" href="mailto:anasabubakar840@gmail.com">
-            anasabubakar840@gmail.com
+          <a className="c-val" href="mailto:anasabubakar7000@gmail.com">
+            anasabubakar7000@gmail.com
           </a>
         </div>
       </section>

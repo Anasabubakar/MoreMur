@@ -315,8 +315,8 @@ export function PrivacyPolicyPanel() {
         <p className="legal-body-text">To exercise any of these rights, contact:</p>
         <div className="legal-contact-block">
           <div className="c-label">Data Controller</div>
-          <a className="c-val" href="mailto:anasabubakar840@gmail.com">
-            anasabubakar840@gmail.com
+          <a className="c-val" href="mailto:anasabubakar7000@gmail.com">
+            anasabubakar7000@gmail.com
           </a>
           <div className="c-label" style={{ marginTop: 8 }}>
             Response Time
