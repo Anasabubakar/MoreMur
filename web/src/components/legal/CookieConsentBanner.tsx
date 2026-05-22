@@ -31,10 +31,9 @@ export function CookieConsentBanner() {
     >
       <div className="mx-auto flex max-w-4xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <p className="font-[family-name:var(--font-body)] text-sm leading-relaxed text-ink">
-          Murmur uses strictly necessary storage for sign-in. Optional storage (like
-          saved theme) only runs if you accept.{" "}
+          This site uses cookies.{" "}
           <Link href="/legal?doc=cp" className="font-bold underline">
-            Cookie Policy
+            Learn more
           </Link>
         </p>
         <div className="flex shrink-0 flex-wrap gap-2">
