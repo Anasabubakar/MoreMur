@@ -7,6 +7,7 @@ import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import {
   createComment,
   fetchPostThread,
+  reportPost,
   toggleCommentLike,
   togglePostLike,
   type Comment,
@@ -55,6 +56,8 @@ export function PostThread({ postId }: Props) {
   const [commentText, setCommentText] = useState("");
   const [error, setError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(true);
+  const [reported, setReported] = useState(false);
+  const [reportNotice, setReportNotice] = useState<string | null>(null);
 
   const load = useCallback(async (t: string) => {
     setLoading(true);
@@ -97,6 +100,33 @@ export function PostThread({ postId }: Props) {
         err instanceof ApiError
           ? err
           : new ApiError(err instanceof Error ? err.message : "Like failed", 0),
+      );
+    }
+  }
+
+  async function onPostReport(id: string) {
+    if (!token || reported) return;
+    setError(null);
+    try {
+      const res = await reportPost(token, id);
+      setReported(true);
+      if (res.autoRemoved) {
+        setPost(null);
+        setReportNotice("Post removed after 10 org member reports.");
+        window.setTimeout(() => {
+          window.location.href = "/feed";
+        }, 2000);
+      } else if (res.alreadyReported) {
+        setReportNotice("You already reported this post.");
+      } else {
+        setReportNotice("Report submitted. Thank you.");
+      }
+      window.setTimeout(() => setReportNotice(null), 4000);
+    } catch (err) {
+      setError(
+        err instanceof ApiError
+          ? err
+          : new ApiError(err instanceof Error ? err.message : "Report failed", 0),
       );
     }
   }
@@ -154,6 +184,15 @@ export function PostThread({ postId }: Props) {
       <main className="mx-auto max-w-2xl p-4">
         {loading && !post && <LoadingScreen label="Loading thread…" />}
 
+        {reportNotice && (
+          <p
+            role="status"
+            className="mb-4 border-brutal bg-surface px-4 py-3 font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm"
+          >
+            {reportNotice}
+          </p>
+        )}
+
         {error && (
           <ErrorBanner
             title="Thread error"
@@ -166,7 +205,13 @@ export function PostThread({ postId }: Props) {
 
         {post && (
           <>
-            <PostCard post={post} onLike={onPostLike} token={token} />
+            <PostCard
+              post={post}
+              onLike={onPostLike}
+              onReport={onPostReport}
+              reported={reported}
+              token={token}
+            />
 
             <form
               onSubmit={onTopLevelComment}

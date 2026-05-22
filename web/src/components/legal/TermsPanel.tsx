@@ -93,6 +93,10 @@ export function TermsPanel() {
           <li>Post anonymously within your verified organisation&apos;s feed.</li>
           <li>Like, comment, repost, and react to posts from your organisation.</li>
           <li>Report posts that violate these Terms.</li>
+          <li>
+            Each org member may report a given post once. Reports from verified org members
+            are counted toward automatic moderation.
+          </li>
           <li>Delete your account and all associated data at any time.</li>
           <li>Contact the Operator with data or moderation requests.</li>
         </ul>
@@ -151,10 +155,23 @@ export function TermsPanel() {
           that content or account is found to violate these Terms or the general spirit of the
           platform.
         </p>
+        <h2 className="legal-sec-h2">Community Reporting &amp; Auto-Removal</h2>
+        <p className="legal-body-text">
+          Any verified member of your organisation may report a post they believe violates
+          these Terms. Each member may submit one report per post. When a post receives{" "}
+          <strong>10 unique reports from members of the same organisation</strong>, it is
+          automatically removed from that org&apos;s feed without waiting for manual review.
+          Removed posts are hidden from all users in the organisation; the Operator may still
+          review reports and take further action on the associated account.
+        </p>
         <h2 className="legal-sec-h2">Moderation Actions Available</h2>
         <ul className="legal-ul">
           <li>
-            <strong>Post Removal:</strong> Individual posts or comments may be removed by the
+            <strong>Automatic Post Removal:</strong> Posts that reach 10 unique org-member
+            reports are removed automatically.
+          </li>
+          <li>
+            <strong>Post Removal:</strong> Individual posts or comments may also be removed by the
             Operator upon detection or report.
           </li>
           <li>
@@ -289,10 +306,11 @@ export function TermsPanel() {
             address, no user ID, no post-level data traceable to you will be included.
           </li>
           <li>
-            Data points in any report are based on a{" "}
-            <strong>minimum cohort size of 10 users</strong>. If your organisation has fewer
-            than 10 active users in a given period, no data from that period will be included
-            in any report.
+            Data points in any report use a{" "}
+            <strong>minimum cohort size of 10 users</strong>. In plain English: we only
+            include org-level stats when at least 10 people from that organisation were
+            active in the period. Smaller groups are excluded so nobody can guess who said
+            what in a small team.
           </li>
           <li>
             Murmur may in future display <strong>third-party advertising</strong>. If and when

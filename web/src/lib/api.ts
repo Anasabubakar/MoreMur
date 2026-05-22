@@ -199,6 +199,19 @@ export function togglePostLike(token: string, postId: string) {
   });
 }
 
+export function reportPost(token: string, postId: string, reason = "OTHER") {
+  return api<{
+    ok: boolean;
+    reportCount: number;
+    alreadyReported: boolean;
+    autoRemoved: boolean;
+  }>(`/posts/${postId}/report`, {
+    method: "POST",
+    token,
+    body: JSON.stringify({ reason }),
+  });
+}
+
 export function createComment(
   token: string,
   postId: string,

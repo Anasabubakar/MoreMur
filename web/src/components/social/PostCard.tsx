@@ -12,11 +12,20 @@ import { PostContent } from "./PostContent";
 type Props = {
   post: Post;
   onLike: (postId: string) => void;
+  onReport?: (postId: string) => void;
+  reported?: boolean;
   token?: string | null;
   compact?: boolean;
 };
 
-export function PostCard({ post, onLike, token, compact = false }: Props) {
+export function PostCard({
+  post,
+  onLike,
+  onReport,
+  reported = false,
+  token,
+  compact = false,
+}: Props) {
   const showHot = post.isHot === true;
 
   const body = (
@@ -56,6 +65,16 @@ export function PostCard({ post, onLike, token, compact = false }: Props) {
           count={post.commentCount}
           icon={<MaterialIcon name="chat_bubble" />}
         />
+        {onReport && (
+          <ActionButton
+            hoverLabel={reported ? "Already reported" : "Report post"}
+            ariaLabel={reported ? "Already reported" : "Report post"}
+            icon={<MaterialIcon name="flag" />}
+            active={reported}
+            disabled={reported}
+            onClick={() => onReport(post.id)}
+          />
+        )}
       </div>
     </>
   );

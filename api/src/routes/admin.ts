@@ -55,9 +55,10 @@ export async function adminRoutes(app: FastifyInstance) {
     }
 
     const rows = await query(
-      `SELECT r.id, r.reason, r.created_at, p.content, p.org_id
+      `SELECT r.id, r.reason, r.created_at, p.id AS post_id, p.content, p.org_id,
+              (SELECT COUNT(*)::int FROM reports r2 WHERE r2.post_id = p.id) AS report_count
        FROM reports r JOIN posts p ON p.id = r.post_id
-       ORDER BY r.created_at DESC LIMIT 50`,
+       ORDER BY report_count DESC, r.created_at DESC LIMIT 50`,
     );
 
     return { reports: rows };

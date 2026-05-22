@@ -170,8 +170,9 @@ export function PrivacyPolicyPanel() {
           <li>
             <strong>Moderation:</strong> In cases of reported content or suspected abuse, the
             platform administrator (Anas Abubakar) may access the email address associated
-            with an internal user ID. This access is strictly for moderation purposes and is
-            never disclosed publicly.
+            with an internal user ID. Posts that receive 10 unique reports from members of
+            the same organisation are automatically removed from that org&apos;s feed. This
+            access is strictly for moderation purposes and is never disclosed publicly.
           </li>
           <li>
             <strong>Platform Improvement:</strong> Aggregate, anonymised data about usage
@@ -197,9 +198,12 @@ export function PrivacyPolicyPanel() {
             feed trended toward Management and Culture.
           </li>
           <li>
-            Uses a <strong>minimum cohort size of 10</strong> per data point. If fewer than 10
-            users contributed to a category, that data point is suppressed to prevent
-            inference.
+            Uses a <strong>minimum cohort size of 10</strong> per data point. In plain
+            English: a statistic only appears in a sold report when at least{" "}
+            <strong>10 different people</strong> from the same organisation contributed to
+            that topic in the reporting period. If fewer than 10 people participated, that
+            line item is left out entirely — so small teams cannot be re-identified from
+            aggregate numbers.
           </li>
           <li>
             Is sold only in <strong>aggregate report format</strong>, not as raw post exports

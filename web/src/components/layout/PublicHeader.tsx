@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { MurmurLogo } from "@/components/brand/MurmurLogo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 /** Marketing shell — no in-app routes until the user is signed in. */
@@ -6,12 +9,7 @@ export function PublicHeader() {
   return (
     <header className="sticky top-0 z-50 border-brutal border-b bg-chrome text-chrome-fg shadow-brutal">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-8">
-        <Link
-          href="/"
-          className="font-[family-name:var(--font-display)] text-4xl uppercase leading-none tracking-wide md:text-5xl"
-        >
-          MURMUR
-        </Link>
+        <MurmurLogo href="/" />
         <div className="flex items-center gap-3">
           <ThemeToggle compact />
           <Link

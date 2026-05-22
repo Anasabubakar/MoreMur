@@ -95,6 +95,11 @@ CREATE TABLE IF NOT EXISTS reports (
   id TEXT PRIMARY KEY,
   post_id TEXT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
   user_id TEXT NOT NULL REFERENCES users(id),
-  reason TEXT NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  org_id TEXT REFERENCES organisations(id),
+  reason TEXT NOT NULL DEFAULT 'OTHER',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (post_id, user_id)
 );
+
+CREATE INDEX IF NOT EXISTS idx_reports_post_id ON reports (post_id);
+CREATE INDEX IF NOT EXISTS idx_reports_org_id ON reports (org_id);

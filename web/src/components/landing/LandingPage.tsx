@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MurmurLogo } from "@/components/brand/MurmurLogo";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { NeoLink } from "@/components/ui/NeoButton";
 
@@ -66,28 +67,30 @@ export function LandingPage() {
       <div className="relative z-[1]">
       <PublicHeader />
       <main>
-        <StripeSection className="py-20 md:py-28">
-          <span className="inline-block -rotate-2 border-brutal bg-surface px-4 py-2 font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm">
-            Verified org communities
-          </span>
-          <h1 className="mt-8 max-w-4xl font-[family-name:var(--font-display)] text-[clamp(3.5rem,12vw,7.5rem)] uppercase leading-[0.9]">
-            WHERE THE
-            <br />
-            REAL TALK
-            <br />
-            LIVES.
-          </h1>
-          <p className="mt-6 max-w-xl border-l-[3px] border-border pl-4 font-[family-name:var(--font-body)] text-lg font-medium">
-            Anonymous, organisation-scoped feeds for any team or campus that needs honest
-            signal — verified by work or school email.
-          </p>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <NeoLink href="/signup" className="px-8 py-4 text-base">
-              Join your org
-            </NeoLink>
+        <StripeSection className="py-20 md:py-28" contentClassName="mx-auto max-w-4xl">
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <span className="inline-block -rotate-2 border-brutal bg-surface px-4 py-2 font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm">
+              Verified org communities
+            </span>
+            <h1 className="mt-8 font-[family-name:var(--font-display)] text-[clamp(3.5rem,12vw,7.5rem)] uppercase leading-[0.9]">
+              WHERE THE
+              <br />
+              REAL TALK
+              <br />
+              LIVES.
+            </h1>
+            <p className="mt-6 max-w-xl font-[family-name:var(--font-body)] text-lg font-medium text-muted">
+              Anonymous, organisation-scoped feeds for any team or campus that needs honest
+              signal — verified by work or school email.
+            </p>
+            <div className="mt-8 flex w-full flex-col justify-center gap-4 sm:w-auto sm:flex-row">
+              <NeoLink href="/signup" className="px-8 py-4 text-base">
+                Join your org
+              </NeoLink>
               <NeoLink href="/login" variant="white" className="px-8 py-4 text-base">
                 Sign in
               </NeoLink>
+            </div>
           </div>
         </StripeSection>
 
@@ -171,9 +174,7 @@ export function LandingPage() {
         style={{ backgroundColor: "var(--m-footer-bg)", color: "var(--m-footer-fg)" }}
       >
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
-          <span className="font-[family-name:var(--font-display)] text-2xl uppercase">
-            MURMUR
-          </span>
+          <MurmurLogo href="/" />
           <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 font-mono text-[10px] uppercase">
             <Link href="/legal?doc=pp" className="underline opacity-90 hover:opacity-100">
               Privacy

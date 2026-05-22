@@ -14,6 +14,7 @@ import {
   createPost,
   fetchPostUpdates,
   fetchPosts,
+  reportPost,
   togglePostLike,
   type FeedSort,
   type FeedWindow,
@@ -54,6 +55,8 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   const [category, setCategory] = useState<string>("OPINION");
   const [newCount, setNewCount] = useState(0);
   const [pollSince, setPollSince] = useState<string | null>(null);
+  const [reportedIds, setReportedIds] = useState<Set<string>>(() => new Set());
+  const [reportNotice, setReportNotice] = useState<string | null>(null);
   const feedSinceRef = useRef<string | null>(null);
 
   const syncFeedSince = useCallback((visible: Post[]) => {
@@ -194,6 +197,30 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
     }
   }
 
+  async function onReport(postId: string) {
+    if (!token || reportedIds.has(postId)) return;
+    setError(null);
+    try {
+      const res = await reportPost(token, postId);
+      setReportedIds((prev) => new Set(prev).add(postId));
+      if (res.autoRemoved) {
+        setPosts((prev) => prev.filter((p) => p.id !== postId));
+        setReportNotice("Post removed after 10 org member reports.");
+      } else if (res.alreadyReported) {
+        setReportNotice("You already reported this post.");
+      } else {
+        setReportNotice("Report submitted. Thank you.");
+      }
+      window.setTimeout(() => setReportNotice(null), 4000);
+    } catch (err) {
+      setError(
+        err instanceof ApiError
+          ? err
+          : new ApiError(err instanceof Error ? err.message : "Report failed", 0),
+      );
+    }
+  }
+
   function signOut() {
     localStorage.removeItem("murmur_token");
     window.location.href = "/";
@@ -277,6 +304,15 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
           )}
         </div>
 
+        {reportNotice && (
+          <p
+            role="status"
+            className="mb-4 border-brutal bg-surface px-4 py-3 font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm"
+          >
+            {reportNotice}
+          </p>
+        )}
+
         {error && (
           <ErrorBanner
             title="Feed error"
@@ -299,7 +335,13 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
           <ul className="flex flex-col gap-6">
             {posts.map((post) => (
               <li key={post.id}>
-                <PostCard post={post} onLike={onLike} token={token} />
+                <PostCard
+                  post={post}
+                  onLike={onLike}
+                  onReport={onReport}
+                  reported={reportedIds.has(post.id)}
+                  token={token}
+                />
               </li>
             ))}
           </ul>

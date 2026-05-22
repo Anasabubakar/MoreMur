@@ -72,6 +72,33 @@ export async function initDb(): Promise<void> {
     CREATE UNIQUE INDEX IF NOT EXISTS idx_otp_one_active_per_email
     ON otp_sessions (email, purpose) WHERE (superseded_at IS NULL)
   `);
+
+  await pool.query(
+    `ALTER TABLE reports ADD COLUMN IF NOT EXISTS org_id TEXT REFERENCES organisations(id)`,
+  );
+
+  await pool.query(`
+    UPDATE reports r
+    SET org_id = p.org_id
+    FROM posts p
+    WHERE r.post_id = p.id AND r.org_id IS NULL
+  `);
+
+  // Legacy rows may duplicate (user_id, post_id); keep earliest before unique index.
+  await pool.query(`
+    WITH ranked AS (
+      SELECT id,
+             ROW_NUMBER() OVER (PARTITION BY post_id, user_id ORDER BY created_at ASC) AS rn
+      FROM reports
+    )
+    DELETE FROM reports
+    WHERE id IN (SELECT id FROM ranked WHERE rn > 1)
+  `);
+
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_reports_one_per_user_post
+    ON reports (post_id, user_id)
+  `);
 }
 
 export function newId(): string {

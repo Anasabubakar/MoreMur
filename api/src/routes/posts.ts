@@ -300,15 +300,39 @@ export async function postRoutes(app: FastifyInstance) {
     const { id } = req.params as { id: string };
     const reason = (req.body as { reason?: string })?.reason ?? "OTHER";
 
-    if (!(await assertPostInOrg(id, session.orgId))) {
+    const post = await queryOne<{ id: string }>(
+      `SELECT id FROM posts WHERE id = $1 AND org_id = $2 AND status = 'published'`,
+      [id, session.orgId],
+    );
+    if (!post) {
       return reply.status(404).send({ error: "Post not found" });
     }
 
-    await exec(
-      `INSERT INTO reports (id, post_id, user_id, reason) VALUES ($1, $2, $3, $4)`,
-      [newId(), id, session.sub, reason],
+    const inserted = await queryOne<{ id: string }>(
+      `INSERT INTO reports (id, post_id, user_id, org_id, reason)
+       VALUES ($1, $2, $3, $4, $5)
+       ON CONFLICT (post_id, user_id) DO NOTHING
+       RETURNING id`,
+      [newId(), id, session.sub, session.orgId, reason],
     );
 
-    return { ok: true };
+    const countRow = await queryOne<{ count: number }>(
+      `SELECT COUNT(*)::int AS count FROM reports WHERE post_id = $1`,
+      [id],
+    );
+    const reportCount = countRow?.count ?? 0;
+
+    let autoRemoved = false;
+    if (reportCount >= 10) {
+      await exec(`UPDATE posts SET status = 'deleted' WHERE id = $1`, [id]);
+      autoRemoved = true;
+    }
+
+    return {
+      ok: true,
+      reportCount,
+      alreadyReported: !inserted,
+      autoRemoved,
+    };
   });
 }
