@@ -96,6 +96,9 @@ export async function initDb(): Promise<void> {
   `);
 
   await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_reports_org_id ON reports (org_id)
+  `);
+  await pool.query(`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_reports_one_per_user_post
     ON reports (post_id, user_id)
   `);

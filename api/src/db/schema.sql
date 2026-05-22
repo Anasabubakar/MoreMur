@@ -102,4 +102,4 @@ CREATE TABLE IF NOT EXISTS reports (
 );
 
 CREATE INDEX IF NOT EXISTS idx_reports_post_id ON reports (post_id);
-CREATE INDEX IF NOT EXISTS idx_reports_org_id ON reports (org_id);
+-- idx_reports_org_id is created in initDb() after ADD COLUMN + backfill on legacy DBs.
