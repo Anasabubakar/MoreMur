@@ -55,6 +55,23 @@ export async function initDb(): Promise<void> {
   `);
   const schema = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
   await pool.query(schema);
+
+  // Legacy rows can have multiple actives; must heal before unique index or API won't boot.
+  await pool.query(`
+    WITH ranked AS (
+      SELECT id,
+             ROW_NUMBER() OVER (PARTITION BY email, purpose ORDER BY created_at DESC) AS rn
+      FROM otp_sessions
+      WHERE superseded_at IS NULL
+    )
+    UPDATE otp_sessions SET superseded_at = NOW()
+    WHERE id IN (SELECT id FROM ranked WHERE rn > 1)
+  `);
+
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_otp_one_active_per_email
+    ON otp_sessions (email, purpose) WHERE (superseded_at IS NULL)
+  `);
 }
 
 export function newId(): string {

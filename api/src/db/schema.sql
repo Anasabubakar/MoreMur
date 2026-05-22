@@ -47,8 +47,7 @@ CREATE INDEX IF NOT EXISTS idx_otp_sessions_email_created
 CREATE INDEX IF NOT EXISTS idx_otp_sessions_active
   ON otp_sessions (email, purpose) WHERE superseded_at IS NULL;
 
-CREATE UNIQUE INDEX IF NOT EXISTS idx_otp_one_active_per_email
-  ON otp_sessions (email, purpose) WHERE (superseded_at IS NULL);
+-- Unique one-active index is created in initDb() after healing duplicate rows.
 
 CREATE TABLE IF NOT EXISTS posts (
   id TEXT PRIMARY KEY,
