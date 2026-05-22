@@ -5,6 +5,7 @@ import type { Post } from "@/lib/api";
 import { formatTimestamp } from "@/lib/format";
 import { CategoryBadge } from "./CategoryBadge";
 import { HotBadge } from "./HotBadge";
+import { ActionButton, MaterialIcon } from "./ActionButton";
 import { LikeButton } from "./LikeButton";
 import { PostContent } from "./PostContent";
 
@@ -21,15 +22,10 @@ export function PostCard({ post, onLike, token, compact = false }: Props) {
   const body = (
     <>
       <div className="flex items-start justify-between gap-2 pt-1">
-        <span className="font-mono text-xs font-bold uppercase text-muted">
-          {post.author.displayName}
-        </span>
-        <CategoryBadge label={post.categoryTag} />
-      </div>
-      <div className="mt-1 flex justify-end">
         <time className="font-mono text-[10px] text-muted" dateTime={post.createdAt}>
           {formatTimestamp(post.createdAt)}
         </time>
+        <CategoryBadge label={post.categoryTag} />
       </div>
       <Link href={`/post/${post.id}`} className="mt-3 block hover:underline">
         <PostContent
@@ -39,18 +35,27 @@ export function PostCard({ post, onLike, token, compact = false }: Props) {
           compact={compact}
         />
       </Link>
-      <div className="mt-4 flex flex-wrap items-center gap-4 font-mono text-xs">
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         <LikeButton
           count={post.likeCount}
           liked={post.likedByMe}
           onClick={() => onLike(post.id)}
         />
-        <Link
+        <ActionButton
           href={`/post/${post.id}`}
-          className="font-bold uppercase text-ink underline-offset-2 hover:underline"
-        >
-          {post.commentCount} comment{post.commentCount === 1 ? "" : "s"}
-        </Link>
+          hoverLabel={
+            post.commentCount === 0
+              ? "Comment"
+              : `${post.commentCount} comment${post.commentCount === 1 ? "" : "s"}`
+          }
+          ariaLabel={
+            post.commentCount === 0
+              ? "Comment on murmur"
+              : `${post.commentCount} comments on murmur`
+          }
+          count={post.commentCount}
+          icon={<MaterialIcon name="chat_bubble" />}
+        />
       </div>
     </>
   );

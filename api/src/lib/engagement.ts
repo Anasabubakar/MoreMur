@@ -18,7 +18,6 @@ export type PublicComment = {
   likeCount: number;
   likedByMe: boolean;
   createdAt: string;
-  author: { displayName: string };
   replies: PublicComment[];
 };
 
@@ -130,7 +129,6 @@ export function publicComment(
     likeCount: row.like_count,
     likedByMe,
     createdAt: row.created_at,
-    author: { displayName: "ANONYMOUS" },
     replies,
   };
 }

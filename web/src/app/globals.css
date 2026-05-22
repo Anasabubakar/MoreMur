@@ -31,6 +31,23 @@
   --m-watermark: #c9a300;
   --m-footer-bg: #000000;
   --m-footer-fg: #ffe500;
+
+  /* Category badges — saturated fills + high-contrast labels */
+  --cat-rant-bg: #ff4d3a;
+  --cat-rant-fg: #000000;
+  --cat-gossip-bg: #2b7fd4;
+  --cat-gossip-fg: #ffffff;
+  --cat-opinion-bg: #ffe500;
+  --cat-opinion-fg: #000000;
+  --cat-question-bg: #1f8f5c;
+  --cat-question-fg: #ffffff;
+  --cat-announcement-bg: #1a1a1a;
+  --cat-announcement-fg: #ffe500;
+  --cat-poll-bg: #6d3fd4;
+  --cat-poll-fg: #ffffff;
+  --cat-default-bg: #ffe500;
+  --cat-default-fg: #000000;
+  --cat-offset: #000000;
 }
 
 [data-theme="dark"] {
@@ -55,6 +72,22 @@
   --m-watermark: #262626;
   --m-footer-bg: #000000;
   --m-footer-fg: #ffe500;
+
+  --cat-rant-bg: #ff5c4a;
+  --cat-rant-fg: #000000;
+  --cat-gossip-bg: #5eb0ff;
+  --cat-gossip-fg: #000000;
+  --cat-opinion-bg: #ffe500;
+  --cat-opinion-fg: #000000;
+  --cat-question-bg: #3ecf8e;
+  --cat-question-fg: #000000;
+  --cat-announcement-bg: #ffe500;
+  --cat-announcement-fg: #000000;
+  --cat-poll-bg: #b794ff;
+  --cat-poll-fg: #000000;
+  --cat-default-bg: #ffe500;
+  --cat-default-fg: #000000;
+  --cat-offset: #ffffff;
 }
 
 @theme inline {

@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AppHeader, SortChip } from "@/components/layout/AppHeader";
+import { MobileDock } from "@/components/layout/MobileDock";
+import type { SearchApplyPayload } from "@/components/layout/SearchToggle";
+import { POST_CATEGORIES } from "@/lib/categories";
 import { LoadingScreen } from "@/components/brand/LoadingScreen";
+import { ActionButton, MaterialIcon } from "@/components/social/ActionButton";
 import { PostCard } from "@/components/social/PostCard";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { usePullToRefresh } from "@/hooks/usePullToRefresh";
@@ -17,7 +21,6 @@ import {
 } from "@/lib/api";
 import { ApiError } from "@/lib/errors";
 
-const CATEGORIES = ["GOSSIP", "OPINION", "QUESTION", "RANT", "ANNOUNCEMENT"] as const;
 
 type Props = {
   sort: FeedSort;
@@ -29,8 +32,10 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [timeWindow, setTimeWindow] = useState<FeedWindow>("24h");
-  const [search, setSearch] = useState("");
+  const [searchDraft, setSearchDraft] = useState("");
+  const [categoryDraft, setCategoryDraft] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
   const [error, setError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(true);
   const [composerOpen, setComposerOpen] = useState(false);
@@ -48,6 +53,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         const res = await fetchPosts(t, sort, {
           window: showWindowToggle ? timeWindow : sort === "hot" ? "24h" : undefined,
           q: searchQuery || undefined,
+          category: searchCategory || undefined,
         });
         setPosts((prev) => {
           if (!opts?.prepend) {
@@ -76,7 +82,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         setLoading(false);
       }
     },
-    [sort, timeWindow, searchQuery, showWindowToggle],
+    [sort, timeWindow, searchQuery, searchCategory, showWindowToggle],
   );
 
   const refresh = useCallback(async () => {
@@ -109,10 +115,12 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
     return () => window.clearInterval(id);
   }, [token, posts]);
 
-  useEffect(() => {
-    const id = window.setTimeout(() => setSearchQuery(search.trim()), 350);
-    return () => window.clearTimeout(id);
-  }, [search]);
+  function applySearch({ q, category }: SearchApplyPayload) {
+    setSearchDraft(q);
+    setCategoryDraft(category);
+    setSearchQuery(q);
+    setSearchCategory(category);
+  }
 
   async function onPost(e: React.FormEvent) {
     e.preventDefault();
@@ -194,25 +202,13 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
 
   return (
     <div className="min-h-[100dvh] bg-canvas text-ink">
-      <AppHeader searchValue={search} onSearchChange={setSearch}>
-        {showWindowToggle && (
-          <>
-            <SortChip active={timeWindow === "24h"} onClick={() => setTimeWindow("24h")}>
-              24H
-            </SortChip>
-            <SortChip active={timeWindow === "7d"} onClick={() => setTimeWindow("7d")}>
-              7D
-            </SortChip>
-          </>
-        )}
-        <button
-          type="button"
-          onClick={signOut}
-          className="border-brutal bg-surface-2 px-2 py-1 text-chrome-fg hover:bg-accent hover:text-accent-fg"
-        >
-          Sign out
-        </button>
-      </AppHeader>
+      <AppHeader
+        searchValue={searchDraft}
+        searchCategory={categoryDraft}
+        onSearchApply={applySearch}
+        onSignOut={signOut}
+      />
+      <MobileDock />
 
       {newCount > 0 && (
         <div className="sticky top-14 z-10 flex justify-center px-4 py-2">
@@ -232,10 +228,22 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         </p>
       )}
 
-      <main className="mx-auto max-w-2xl p-4 pb-28">
-        <h1 className="mb-4 font-[family-name:var(--font-display)] text-4xl uppercase tracking-wide text-ink">
-          {title}
-        </h1>
+      <main className="mx-auto max-w-2xl p-4 pb-32 md:pb-28">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="font-[family-name:var(--font-display)] text-4xl uppercase tracking-wide text-ink">
+            {title}
+          </h1>
+          {showWindowToggle && (
+            <div className="flex gap-1">
+              <SortChip active={timeWindow === "24h"} onClick={() => setTimeWindow("24h")}>
+                24H
+              </SortChip>
+              <SortChip active={timeWindow === "7d"} onClick={() => setTimeWindow("7d")}>
+                7D
+              </SortChip>
+            </div>
+          )}
+        </div>
 
         {error && (
           <ErrorBanner
@@ -251,8 +259,8 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
           <LoadingScreen label={`Loading ${title.toLowerCase()}…`} />
         ) : posts.length === 0 ? (
           <p className="border-brutal border-dashed p-8 text-center font-mono text-sm text-ink">
-            {searchQuery
-              ? "No murmurs match your search."
+            {searchQuery || searchCategory
+              ? "No murmurs match your filters."
               : "No murmurs yet. Be the first."}
           </p>
         ) : (
@@ -276,7 +284,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
           />
           <form
             onSubmit={onPost}
-            className="fixed bottom-24 right-4 z-50 w-[calc(100%-2rem)] max-w-md border-brutal bg-surface p-4 shadow-brutal-lg"
+            className="fixed bottom-[5.5rem] right-4 z-50 w-[calc(100%-2rem)] max-w-md border-brutal bg-surface p-4 shadow-brutal-lg md:bottom-24"
           >
             <p className="font-mono text-xs font-bold uppercase tracking-wide text-ink">
               New murmur
@@ -296,19 +304,26 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
                 onChange={(e) => setCategory(e.target.value)}
                 className="border-brutal bg-accent px-2 py-1 font-mono text-xs font-bold uppercase text-accent-fg"
               >
-                {CATEGORIES.map((c) => (
+                {POST_CATEGORIES.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
                 ))}
               </select>
-              <button
+              <ActionButton
                 type="submit"
+                variant="accent"
                 disabled={!content.trim() || posting}
-                className="border-brutal bg-accent px-4 py-2 font-mono text-xs font-bold uppercase text-accent-fg shadow-brutal-sm disabled:opacity-40"
-              >
-                {posting ? "Posting…" : "Post"}
-              </button>
+                hoverLabel={posting ? "Posting…" : "Post"}
+                ariaLabel={posting ? "Posting murmur" : "Post murmur"}
+                className="border-brutal bg-accent px-3 py-2 shadow-brutal-sm"
+                icon={
+                  <MaterialIcon
+                    name={posting ? "progress_activity" : "edit_note"}
+                    className={`text-xl leading-none ${posting ? "animate-spin" : ""}`}
+                  />
+                }
+              />
             </div>
           </form>
         </>
@@ -319,7 +334,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         aria-label={composerOpen ? "Close new murmur" : "New murmur"}
         aria-expanded={composerOpen}
         onClick={() => setComposerOpen((open) => !open)}
-        className="fixed bottom-6 right-4 z-50 flex h-14 w-14 items-center justify-center border-brutal bg-accent text-accent-fg shadow-brutal transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg active:translate-x-0 active:translate-y-0 active:shadow-none md:bottom-8 md:right-8"
+        className="fixed bottom-[5.5rem] right-4 z-50 flex h-14 w-14 items-center justify-center border-brutal bg-accent text-accent-fg shadow-brutal transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg active:translate-x-0 active:translate-y-0 active:shadow-none md:bottom-8 md:right-8"
       >
         <span className="material-symbols-outlined text-3xl font-bold">
           {composerOpen ? "close" : "add"}

@@ -5,8 +5,6 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 export type FeedSort = "new" | "trending" | "top" | "hot";
 export type FeedWindow = "24h" | "7d" | "all";
 
-export type Author = { displayName: string };
-
 export type Post = {
   id: string;
   content: string;
@@ -19,7 +17,6 @@ export type Post = {
   isHot?: boolean;
   velocityScore?: number;
   linkUrls?: string[];
-  author: Author;
 };
 
 export type LinkPreview = {
@@ -38,7 +35,6 @@ export type Comment = {
   likeCount: number;
   likedByMe: boolean;
   createdAt: string;
-  author: Author;
   replies: Comment[];
 };
 
@@ -134,15 +130,19 @@ export function passwordReset(
 export function fetchPosts(
   token: string,
   sort: FeedSort = "new",
-  options?: { window?: FeedWindow; q?: string },
+  options?: { window?: FeedWindow; q?: string; category?: string },
 ) {
   const params = new URLSearchParams({ sort });
   if (options?.window) params.set("window", options.window);
   if (options?.q?.trim()) params.set("q", options.q.trim());
-  return api<{ posts: Post[]; sort: FeedSort; window: FeedWindow; query: string | null }>(
-    `/posts?${params}`,
-    { token },
-  );
+  if (options?.category?.trim()) params.set("category", options.category.trim());
+  return api<{
+    posts: Post[];
+    sort: FeedSort;
+    window: FeedWindow;
+    query: string | null;
+    category: string | null;
+  }>(`/posts?${params}`, { token });
 }
 
 export function fetchPostUpdates(token: string, since: string) {

@@ -7,6 +7,7 @@ import { authRoutes } from "./routes/auth.js";
 import { postRoutes } from "./routes/posts.js";
 import { adminRoutes } from "./routes/admin.js";
 import { previewRoutes } from "./routes/preview.js";
+import { brandRoutes } from "./routes/brand.js";
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -34,6 +35,7 @@ app.addHook("preHandler", async (req) => {
 
 app.get("/health", async () => ({ ok: true, service: "murmur-api" }));
 
+await app.register(brandRoutes);
 await app.register(authRoutes);
 await app.register(postRoutes);
 await app.register(adminRoutes);

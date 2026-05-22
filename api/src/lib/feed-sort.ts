@@ -25,10 +25,17 @@ export function buildPostsQuery(
   sort: FeedSort,
   window: FeedWindow,
   q?: string,
+  category?: string,
 ): { sql: string; params: unknown[] } {
   const params: unknown[] = [orgId];
   const where = ["org_id = $1", "status = 'published'"];
   let n = 2;
+
+  if (category?.trim()) {
+    where.push(`category_tag = $${n}`);
+    params.push(category.trim().toUpperCase());
+    n += 1;
+  }
 
   if (q?.trim()) {
     where.push(`content ILIKE $${n}`);

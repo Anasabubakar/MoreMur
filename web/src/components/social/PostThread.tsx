@@ -13,6 +13,7 @@ import {
   type Post,
 } from "@/lib/api";
 import { ApiError } from "@/lib/errors";
+import { ActionButton, MaterialIcon } from "./ActionButton";
 import { CommentItem } from "./CommentItem";
 import { PostCard } from "./PostCard";
 
@@ -142,7 +143,13 @@ export function PostThread({ postId }: Props) {
 
   return (
     <div className="min-h-[100dvh] bg-canvas text-ink">
-      <AppHeader backHref="/feed" backLabel="← Back to feed" />
+      <AppHeader
+        backHref="/feed"
+        onSignOut={() => {
+          localStorage.removeItem("murmur_token");
+          window.location.href = "/";
+        }}
+      />
 
       <main className="mx-auto max-w-2xl p-4">
         {loading && !post && <LoadingScreen label="Loading thread…" />}
@@ -176,13 +183,15 @@ export function PostThread({ postId }: Props) {
                   className="mt-2 w-full resize-none border-brutal bg-canvas p-3 font-[family-name:var(--font-body)] text-sm text-ink focus:bg-[var(--m-input-focus)] focus:outline-none"
                 />
               </label>
-              <button
+              <ActionButton
                 type="submit"
+                variant="accent"
                 disabled={!commentText.trim()}
-                className="mt-3 border-brutal bg-accent px-4 py-2 font-mono text-xs font-bold uppercase text-accent-fg disabled:opacity-40"
-              >
-                Comment
-              </button>
+                hoverLabel="Comment"
+                ariaLabel="Post comment"
+                className="mt-3 border-brutal bg-accent px-3 py-2"
+                icon={<MaterialIcon name="chat_bubble" />}
+              />
             </form>
 
             <section className="mt-8">

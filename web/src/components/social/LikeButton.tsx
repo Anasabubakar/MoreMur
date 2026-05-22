@@ -1,5 +1,7 @@
 "use client";
 
+import { ActionButton, MaterialIcon } from "./ActionButton";
+
 type Props = {
   count: number;
   liked: boolean;
@@ -8,23 +10,25 @@ type Props = {
 };
 
 export function LikeButton({ count, liked, onClick, label = "Like" }: Props) {
+  const hoverLabel =
+    count === 0
+      ? label
+      : `${count} ${label}${count === 1 ? "" : "s"}`;
+
   return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick(e);
-      }}
-      aria-pressed={liked}
-      className={`inline-flex items-center gap-1 font-mono text-xs font-bold uppercase transition-colors ${
-        liked ? "text-danger" : "text-ink hover:text-danger"
-      }`}
-    >
-      <span aria-hidden>{liked ? "♥" : "♡"}</span>
-      <span>
-        {count} {label}
-        {count === 1 ? "" : "s"}
-      </span>
-    </button>
+    <ActionButton
+      hoverLabel={hoverLabel}
+      ariaLabel={hoverLabel}
+      count={count}
+      active={liked}
+      onClick={onClick}
+      icon={
+        <MaterialIcon
+          name="favorite"
+          filled={liked}
+          className={`text-xl leading-none ${liked ? "text-danger" : ""}`}
+        />
+      }
+    />
   );
 }

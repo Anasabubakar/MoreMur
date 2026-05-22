@@ -59,7 +59,13 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-[100dvh] bg-canvas text-ink">
-      <AppHeader backHref="/feed" backLabel="← Feed" />
+      <AppHeader
+        backHref="/feed"
+        onSignOut={() => {
+          localStorage.removeItem("murmur_token");
+          window.location.href = "/";
+        }}
+      />
 
       <main className="mx-auto max-w-lg p-4">
         <h1 className="font-[family-name:var(--font-display)] text-4xl uppercase tracking-wide">

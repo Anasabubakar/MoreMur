@@ -51,7 +51,6 @@ function publicPost(
     isHot: hotIds.has(id),
     velocityScore,
     linkUrls: extractUrls(content),
-    author: { displayName: "ANONYMOUS" },
   };
 }
 
@@ -109,12 +108,22 @@ export async function postRoutes(app: FastifyInstance) {
     const session = req.user;
     if (!session) return reply.status(401).send({ error: "Unauthorized" });
 
-    const queryParams = req.query as { sort?: string; window?: string; q?: string };
+    const queryParams = req.query as {
+      sort?: string;
+      window?: string;
+      q?: string;
+      category?: string;
+    };
     const sort = parseFeedSort(queryParams.sort);
     const window = parseFeedWindow(queryParams.window);
     const q = queryParams.q?.trim();
+    const rawCategory = queryParams.category?.trim().toUpperCase();
+    const category =
+      rawCategory && (POST_CATEGORIES as readonly string[]).includes(rawCategory)
+        ? rawCategory
+        : undefined;
 
-    const { sql, params } = buildPostsQuery(session.orgId, sort, window, q);
+    const { sql, params } = buildPostsQuery(session.orgId, sort, window, q, category);
     const rows = await query<Record<string, unknown>>(sql, params);
     const hotIds = hotPostIds(rows);
 
@@ -124,7 +133,7 @@ export async function postRoutes(app: FastifyInstance) {
       ),
     );
 
-    return { posts, sort, window, query: q ?? null };
+    return { posts, sort, window, query: q ?? null, category: category ?? null };
   });
 
   app.get("/posts/:id", async (req, reply) => {

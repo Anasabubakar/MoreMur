@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Comment } from "@/lib/api";
 import { formatTimestamp } from "@/lib/format";
+import { ActionButton, MaterialIcon } from "./ActionButton";
 import { LikeButton } from "./LikeButton";
 
 type Props = {
@@ -33,10 +34,7 @@ export function CommentItem({ comment, depth = 0, onLike, onReply }: Props) {
   return (
     <li className={depth > 0 ? "ml-4 border-l-[3px] border-border pl-4 md:ml-6" : ""}>
       <div className="border-brutal bg-surface p-3 shadow-brutal-sm">
-        <div className="flex items-center justify-between gap-2">
-          <span className="font-mono text-[10px] font-bold uppercase text-muted">
-            {comment.author.displayName}
-          </span>
+        <div className="flex justify-end">
           <time className="font-mono text-[10px] text-muted" dateTime={comment.createdAt}>
             {formatTimestamp(comment.createdAt)}
           </time>
@@ -50,13 +48,12 @@ export function CommentItem({ comment, depth = 0, onLike, onReply }: Props) {
             liked={comment.likedByMe}
             onClick={() => onLike(comment.id)}
           />
-          <button
-            type="button"
+          <ActionButton
+            hoverLabel={replyOpen ? "Cancel reply" : "Reply"}
+            ariaLabel={replyOpen ? "Cancel reply" : "Reply to comment"}
             onClick={() => setReplyOpen((v) => !v)}
-            className="font-mono text-xs font-bold uppercase text-ink underline-offset-2 hover:underline"
-          >
-            Reply
-          </button>
+            icon={<MaterialIcon name={replyOpen ? "close" : "reply"} />}
+          />
         </div>
 
         {replyOpen && (
@@ -66,16 +63,23 @@ export function CommentItem({ comment, depth = 0, onLike, onReply }: Props) {
               onChange={(e) => setReplyText(e.target.value)}
               maxLength={280}
               rows={2}
-              placeholder="Reply anonymously…"
+              placeholder="Write a reply…"
               className="w-full resize-none border-brutal bg-canvas p-2 font-[family-name:var(--font-body)] text-sm text-ink focus:bg-[var(--m-input-focus)] focus:outline-none"
             />
-            <button
+            <ActionButton
               type="submit"
+              variant="accent"
               disabled={submitting || !replyText.trim()}
-              className="self-start border-brutal bg-accent px-3 py-1 font-mono text-xs font-bold uppercase text-accent-fg disabled:opacity-40"
-            >
-              {submitting ? "Posting…" : "Post reply"}
-            </button>
+              hoverLabel={submitting ? "Posting…" : "Post reply"}
+              ariaLabel={submitting ? "Posting reply" : "Post reply"}
+              className="self-start border-brutal bg-accent px-2 py-1"
+              icon={
+                <MaterialIcon
+                  name={submitting ? "progress_activity" : "send"}
+                  className={`text-xl leading-none ${submitting ? "animate-spin" : ""}`}
+                />
+              }
+            />
           </form>
         )}
       </div>
