@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { NeoLink } from "@/components/ui/NeoButton";
 
@@ -173,6 +174,17 @@ export function LandingPage() {
           <span className="font-[family-name:var(--font-display)] text-2xl uppercase">
             MURMUR
           </span>
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 font-mono text-[10px] uppercase">
+            <Link href="/legal?doc=pp" className="underline opacity-90 hover:opacity-100">
+              Privacy
+            </Link>
+            <Link href="/legal?doc=tc" className="underline opacity-90 hover:opacity-100">
+              Terms
+            </Link>
+            <Link href="/legal?doc=cp" className="underline opacity-90 hover:opacity-100">
+              Cookies
+            </Link>
+          </nav>
           <p className="font-mono text-[10px] opacity-70">
             © {new Date().getFullYear()} Murmur. Org-scoped anonymous communities.
           </p>

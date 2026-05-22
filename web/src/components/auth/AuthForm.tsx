@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import {
+  LegalAcceptance,
+  signupLegalReady,
+} from "@/components/legal/LegalAcceptance";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { NeoButton } from "@/components/ui/NeoButton";
 import {
@@ -35,6 +39,10 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+
+  const signupLegalOk = signupLegalReady(acceptTerms, acceptPrivacy);
 
   function resetFlow() {
     setSignupStep("email");
@@ -50,6 +58,10 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
   function switchMode(next: Mode) {
     setMode(next);
     resetFlow();
+    if (next !== "signup") {
+      setAcceptTerms(false);
+      setAcceptPrivacy(false);
+    }
   }
 
   async function finishSession(token: string) {
@@ -260,6 +272,15 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
             <NeoButton type="submit" disabled={loading} className="w-full px-4 py-3">
               {loading ? "Signing in…" : "Sign in"}
             </NeoButton>
+            <p className="font-mono text-[10px] text-muted">
+              <Link href="/legal?doc=tc" className="text-ink underline">
+                Terms
+              </Link>
+              {" · "}
+              <Link href="/legal?doc=pp" className="text-ink underline">
+                Privacy
+              </Link>
+            </p>
             <button
               type="button"
               onClick={() => switchMode("forgot")}
@@ -288,7 +309,17 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
                   className={inputClass}
                 />
               </label>
-              <NeoButton type="submit" disabled={loading} className="w-full px-4 py-3">
+              <LegalAcceptance
+                acceptTerms={acceptTerms}
+                acceptPrivacy={acceptPrivacy}
+                onAcceptTerms={setAcceptTerms}
+                onAcceptPrivacy={setAcceptPrivacy}
+              />
+              <NeoButton
+                type="submit"
+                disabled={loading || !signupLegalOk}
+                className="w-full px-4 py-3"
+              >
                 {loading ? "Sending…" : "Send signup code"}
               </NeoButton>
             </form>
@@ -317,7 +348,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
             <NeoButton
               type="submit"
               variant="black"
-              disabled={loading || code.length !== 6}
+              disabled={loading || code.length !== 6 || !signupLegalOk}
               className="w-full px-4 py-3"
             >
               {loading ? "Verifying…" : "Verify email"}
@@ -368,7 +399,18 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
                 className={inputClass}
               />
             </label>
-            <NeoButton type="submit" variant="black" disabled={loading} className="w-full px-4 py-3">
+            <LegalAcceptance
+              acceptTerms={acceptTerms}
+              acceptPrivacy={acceptPrivacy}
+              onAcceptTerms={setAcceptTerms}
+              onAcceptPrivacy={setAcceptPrivacy}
+            />
+            <NeoButton
+              type="submit"
+              variant="black"
+              disabled={loading || !signupLegalOk}
+              className="w-full px-4 py-3"
+            >
               {loading ? "Creating account…" : "Create account"}
             </NeoButton>
           </form>
@@ -462,6 +504,14 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
         <p className="mt-6 font-mono text-[10px] text-muted">
           <Link href="/" className="text-ink underline">
             Back to home
+          </Link>
+          {" · "}
+          <Link href="/legal?doc=pp" className="text-ink underline">
+            Privacy
+          </Link>
+          {" · "}
+          <Link href="/legal?doc=tc" className="text-ink underline">
+            Terms
           </Link>
         </p>
       </div>

@@ -28,6 +28,16 @@ type Props = {
   showWindowToggle?: boolean;
 };
 
+/** Newest post timestamp among visible feed items (not sort order). */
+function newestCreatedAt(posts: Post[]): string | null {
+  if (posts.length === 0) return null;
+  return posts.reduce(
+    (latest, p) =>
+      new Date(p.createdAt) > new Date(latest) ? p.createdAt : latest,
+    posts[0].createdAt,
+  );
+}
+
 export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -43,7 +53,15 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState<string>("OPINION");
   const [newCount, setNewCount] = useState(0);
+  const [pollSince, setPollSince] = useState<string | null>(null);
   const feedSinceRef = useRef<string | null>(null);
+
+  const syncFeedSince = useCallback((visible: Post[]) => {
+    const watermark =
+      newestCreatedAt(visible) ?? new Date().toISOString();
+    feedSinceRef.current = watermark;
+    setPollSince(watermark);
+  }, []);
 
   const load = useCallback(
     async (t: string, opts?: { prepend?: boolean }) => {
@@ -55,19 +73,21 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
           q: searchQuery || undefined,
           category: searchCategory || undefined,
         });
-        setPosts((prev) => {
-          if (!opts?.prepend) {
-            if (res.posts[0]) feedSinceRef.current = res.posts[0].createdAt;
-            return res.posts;
-          }
-          const ids = new Set(prev.map((p) => p.id));
-          const merged = [
-            ...res.posts.filter((p) => !ids.has(p.id)),
-            ...prev,
-          ];
-          if (merged[0]) feedSinceRef.current = merged[0].createdAt;
-          return merged;
-        });
+        if (!opts?.prepend) {
+          setPosts(res.posts);
+          syncFeedSince(res.posts);
+        } else {
+          let merged: Post[] = [];
+          setPosts((prev) => {
+            const ids = new Set(prev.map((p) => p.id));
+            merged = [
+              ...res.posts.filter((p) => !ids.has(p.id)),
+              ...prev,
+            ];
+            return merged;
+          });
+          syncFeedSince(merged);
+        }
         setNewCount(0);
       } catch (err) {
         setError(
@@ -82,7 +102,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         setLoading(false);
       }
     },
-    [sort, timeWindow, searchQuery, searchCategory, showWindowToggle],
+    [sort, timeWindow, searchQuery, searchCategory, showWindowToggle, syncFeedSince],
   );
 
   const refresh = useCallback(async () => {
@@ -103,17 +123,28 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   }, [load]);
 
   useEffect(() => {
-    if (!token || !feedSinceRef.current) return;
-    const id = window.setInterval(async () => {
+    if (!token || !pollSince) return;
+
+    let cancelled = false;
+
+    async function poll() {
+      const since = feedSinceRef.current;
+      if (!since) return;
       try {
-        const res = await fetchPostUpdates(token, feedSinceRef.current!);
-        setNewCount(res.count);
+        const res = await fetchPostUpdates(token!, since);
+        if (!cancelled) setNewCount(Number(res.count) || 0);
       } catch {
         /* ignore poll errors */
       }
-    }, 25_000);
-    return () => window.clearInterval(id);
-  }, [token, posts]);
+    }
+
+    void poll();
+    const id = window.setInterval(poll, 25_000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+    };
+  }, [token, pollSince]);
 
   function applySearch({ q, category }: SearchApplyPayload) {
     setSearchDraft(q);
@@ -181,12 +212,13 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         setNewCount(0);
         return;
       }
+      let merged: Post[] = [];
       setPosts((prev) => {
         const ids = new Set(prev.map((p) => p.id));
-        const merged = [...fresh.filter((p) => !ids.has(p.id)), ...prev];
-        feedSinceRef.current = merged[0]?.createdAt ?? feedSinceRef.current;
+        merged = [...fresh.filter((p) => !ids.has(p.id)), ...prev];
         return merged;
       });
+      syncFeedSince(merged);
       setNewCount(0);
     } catch (err) {
       setError(

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { LoadingScreen } from "@/components/brand/LoadingScreen";
@@ -81,6 +82,27 @@ export default function SettingsPage() {
                 Organisation: <strong className="text-ink">{orgName}</strong>
               </p>
             )}
+
+            <section className="mt-8 border-brutal bg-surface p-4 shadow-brutal-sm">
+              <h2 className="font-mono text-xs font-bold uppercase text-ink">Legal</h2>
+              <ul className="mt-3 flex flex-col gap-2 font-mono text-xs">
+                <li>
+                  <Link href="/legal?doc=pp" className="text-ink underline">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legal?doc=tc" className="text-ink underline">
+                    Terms &amp; Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legal?doc=cp" className="text-ink underline">
+                    Cookie Policy
+                  </Link>
+                </li>
+              </ul>
+            </section>
 
             {error && (
               <div className="mt-4">

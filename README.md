@@ -59,9 +59,12 @@ MoreMur/
 │   │   └── lib/         # otp, mailer, jwt, engagement
 │   └── scripts/         # db-check, purge-demo-data
 ├── web/                 # Next.js app (Vercel root)
+│   ├── public/images/logo-yellow-vector.svg  # brand + favicon source
+│   ├── scripts/sync-favicons.mjs             # regenerates favicon.* / icon.png
 │   └── src/
 │       ├── app/         # pages (/, /login, /signup, /feed, …)
 │       └── components/
+├── favicon.svg          # repo-root copy of logo (docs / GitHub)
 ├── docs/
 │   ├── DEPLOY.md        # full deploy checklist
 │   ├── NEON.md          # database setup

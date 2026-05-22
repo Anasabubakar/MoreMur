@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, DM_Sans, Space_Mono } from "next/font/google";
+import { CookieConsentBanner } from "@/components/legal/CookieConsentBanner";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import {
@@ -67,7 +68,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full bg-canvas text-ink">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <CookieConsentBanner />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -67,7 +67,7 @@ export function HeaderUtilities({
   );
 
   return (
-    <>
+    <div className="flex items-center justify-end justify-self-end gap-2">
       <div className="hidden items-center gap-2 md:flex">{utilities}</div>
 
       <div className="relative md:hidden" ref={menuRef}>
@@ -114,6 +114,6 @@ export function HeaderUtilities({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
