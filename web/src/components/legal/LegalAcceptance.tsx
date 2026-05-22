@@ -21,9 +21,9 @@ export function LegalAcceptance({ accepted, onAcceptedChange }: Props) {
           className={boxClass}
         />
         <span>
-          I accept the{" "}
+          I accept{" "}
           <Link
-            href="/legal?doc=tc#panel-tc"
+            href="/legal?doc=tc"
             target="_blank"
             rel="noopener noreferrer"
             className="font-bold underline"
@@ -32,14 +32,13 @@ export function LegalAcceptance({ accepted, onAcceptedChange }: Props) {
           </Link>{" "}
           and{" "}
           <Link
-            href="/legal?doc=pp#panel-pp"
+            href="/legal?doc=pp"
             target="_blank"
             rel="noopener noreferrer"
             className="font-bold underline"
           >
             Privacy Policy
           </Link>
-          , including use of anonymised aggregate data as described there.
         </span>
       </label>
     </div>
