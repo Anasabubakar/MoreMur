@@ -6,7 +6,6 @@ import { MobileDock } from "@/components/layout/MobileDock";
 import type { SearchApplyPayload } from "@/components/layout/SearchToggle";
 import { POST_CATEGORIES } from "@/lib/categories";
 import { LoadingScreen } from "@/components/brand/LoadingScreen";
-import { ActionButton, MaterialIcon } from "@/components/social/ActionButton";
 import { PostCard } from "@/components/social/PostCard";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { usePullToRefresh } from "@/hooks/usePullToRefresh";
@@ -20,7 +19,7 @@ import {
   type FeedWindow,
   type Post,
 } from "@/lib/api";
-import { ApiError } from "@/lib/errors";
+import { ApiError, toUserError } from "@/lib/errors";
 
 
 type Props = {
@@ -58,6 +57,11 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   const [reportedIds, setReportedIds] = useState<Set<string>>(() => new Set());
   const [reportNotice, setReportNotice] = useState<string | null>(null);
   const feedSinceRef = useRef<string | null>(null);
+  const postsRef = useRef<Post[]>([]);
+
+  useEffect(() => {
+    postsRef.current = posts;
+  }, [posts]);
 
   const syncFeedSince = useCallback((visible: Post[]) => {
     const watermark =
@@ -93,14 +97,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         }
         setNewCount(0);
       } catch (err) {
-        setError(
-          err instanceof ApiError
-            ? err
-            : new ApiError(
-                err instanceof Error ? err.message : "Failed to load feed",
-                0,
-              ),
-        );
+        setError(toUserError(err, "Failed to load feed"));
       } finally {
         setLoading(false);
       }
@@ -135,7 +132,28 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
       if (!since) return;
       try {
         const res = await fetchPostUpdates(token!, since);
-        if (!cancelled) setNewCount(Number(res.count) || 0);
+        if (cancelled) return;
+
+        const count = Number(res.count) || 0;
+        if (count === 0) {
+          setNewCount(0);
+          return;
+        }
+
+        if (res.newestAt) {
+          const newestMs = new Date(res.newestAt).getTime();
+          const alreadyVisible = postsRef.current.some(
+            (p) => new Date(p.createdAt).getTime() >= newestMs,
+          );
+          if (alreadyVisible) {
+            feedSinceRef.current = res.newestAt;
+            setPollSince(res.newestAt);
+            setNewCount(0);
+            return;
+          }
+        }
+
+        setNewCount(count);
       } catch {
         /* ignore poll errors */
       }
@@ -167,11 +185,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
       setComposerOpen(false);
       await load(token);
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Post failed", 0),
-      );
+      setError(toUserError(err, "Post failed"));
     } finally {
       setPosting(false);
     }
@@ -189,11 +203,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
         ),
       );
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Like failed", 0),
-      );
+      setError(toUserError(err, "Like failed"));
     }
   }
 
@@ -213,11 +223,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
       }
       window.setTimeout(() => setReportNotice(null), 4000);
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Report failed", 0),
-      );
+      setError(toUserError(err, "Report failed"));
     }
   }
 
@@ -230,32 +236,32 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
     if (!token || !feedSinceRef.current) return;
     setError(null);
     try {
-      const sinceMs = new Date(feedSinceRef.current).getTime();
-      const res = await fetchPosts(token, "new");
-      const fresh = res.posts.filter(
-        (p) => new Date(p.createdAt).getTime() > sinceMs,
-      );
-      if (fresh.length === 0) {
+      const since = feedSinceRef.current;
+      const updates = await fetchPostUpdates(token, since);
+      if ((updates.count ?? 0) === 0) {
         setNewCount(0);
         return;
       }
-      let merged: Post[] = [];
-      setPosts((prev) => {
-        const ids = new Set(prev.map((p) => p.id));
-        merged = [...fresh.filter((p) => !ids.has(p.id)), ...prev];
-        return merged;
-      });
-      syncFeedSince(merged);
+
+      const res = await fetchPosts(token, "new", { since });
+      const visibleIds = new Set(postsRef.current.map((p) => p.id));
+      const fresh = res.posts.filter((p) => !visibleIds.has(p.id));
+
+      if (fresh.length > 0) {
+        let merged: Post[] = [];
+        setPosts((prev) => {
+          merged = [...fresh, ...prev];
+          return merged;
+        });
+        syncFeedSince(merged);
+      } else if (updates.newestAt) {
+        feedSinceRef.current = updates.newestAt;
+        setPollSince(updates.newestAt);
+      }
+
       setNewCount(0);
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(
-              err instanceof Error ? err.message : "Could not load new murmurs",
-              0,
-            ),
-      );
+      setError(toUserError(err, "Could not load new murmurs"));
     }
   }
 
@@ -358,7 +364,7 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
           />
           <form
             onSubmit={onPost}
-            className="fixed bottom-[5.5rem] right-4 z-50 w-[calc(100%-2rem)] max-w-md border-brutal bg-surface p-4 shadow-brutal-lg md:bottom-24"
+            className="fixed bottom-[5.5rem] left-4 right-4 z-50 mx-auto max-w-md border-brutal bg-surface p-4 shadow-brutal-lg md:bottom-24 md:left-auto"
           >
             <p className="font-mono text-xs font-bold uppercase tracking-wide text-ink">
               New murmur
@@ -372,11 +378,11 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
               placeholder="Drop a murmur…"
               className="mt-3 w-full resize-none border-brutal bg-canvas p-3 font-[family-name:var(--font-body)] text-sm text-ink focus:bg-[var(--m-input-focus)] focus:outline-none"
             />
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+            <div className="mt-3 flex flex-col gap-3">
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="border-brutal bg-accent px-2 py-1 font-mono text-xs font-bold uppercase text-accent-fg"
+                className="w-full border-brutal bg-accent px-2 py-2 font-mono text-xs font-bold uppercase text-accent-fg sm:w-auto"
               >
                 {POST_CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -384,36 +390,37 @@ export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
                   </option>
                 ))}
               </select>
-              <ActionButton
-                type="submit"
-                variant="accent"
-                disabled={!content.trim() || posting}
-                hoverLabel={posting ? "Posting…" : "Post"}
-                ariaLabel={posting ? "Posting murmur" : "Post murmur"}
-                className="border-brutal bg-accent px-3 py-2 shadow-brutal-sm"
-                icon={
-                  <MaterialIcon
-                    name={posting ? "progress_activity" : "edit_note"}
-                    className={`text-xl leading-none ${posting ? "animate-spin" : ""}`}
-                  />
-                }
-              />
+              <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+                <button
+                  type="button"
+                  onClick={() => setComposerOpen(false)}
+                  className="w-full border-brutal bg-surface px-4 py-2 font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm hover:shadow-brutal sm:w-auto"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!content.trim() || posting}
+                  className="w-full border-brutal bg-accent px-4 py-2 font-mono text-xs font-bold uppercase text-accent-fg shadow-brutal-sm hover:shadow-brutal disabled:opacity-40 sm:w-auto"
+                >
+                  {posting ? "Sending…" : "Send"}
+                </button>
+              </div>
             </div>
           </form>
         </>
       )}
 
-      <button
-        type="button"
-        aria-label={composerOpen ? "Close new murmur" : "New murmur"}
-        aria-expanded={composerOpen}
-        onClick={() => setComposerOpen((open) => !open)}
-        className="fixed bottom-[5.5rem] right-4 z-50 flex h-14 w-14 items-center justify-center border-brutal bg-accent text-accent-fg shadow-brutal transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg active:translate-x-0 active:translate-y-0 active:shadow-none md:bottom-8 md:right-8"
-      >
-        <span className="material-symbols-outlined text-3xl font-bold">
-          {composerOpen ? "close" : "add"}
-        </span>
-      </button>
+      {!composerOpen && (
+        <button
+          type="button"
+          aria-label="New murmur"
+          onClick={() => setComposerOpen(true)}
+          className="fixed bottom-[5.5rem] right-4 z-50 flex h-14 w-14 items-center justify-center border-brutal bg-accent text-accent-fg shadow-brutal transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg active:translate-x-0 active:translate-y-0 active:shadow-none md:bottom-8 md:right-8"
+        >
+          <span className="material-symbols-outlined text-3xl font-bold">add</span>
+        </button>
+      )}
     </div>
   );
 }

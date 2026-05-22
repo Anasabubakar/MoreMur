@@ -66,20 +66,25 @@ export function CommentItem({ comment, depth = 0, onLike, onReply }: Props) {
               placeholder="Write a reply…"
               className="w-full resize-none border-brutal bg-canvas p-2 font-[family-name:var(--font-body)] text-sm text-ink focus:bg-[var(--m-input-focus)] focus:outline-none"
             />
-            <ActionButton
-              type="submit"
-              variant="accent"
-              disabled={submitting || !replyText.trim()}
-              hoverLabel={submitting ? "Posting…" : "Post reply"}
-              ariaLabel={submitting ? "Posting reply" : "Post reply"}
-              className="self-start border-brutal bg-accent px-2 py-1"
-              icon={
-                <MaterialIcon
-                  name={submitting ? "progress_activity" : "send"}
-                  className={`text-xl leading-none ${submitting ? "animate-spin" : ""}`}
-                />
-              }
-            />
+            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setReplyOpen(false);
+                  setReplyText("");
+                }}
+                className="w-full border-brutal bg-surface px-3 py-2 font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm sm:w-auto"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submitting || !replyText.trim()}
+                className="w-full border-brutal bg-accent px-3 py-2 font-mono text-xs font-bold uppercase text-accent-fg shadow-brutal-sm disabled:opacity-40 sm:w-auto"
+              >
+                {submitting ? "Sending…" : "Send"}
+              </button>
+            </div>
           </form>
         )}
       </div>

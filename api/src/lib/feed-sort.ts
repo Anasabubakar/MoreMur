@@ -1,13 +1,28 @@
 export type FeedSort = "new" | "trending" | "top" | "hot";
 export type FeedWindow = "24h" | "7d" | "all";
 
-const ENGAGEMENT = "(like_count + comment_count * 2 + repost_count)";
-const AGE_HOURS = "GREATEST(EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600.0, 0.25)";
-export const VELOCITY_SCORE = `${ENGAGEMENT} / POWER(${AGE_HOURS}, 1.35)`;
+/** Weighted engagement — comments count more than likes (conversation signal). */
+export const ENGAGEMENT_WEIGHT =
+  "(like_count * 1.0 + comment_count * 2.0 + repost_count * 1.5)";
 
-/** Max posts flagged hot per feed response (relative ranking, not a low absolute bar). */
+const AGE_HOURS =
+  "GREATEST(EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600.0, 0.25)";
+
+/** Hacker News–style gravity for hot feed: recency dominates early engagement. */
+export const HOT_SCORE = `${ENGAGEMENT_WEIGHT} / POWER(${AGE_HOURS} + 2, 1.5)`;
+
+/** Stronger recency bias for trending — rewards recent bursts of activity. */
+export const TRENDING_SCORE = `${ENGAGEMENT_WEIGHT} / POWER(${AGE_HOURS} + 1, 1.8)`;
+
+/** Mild decay so all-time leaders surface but stale posts fade. */
+export const TOP_SCORE = `${ENGAGEMENT_WEIGHT} / POWER(${AGE_HOURS} + 24, 0.5)`;
+
+/** Legacy alias used for hot-badge scoring on individual rows. */
+export const VELOCITY_SCORE = HOT_SCORE;
+
+/** Max posts flagged hot per feed response (relative ranking). */
 const HOT_BADGE_LIMIT = 5;
-const HOT_MIN_SCORE = 1.75;
+const HOT_MIN_SCORE = 2.5;
 const HOT_MAX_AGE_HOURS = 48;
 
 export function parseFeedSort(raw?: string): FeedSort {
@@ -20,12 +35,20 @@ export function parseFeedWindow(raw?: string): FeedWindow {
   return "24h";
 }
 
+function scoreForSort(sort: FeedSort): string {
+  if (sort === "top") return TOP_SCORE;
+  if (sort === "trending") return TRENDING_SCORE;
+  if (sort === "hot") return HOT_SCORE;
+  return "created_at";
+}
+
 export function buildPostsQuery(
   orgId: string,
   sort: FeedSort,
   window: FeedWindow,
   q?: string,
   category?: string,
+  since?: string,
 ): { sql: string; params: unknown[] } {
   const params: unknown[] = [orgId];
   const where = ["org_id = $1", "status = 'published'"];
@@ -43,24 +66,36 @@ export function buildPostsQuery(
     n += 1;
   }
 
+  if (since?.trim()) {
+    const parsed = new Date(since);
+    if (!Number.isNaN(parsed.getTime())) {
+      where.push(`created_at > $${n}`);
+      params.push(parsed.toISOString());
+      n += 1;
+    }
+  }
+
   if (sort === "hot") {
-    where.push(`created_at > NOW() - INTERVAL '24 hours'`);
-    where.push(`${ENGAGEMENT} >= 1`);
-  } else if (sort === "trending" && window !== "all") {
-    const interval = window === "7d" ? "7 days" : "24 hours";
+    where.push(`created_at > NOW() - INTERVAL '48 hours'`);
+    where.push(`${ENGAGEMENT_WEIGHT} >= 2`);
+  } else if (sort === "trending") {
+    const interval = window === "7d" ? "7 days" : window === "all" ? "30 days" : "24 hours";
+    where.push(`created_at > NOW() - INTERVAL '${interval}'`);
+    where.push(`${ENGAGEMENT_WEIGHT} >= 1`);
+  } else if (sort === "top" && window !== "all") {
+    const interval = window === "7d" ? "7 days" : "30 days";
     where.push(`created_at > NOW() - INTERVAL '${interval}'`);
   }
 
+  const scoreExpr = scoreForSort(sort);
   let orderBy = "created_at DESC";
-  if (sort === "top") {
-    orderBy = `${ENGAGEMENT} DESC, created_at DESC`;
-  } else if (sort === "trending" || sort === "hot") {
-    orderBy = `${VELOCITY_SCORE} DESC, created_at DESC`;
+  if (sort !== "new") {
+    orderBy = `${scoreExpr} DESC, created_at DESC`;
   }
 
   const sql = `
     SELECT id, content, category_tag, like_count, comment_count, repost_count, created_at,
-           (${VELOCITY_SCORE})::float AS velocity_score
+           (${HOT_SCORE})::float AS velocity_score
     FROM posts
     WHERE ${where.join(" AND ")}
     ORDER BY ${orderBy}
@@ -69,7 +104,7 @@ export function buildPostsQuery(
   return { sql, params };
 }
 
-/** Only the top velocity posts in the last 48h qualify — avoids marking the whole feed hot. */
+/** Only the top velocity posts in the last 48h qualify — relative, not absolute. */
 export function hotPostIds(rows: Record<string, unknown>[]): Set<string> {
   const now = Date.now();
   const ranked = rows

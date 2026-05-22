@@ -13,7 +13,7 @@ import {
   type Comment,
   type Post,
 } from "@/lib/api";
-import { ApiError } from "@/lib/errors";
+import { ApiError, toUserError } from "@/lib/errors";
 import { ActionButton, MaterialIcon } from "./ActionButton";
 import { CommentItem } from "./CommentItem";
 import { PostCard } from "./PostCard";
@@ -67,14 +67,7 @@ export function PostThread({ postId }: Props) {
       setPost(res.post);
       setComments(res.comments);
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(
-              err instanceof Error ? err.message : "Failed to load thread",
-              0,
-            ),
-      );
+      setError(toUserError(err, "Failed to load thread"));
     } finally {
       setLoading(false);
     }
@@ -96,11 +89,7 @@ export function PostThread({ postId }: Props) {
       const res = await togglePostLike(token, id);
       setPost((p) => (p ? { ...p, likeCount: res.likeCount, likedByMe: res.likedByMe } : p));
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Like failed", 0),
-      );
+      setError(toUserError(err, "Like failed"));
     }
   }
 
@@ -123,11 +112,7 @@ export function PostThread({ postId }: Props) {
       }
       window.setTimeout(() => setReportNotice(null), 4000);
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Report failed", 0),
-      );
+      setError(toUserError(err, "Report failed"));
     }
   }
 
@@ -139,11 +124,7 @@ export function PostThread({ postId }: Props) {
         patchCommentLikes(prev, commentId, res.likeCount, res.likedByMe),
       );
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Like failed", 0),
-      );
+      setError(toUserError(err, "Like failed"));
     }
   }
 
@@ -156,11 +137,7 @@ export function PostThread({ postId }: Props) {
       setComments((prev) => [...prev, res.comment]);
       setCommentText("");
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(err instanceof Error ? err.message : "Comment failed", 0),
-      );
+      setError(toUserError(err, "Comment failed"));
     }
   }
 

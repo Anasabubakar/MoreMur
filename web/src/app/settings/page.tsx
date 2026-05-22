@@ -6,7 +6,7 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { LoadingScreen } from "@/components/brand/LoadingScreen";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { deleteAccount, fetchMe } from "@/lib/api";
-import { ApiError } from "@/lib/errors";
+import { ApiError, toUserError } from "@/lib/errors";
 
 export default function SettingsPage() {
   const [token, setToken] = useState<string | null>(null);
@@ -25,13 +25,7 @@ export default function SettingsPage() {
     setToken(t);
     fetchMe(t)
       .then((res) => setOrgName(res.org?.name ?? null))
-      .catch((err) =>
-        setError(
-          err instanceof ApiError
-            ? err
-            : new ApiError(err instanceof Error ? err.message : "Failed to load", 0),
-        ),
-      )
+      .catch((err) => setError(toUserError(err, "Failed to load")))
       .finally(() => setLoading(false));
   }, []);
 
@@ -45,14 +39,7 @@ export default function SettingsPage() {
       localStorage.removeItem("murmur_token");
       window.location.href = "/";
     } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err
-          : new ApiError(
-              err instanceof Error ? err.message : "Could not delete account",
-              0,
-            ),
-      );
+      setError(toUserError(err, "Could not delete account"));
     } finally {
       setDeleting(false);
     }

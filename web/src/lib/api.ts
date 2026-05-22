@@ -1,4 +1,4 @@
-import { ApiError, formatApiError } from "./errors";
+import { ApiError, formatApiError, friendlyHttpMessage } from "./errors";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
@@ -55,10 +55,17 @@ async function api<T>(
     headers["Content-Type"] = "application/json";
   }
 
-  const res = await fetch(`${API_BASE}${path}`, { ...init, headers });
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, { ...init, headers });
+  } catch {
+    throw new ApiError("Network error", 0, "network_error");
+  }
+
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    const message = formatApiError(data, res.statusText || "Request failed");
+    const serverMessage = formatApiError(data, "");
+    const message = friendlyHttpMessage(res.status, serverMessage || undefined);
     throw new ApiError(message, res.status);
   }
   return data as T;
@@ -130,12 +137,13 @@ export function passwordReset(
 export function fetchPosts(
   token: string,
   sort: FeedSort = "new",
-  options?: { window?: FeedWindow; q?: string; category?: string },
+  options?: { window?: FeedWindow; q?: string; category?: string; since?: string },
 ) {
   const params = new URLSearchParams({ sort });
   if (options?.window) params.set("window", options.window);
   if (options?.q?.trim()) params.set("q", options.q.trim());
   if (options?.category?.trim()) params.set("category", options.category.trim());
+  if (options?.since?.trim()) params.set("since", options.since.trim());
   return api<{
     posts: Post[];
     sort: FeedSort;

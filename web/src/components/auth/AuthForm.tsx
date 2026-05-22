@@ -17,6 +17,7 @@ import {
   signupRequestOtp,
   signupVerifyOtp,
 } from "@/lib/api";
+import { toUserError } from "@/lib/errors";
 
 type Mode = "login" | "signup" | "forgot";
 type SignupStep = "email" | "otp" | "password";
@@ -75,7 +76,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
       const res = await login(email, password);
       await finishSession(res.token);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign in failed");
+      setError(toUserError(err, "Sign in failed").message);
     } finally {
       setLoading(false);
     }
@@ -96,7 +97,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
       }
       setSignupStep("otp");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Request failed");
+      setError(toUserError(err, "Request failed").message);
     } finally {
       setLoading(false);
     }
@@ -115,7 +116,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
         setInfo("New code sent. Your previous code no longer works.");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not resend code");
+      setError(toUserError(err, "Could not resend code").message);
     } finally {
       setLoading(false);
     }
@@ -131,7 +132,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
       setOrgName(res.orgName);
       setSignupStep("password");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Verification failed");
+      setError(toUserError(err, "Verification failed").message);
     } finally {
       setLoading(false);
     }
@@ -146,7 +147,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
       const res = await signupComplete(setupToken, password, confirmPassword);
       await finishSession(res.token);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create account");
+      setError(toUserError(err, "Could not create account").message);
     } finally {
       setLoading(false);
     }
@@ -166,7 +167,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
       );
       setForgotStep("otp");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Request failed");
+      setError(toUserError(err, "Request failed").message);
     } finally {
       setLoading(false);
     }
@@ -184,7 +185,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
         setInfo("New code sent. Your previous code no longer works.");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not resend code");
+      setError(toUserError(err, "Could not resend code").message);
     } finally {
       setLoading(false);
     }
@@ -198,7 +199,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
       const res = await passwordReset(email, code, password, confirmPassword);
       await finishSession(res.token);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Reset failed");
+      setError(toUserError(err, "Reset failed").message);
     } finally {
       setLoading(false);
     }

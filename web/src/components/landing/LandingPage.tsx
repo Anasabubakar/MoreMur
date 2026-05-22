@@ -94,6 +94,9 @@ export function LandingPage() {
               <NeoLink href="/signup" className="px-8 py-4 text-base">
                 Join your org
               </NeoLink>
+              <NeoLink href="/how-it-works" variant="white" className="px-8 py-4 text-base">
+                How it works
+              </NeoLink>
               <NeoLink href="/login" variant="white" className="px-8 py-4 text-base">
                 Sign in
               </NeoLink>
@@ -133,9 +136,9 @@ export function LandingPage() {
             <h2 className="font-[family-name:var(--font-display)] text-4xl uppercase md:text-5xl">
               How it works
             </h2>
-            <span className="bg-ink px-3 py-1 font-mono text-xs font-bold uppercase text-accent">
-              3 steps
-            </span>
+            <NeoLink href="/how-it-works" variant="white" className="px-4 py-2 text-xs">
+              Full guide →
+            </NeoLink>
           </div>
           <div className="divide-y-[3px] divide-border border-brutal bg-surface shadow-brutal">
             {phases.map((step) => (

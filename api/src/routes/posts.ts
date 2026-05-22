@@ -113,17 +113,26 @@ export async function postRoutes(app: FastifyInstance) {
       window?: string;
       q?: string;
       category?: string;
+      since?: string;
     };
     const sort = parseFeedSort(queryParams.sort);
     const window = parseFeedWindow(queryParams.window);
     const q = queryParams.q?.trim();
     const rawCategory = queryParams.category?.trim().toUpperCase();
+    const since = queryParams.since?.trim();
     const category =
       rawCategory && (POST_CATEGORIES as readonly string[]).includes(rawCategory)
         ? rawCategory
         : undefined;
 
-    const { sql, params } = buildPostsQuery(session.orgId, sort, window, q, category);
+    const { sql, params } = buildPostsQuery(
+      session.orgId,
+      sort,
+      window,
+      q,
+      category,
+      since,
+    );
     const rows = await query<Record<string, unknown>>(sql, params);
     const hotIds = hotPostIds(rows);
 
