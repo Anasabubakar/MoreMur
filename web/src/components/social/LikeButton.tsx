@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ActionButton, MaterialIcon } from "./ActionButton";
 
 type Props = {
@@ -10,10 +11,17 @@ type Props = {
 };
 
 export function LikeButton({ count, liked, onClick, label = "Like" }: Props) {
+  const [bounceKey, setBounceKey] = useState(0);
+
   const hoverLabel =
     count === 0
       ? label
       : `${count} ${label}${count === 1 ? "" : "s"}`;
+
+  function handleClick(e: React.MouseEvent) {
+    setBounceKey((k) => k + 1);
+    onClick(e);
+  }
 
   return (
     <ActionButton
@@ -21,13 +29,21 @@ export function LikeButton({ count, liked, onClick, label = "Like" }: Props) {
       ariaLabel={hoverLabel}
       count={count}
       active={liked}
-      onClick={onClick}
+      onClick={handleClick}
       icon={
-        <MaterialIcon
-          name="favorite"
-          filled={liked}
-          className={`text-xl leading-none ${liked ? "text-danger" : ""}`}
-        />
+        <span
+          key={bounceKey}
+          className={`inline-flex size-5 shrink-0 items-center justify-center will-change-transform ${
+            bounceKey > 0 ? "animate-like-bounce" : ""
+          }`}
+          aria-hidden
+        >
+          <MaterialIcon
+            name={liked ? "favorite" : "favorite_border"}
+            filled={liked}
+            className={liked ? "text-danger" : ""}
+          />
+        </span>
       }
     />
   );

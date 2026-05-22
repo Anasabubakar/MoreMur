@@ -172,6 +172,26 @@ body {
   color: var(--m-chrome-fg);
 }
 
+@keyframes like-bounce {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.25);
+  }
+  65% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@utility animate-like-bounce {
+  animation: like-bounce 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: center;
+}
+
 /* Landing — same diagonal stripes as Core Doctrine (Stitch: 45deg, 2px, 8px gap) */
 .landing-stripes {
   pointer-events: none;

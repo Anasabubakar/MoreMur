@@ -112,7 +112,7 @@ export function ActionButton(props: ActionButtonProps) {
 
 export function MaterialIcon({
   name,
-  filled,
+  filled = false,
   className = "text-xl leading-none",
 }: {
   name: string;
@@ -122,7 +122,9 @@ export function MaterialIcon({
   return (
     <span
       className={`material-symbols-outlined ${className}`}
-      style={filled ? { fontVariationSettings: "'FILL' 1" } : undefined}
+      style={{
+        fontVariationSettings: `'FILL' ${filled ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
+      }}
       aria-hidden
     >
       {name}

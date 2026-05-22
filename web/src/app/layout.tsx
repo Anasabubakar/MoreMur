@@ -63,7 +63,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href={APPLE_TOUCH_ICON} sizes="180x180" />
         <link rel="shortcut icon" href={FAVICON_ICO} />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap"
           rel="stylesheet"
         />
       </head>
