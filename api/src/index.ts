@@ -2,6 +2,7 @@ import "./load-env.js";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { initDb } from "./db/index.js";
+import { healDuplicateActiveOtpSessions } from "./lib/otp.js";
 import { verifySession, type SessionPayload } from "./lib/jwt.js";
 import { authRoutes } from "./routes/auth.js";
 import { postRoutes } from "./routes/posts.js";
@@ -14,6 +15,7 @@ declare module "fastify" {
 }
 
 await initDb();
+await healDuplicateActiveOtpSessions();
 
 const app = Fastify({ logger: true });
 

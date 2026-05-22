@@ -27,7 +27,11 @@ const OTP_LIMIT_REACHED =
 
 const verifySchema = z.object({
   email: z.string().email(),
-  code: z.string().length(6),
+  code: z
+    .string()
+    .min(1)
+    .transform((value) => value.replace(/\D/g, "").slice(0, 6))
+    .pipe(z.string().length(6, "Enter the 6-digit code from your email.")),
 });
 
 const signupCompleteSchema = z.object({
@@ -43,7 +47,11 @@ const loginSchema = z.object({
 
 const resetSchema = z.object({
   email: z.string().email(),
-  code: z.string().length(6),
+  code: z
+    .string()
+    .min(1)
+    .transform((value) => value.replace(/\D/g, "").slice(0, 6))
+    .pipe(z.string().length(6, "Enter the 6-digit code from your email.")),
   password: z.string().min(8).max(128),
   confirmPassword: z.string().min(8).max(128),
 });
@@ -287,10 +295,9 @@ export async function authRoutes(app: FastifyInstance) {
     );
 
     if (!user) {
-      return {
-        ok: true,
-        message: "If an account exists, a reset code was sent.",
-      };
+      return reply.status(404).send({
+        error: "No account found for this email. Sign up with your organization email first.",
+      });
     }
 
     const org = await queryOne<{ id: string; name: string }>(

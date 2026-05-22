@@ -1,6 +1,6 @@
-import { exec, newId, queryOne } from "../db/index.js";
+import { exec, newId, query, queryOne } from "../db/index.js";
 import { OTP_MAX_ATTEMPTS, OTP_MAX_CODES_PER_EMAIL } from "./constants.js";
-import { hashOtp } from "./crypto.js";
+import { hashOtp, normalizeOtpCode } from "./crypto.js";
 import { sendOtpEmail, type OtpPurpose } from "./mailer.js";
 
 export function generateOtpCode(): string {
@@ -17,7 +17,7 @@ async function getSendCount(email: string, purpose: OtpPurpose): Promise<number>
     `SELECT send_count FROM otp_send_ledger WHERE email = $1 AND purpose = $2`,
     [email, purpose],
   );
-  return row?.send_count ?? 0;
+  return Number(row?.send_count ?? 0);
 }
 
 async function incrementSendCount(email: string, purpose: OtpPurpose): Promise<number> {
@@ -29,7 +29,7 @@ async function incrementSendCount(email: string, purpose: OtpPurpose): Promise<n
      RETURNING send_count`,
     [email, purpose],
   );
-  return row?.send_count ?? 1;
+  return Number(row?.send_count ?? 1);
 }
 
 async function getActiveSession(email: string, purpose: OtpPurpose) {
@@ -46,22 +46,6 @@ async function supersedeActiveSessions(email: string, purpose: OtpPurpose): Prom
     `UPDATE otp_sessions SET superseded_at = NOW()
      WHERE email = $1 AND purpose = $2 AND superseded_at IS NULL`,
     [email, purpose],
-  );
-}
-
-async function insertOtpSession(
-  email: string,
-  code: string,
-  purpose: OtpPurpose,
-  orgId: string | null,
-): Promise<void> {
-  const id = newId();
-  const expiresAt = new Date("2099-01-01T00:00:00.000Z").toISOString();
-
-  await exec(
-    `INSERT INTO otp_sessions (id, email, code_hash, purpose, org_id, expires_at, superseded_at)
-     VALUES ($1, $2, $3, $4, $5, $6, NULL)`,
-    [id, email, hashOtp(code), purpose, orgId, expiresAt],
   );
 }
 
@@ -85,14 +69,28 @@ export async function createOtpSession(
     if (active) {
       return { status: "already_sent" };
     }
-  } else if (active) {
-    await supersedeActiveSessions(normalized, purpose);
   }
 
   const code = generateOtpCode();
-  await insertOtpSession(normalized, code, purpose, orgId);
+  const id = newId();
+  const expiresAt = new Date("2099-01-01T00:00:00.000Z").toISOString();
+
+  await supersedeActiveSessions(normalized, purpose);
+
+  await exec(
+    `INSERT INTO otp_sessions (id, email, code_hash, purpose, org_id, expires_at, superseded_at)
+     VALUES ($1, $2, $3, $4, $5, $6, NULL)`,
+    [id, normalized, hashOtp(code), purpose, orgId, expiresAt],
+  );
+
+  try {
+    await sendOtpEmail(normalized, code, purpose, orgName);
+  } catch (err) {
+    await exec(`DELETE FROM otp_sessions WHERE id = $1`, [id]);
+    throw err;
+  }
+
   const newCount = await incrementSendCount(normalized, purpose);
-  await sendOtpEmail(normalized, code, purpose, orgName);
 
   return {
     status: "sent",
@@ -106,34 +104,52 @@ export async function verifyOtp(
   purpose: OtpPurpose,
 ): Promise<{ ok: boolean; error?: string }> {
   const normalized = email.toLowerCase();
-  const row = await queryOne<{
+  const digits = normalizeOtpCode(code);
+  if (digits.length !== 6) {
+    return { ok: false, error: "Enter the 6-digit code from your email." };
+  }
+
+  const rows = await query<{
     id: string;
     code_hash: string;
     attempts: number;
+    superseded_at: string | null;
   }>(
-    `SELECT id, code_hash, attempts FROM otp_sessions
-     WHERE email = $1 AND purpose = $2 AND superseded_at IS NULL
-     ORDER BY created_at DESC LIMIT 1`,
+    `SELECT id, code_hash, attempts, superseded_at FROM otp_sessions
+     WHERE email = $1 AND purpose = $2
+     ORDER BY created_at DESC LIMIT 5`,
     [normalized, purpose],
   );
 
-  if (!row) {
+  if (rows.length === 0) {
     return {
       ok: false,
       error: "No active code. Request a new one (up to 2 codes per email).",
     };
   }
-  if (row.attempts >= OTP_MAX_ATTEMPTS) {
-    return { ok: false, error: "Too many attempts. Request a new code." };
+
+  const targetHash = hashOtp(digits);
+  const matched = rows.find((row) => row.code_hash === targetHash);
+
+  if (!matched) {
+    const active = rows.find((row) => row.superseded_at == null);
+    if (active && active.attempts < OTP_MAX_ATTEMPTS) {
+      await exec(`UPDATE otp_sessions SET attempts = attempts + 1 WHERE id = $1`, [
+        active.id,
+      ]);
+    }
+    return { ok: false, error: "Invalid code." };
   }
 
-  const match = row.code_hash === hashOtp(code);
-  await exec(`UPDATE otp_sessions SET attempts = attempts + 1 WHERE id = $1`, [
-    row.id,
-  ]);
+  if (matched.superseded_at != null) {
+    return {
+      ok: false,
+      error: "That code was replaced. Use the code from your latest email or tap Resend code.",
+    };
+  }
 
-  if (!match) {
-    return { ok: false, error: "Invalid code." };
+  if (matched.attempts >= OTP_MAX_ATTEMPTS) {
+    return { ok: false, error: "Too many attempts. Request a new code." };
   }
 
   await exec(`DELETE FROM otp_sessions WHERE email = $1 AND purpose = $2`, [
@@ -142,4 +158,38 @@ export async function verifyOtp(
   ]);
 
   return { ok: true };
+}
+
+/** Keep one active OTP row per email+purpose (fixes legacy duplicate actives). */
+export async function healDuplicateActiveOtpSessions(): Promise<void> {
+  await exec(`
+    WITH ranked AS (
+      SELECT id,
+             ROW_NUMBER() OVER (PARTITION BY email, purpose ORDER BY created_at DESC) AS rn
+      FROM otp_sessions
+      WHERE superseded_at IS NULL
+    )
+    UPDATE otp_sessions SET superseded_at = NOW()
+    WHERE id IN (SELECT id FROM ranked WHERE rn > 1)
+  `);
+}
+
+export async function resetOtpStateForEmail(
+  email: string,
+  purpose?: OtpPurpose,
+): Promise<void> {
+  const normalized = email.toLowerCase();
+  if (purpose) {
+    await exec(`DELETE FROM otp_sessions WHERE email = $1 AND purpose = $2`, [
+      normalized,
+      purpose,
+    ]);
+    await exec(`DELETE FROM otp_send_ledger WHERE email = $1 AND purpose = $2`, [
+      normalized,
+      purpose,
+    ]);
+    return;
+  }
+  await exec(`DELETE FROM otp_sessions WHERE email = $1`, [normalized]);
+  await exec(`DELETE FROM otp_send_ledger WHERE email = $1`, [normalized]);
 }

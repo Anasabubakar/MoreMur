@@ -39,6 +39,9 @@ CREATE INDEX IF NOT EXISTS idx_otp_sessions_email_created
 CREATE INDEX IF NOT EXISTS idx_otp_sessions_active
   ON otp_sessions (email, purpose) WHERE superseded_at IS NULL;
 
+CREATE UNIQUE INDEX IF NOT EXISTS idx_otp_one_active_per_email
+  ON otp_sessions (email, purpose) WHERE (superseded_at IS NULL);
+
 CREATE TABLE IF NOT EXISTS otp_send_ledger (
   email TEXT NOT NULL,
   purpose TEXT NOT NULL,

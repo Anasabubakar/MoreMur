@@ -377,7 +377,7 @@ export function AuthForm({ initialMode = "login" }: { initialMode?: Mode }) {
         {mode === "forgot" && forgotStep === "email" && (
           <form onSubmit={onForgotRequest} className="mt-8 flex flex-col gap-4">
             <p className="font-mono text-xs text-muted">
-              We will email a reset code if an account exists for this address.
+              Enter the email on your account. We only send a code if that account exists.
             </p>
             <label className="font-mono text-xs font-bold uppercase text-ink">
               Organization email
