@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { MurmurLogo } from "@/components/brand/MurmurLogo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { SearchToggle } from "./SearchToggle";
 
 type Props = {
   children?: ReactNode;
   backHref?: string;
   backLabel?: string;
-  search?: ReactNode;
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
 };
 
 const NAV = [
@@ -20,7 +22,13 @@ const NAV = [
   { href: "/top", label: "Top" },
 ] as const;
 
-export function AppHeader({ children, backHref, backLabel, search }: Props) {
+export function AppHeader({
+  children,
+  backHref,
+  backLabel,
+  searchValue,
+  onSearchChange,
+}: Props) {
   const pathname = usePathname();
 
   return (
@@ -29,7 +37,7 @@ export function AppHeader({ children, backHref, backLabel, search }: Props) {
         {backHref ? (
           <Link
             href={backHref}
-            className="font-mono text-xs font-bold uppercase underline-offset-2 hover:underline"
+            className="font-mono text-xs font-bold uppercase text-chrome-fg underline-offset-2 hover:underline"
           >
             {backLabel ?? "← Back"}
           </Link>
@@ -44,18 +52,27 @@ export function AppHeader({ children, backHref, backLabel, search }: Props) {
                 href={item.href}
                 className={`border-brutal px-2 py-1 transition-colors ${
                   pathname === item.href
-                    ? "bg-ink text-accent"
-                    : "bg-surface text-ink"
+                    ? "bg-accent text-accent-fg"
+                    : "bg-surface-2 text-chrome-fg hover:bg-[var(--m-chrome-hover)]"
                 }`}
               >
                 {item.label}
               </Link>
             ))}
+          {onSearchChange && searchValue !== undefined && (
+            <SearchToggle value={searchValue} onChange={onSearchChange} />
+          )}
+          <Link
+            href="/settings"
+            className="flex h-9 w-9 items-center justify-center border-brutal bg-surface-2 text-chrome-fg hover:bg-[var(--m-chrome-hover)]"
+            aria-label="Settings"
+          >
+            <span className="material-symbols-outlined text-xl">settings</span>
+          </Link>
           {children}
           <ThemeToggle compact />
         </div>
       </div>
-      {search && <div className="border-t border-border px-4 py-2">{search}</div>}
     </header>
   );
 }
@@ -74,7 +91,7 @@ export function SortChip({
       type="button"
       onClick={onClick}
       className={`border-brutal px-2 py-1 transition-colors ${
-        active ? "bg-ink text-accent" : "bg-surface text-ink"
+        active ? "bg-ink text-accent" : "bg-surface-2 text-ink"
       }`}
     >
       {children}

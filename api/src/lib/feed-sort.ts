@@ -5,6 +5,11 @@ const ENGAGEMENT = "(like_count + comment_count * 2 + repost_count)";
 const AGE_HOURS = "GREATEST(EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600.0, 0.25)";
 export const VELOCITY_SCORE = `${ENGAGEMENT} / POWER(${AGE_HOURS}, 1.35)`;
 
+/** Max posts flagged hot per feed response (relative ranking, not a low absolute bar). */
+const HOT_BADGE_LIMIT = 5;
+const HOT_MIN_SCORE = 1.75;
+const HOT_MAX_AGE_HOURS = 48;
+
 export function parseFeedSort(raw?: string): FeedSort {
   if (raw === "trending" || raw === "top" || raw === "hot") return raw;
   return "new";
@@ -57,8 +62,18 @@ export function buildPostsQuery(
   return { sql, params };
 }
 
-export function isPostHot(velocityScore: number, createdAt: string): boolean {
-  const ageHours =
-    (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60);
-  return ageHours <= 48 && velocityScore >= 0.85;
+/** Only the top velocity posts in the last 48h qualify — avoids marking the whole feed hot. */
+export function hotPostIds(rows: Record<string, unknown>[]): Set<string> {
+  const now = Date.now();
+  const ranked = rows
+    .map((row) => ({
+      id: row.id as string,
+      score: Number(row.velocity_score ?? 0),
+      ageHours: (now - new Date(row.created_at as string).getTime()) / (1000 * 60 * 60),
+    }))
+    .filter((r) => r.ageHours <= HOT_MAX_AGE_HOURS && r.score >= HOT_MIN_SCORE)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, HOT_BADGE_LIMIT);
+
+  return new Set(ranked.map((r) => r.id));
 }

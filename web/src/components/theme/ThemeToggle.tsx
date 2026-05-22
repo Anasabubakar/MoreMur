@@ -18,7 +18,7 @@ export function ThemeToggle({ className = "", compact = false }: Props) {
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
-      className={`inline-flex items-center gap-2 border-brutal bg-surface font-mono text-xs font-bold uppercase text-ink shadow-brutal-sm transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-brutal active:translate-x-0 active:translate-y-0 active:shadow-none ${compact ? "px-2 py-1.5" : "px-3 py-2"} ${className}`}
+      className={`inline-flex items-center gap-2 border-brutal bg-surface-2 font-mono text-xs font-bold uppercase text-chrome-fg shadow-brutal-sm transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:bg-[var(--m-chrome-hover)] hover:shadow-brutal active:translate-x-0 active:translate-y-0 active:shadow-none ${compact ? "h-9 w-9 justify-center gap-0 px-0 py-0" : "px-3 py-2"} ${className}`}
     >
       <span
         className={`flex h-5 w-9 shrink-0 items-center border-[2px] border-border p-0.5 transition-colors ${
@@ -35,7 +35,7 @@ export function ThemeToggle({ className = "", compact = false }: Props) {
       {!compact && (
         <span className="hidden sm:inline">{isDark ? "Dark" : "Light"}</span>
       )}
-      <span className="material-symbols-outlined text-base leading-none">
+      <span className={`material-symbols-outlined leading-none ${compact ? "text-xl" : "text-base"}`}>
         {isDark ? "light_mode" : "dark_mode"}
       </span>
     </button>

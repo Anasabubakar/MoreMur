@@ -4,9 +4,10 @@ import { exec, newId, query, queryOne } from "../db/index.js";
 import { POST_CATEGORIES, PROFANITY_BLOCKLIST } from "../lib/constants.js";
 import {
   buildPostsQuery,
-  isPostHot,
+  hotPostIds,
   parseFeedSort,
   parseFeedWindow,
+  VELOCITY_SCORE,
 } from "../lib/feed-sort.js";
 import { extractUrls } from "../lib/link-preview.js";
 import {
@@ -29,12 +30,17 @@ const commentSchema = z.object({
   parentId: z.string().uuid().optional(),
 });
 
-function publicPost(row: Record<string, unknown>, likedByMe: boolean) {
+function publicPost(
+  row: Record<string, unknown>,
+  likedByMe: boolean,
+  hotIds: Set<string>,
+) {
   const createdAt = row.created_at as string;
   const velocityScore = Number(row.velocity_score ?? 0);
   const content = row.content as string;
+  const id = row.id as string;
   return {
-    id: row.id as string,
+    id,
     content,
     categoryTag: row.category_tag as string,
     likeCount: Number(row.like_count),
@@ -42,11 +48,25 @@ function publicPost(row: Record<string, unknown>, likedByMe: boolean) {
     repostCount: Number(row.repost_count),
     createdAt,
     likedByMe,
-    isHot: isPostHot(velocityScore, createdAt),
+    isHot: hotIds.has(id),
     velocityScore,
     linkUrls: extractUrls(content),
     author: { displayName: "ANONYMOUS" },
   };
+}
+
+async function loadHotIds(orgId: string): Promise<Set<string>> {
+  const rows = await query<Record<string, unknown>>(
+    `SELECT id, created_at,
+            (${VELOCITY_SCORE})::float AS velocity_score
+     FROM posts
+     WHERE org_id = $1 AND status = 'published'
+       AND created_at > NOW() - INTERVAL '48 hours'
+     ORDER BY velocity_score DESC
+     LIMIT 30`,
+    [orgId],
+  );
+  return hotPostIds(rows);
 }
 
 async function assertPostInOrg(postId: string, orgId: string) {
@@ -96,10 +116,11 @@ export async function postRoutes(app: FastifyInstance) {
 
     const { sql, params } = buildPostsQuery(session.orgId, sort, window, q);
     const rows = await query<Record<string, unknown>>(sql, params);
+    const hotIds = hotPostIds(rows);
 
     const posts = await Promise.all(
       rows.map(async (row) =>
-        publicPost(row, await postLikedByMe(row.id as string, session.sub)),
+        publicPost(row, await postLikedByMe(row.id as string, session.sub), hotIds),
       ),
     );
 
@@ -114,8 +135,9 @@ export async function postRoutes(app: FastifyInstance) {
     const row = await assertPostInOrg(id, session.orgId);
     if (!row) return reply.status(404).send({ error: "Post not found" });
 
+    const hotIds = await loadHotIds(session.orgId);
     return {
-      post: publicPost(row, await postLikedByMe(id, session.sub)),
+      post: publicPost(row, await postLikedByMe(id, session.sub), hotIds),
     };
   });
 
@@ -127,8 +149,9 @@ export async function postRoutes(app: FastifyInstance) {
     const row = await assertPostInOrg(id, session.orgId);
     if (!row) return reply.status(404).send({ error: "Post not found" });
 
+    const hotIds = await loadHotIds(session.orgId);
     return {
-      post: publicPost(row, await postLikedByMe(id, session.sub)),
+      post: publicPost(row, await postLikedByMe(id, session.sub), hotIds),
       comments: await fetchCommentsForPost(id, session.sub),
     };
   });
@@ -157,7 +180,8 @@ export async function postRoutes(app: FastifyInstance) {
     );
 
     const row = (await assertPostInOrg(id, session.orgId))!;
-    return { post: publicPost(row, false) };
+    const hotIds = await loadHotIds(session.orgId);
+    return { post: publicPost(row, false, hotIds) };
   });
 
   app.post("/posts/:id/like", async (req, reply) => {
@@ -220,7 +244,11 @@ export async function postRoutes(app: FastifyInstance) {
 
     return {
       comment: publicComment(row!, false, []),
-      post: publicPost(postRow, await postLikedByMe(postId, session.sub)),
+      post: publicPost(
+        postRow,
+        await postLikedByMe(postId, session.sub),
+        await loadHotIds(session.orgId),
+      ),
     };
   });
 

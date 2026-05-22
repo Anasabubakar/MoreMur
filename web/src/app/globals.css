@@ -35,9 +35,9 @@
 
 [data-theme="dark"] {
   --m-canvas: #1a1a1a;
-  --m-chrome: #ffe500;
-  --m-chrome-fg: #000000;
-  --m-chrome-hover: #fff04d;
+  --m-chrome: #1a1a1a;
+  --m-chrome-fg: #ffffff;
+  --m-chrome-hover: #2a2a2a;
   --m-surface: #1a1a1a;
   --m-surface-2: #0d0d0d;
   --m-accent: #ffe500;

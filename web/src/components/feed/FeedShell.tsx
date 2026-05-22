@@ -23,15 +23,9 @@ type Props = {
   sort: FeedSort;
   title: string;
   showWindowToggle?: boolean;
-  forceHotBadge?: boolean;
 };
 
-export function FeedShell({
-  sort,
-  title,
-  showWindowToggle = false,
-  forceHotBadge = false,
-}: Props) {
+export function FeedShell({ sort, title, showWindowToggle = false }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [timeWindow, setTimeWindow] = useState<FeedWindow>("24h");
@@ -198,22 +192,9 @@ export function FeedShell({
     }
   }
 
-  const searchBar = (
-    <label className="flex w-full items-center gap-2 font-mono text-xs uppercase">
-      <span className="material-symbols-outlined text-base">search</span>
-      <input
-        type="search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search murmurs, rants, gossip…"
-        className="w-full border-brutal bg-surface px-3 py-2 text-sm normal-case text-ink focus:bg-[var(--m-input-focus)] focus:outline-none"
-      />
-    </label>
-  );
-
   return (
     <div className="min-h-[100dvh] bg-canvas text-ink">
-      <AppHeader search={searchBar}>
+      <AppHeader searchValue={search} onSearchChange={setSearch}>
         {showWindowToggle && (
           <>
             <SortChip active={timeWindow === "24h"} onClick={() => setTimeWindow("24h")}>
@@ -227,20 +208,20 @@ export function FeedShell({
         <button
           type="button"
           onClick={signOut}
-          className="border-brutal bg-surface px-2 py-1 text-ink hover:bg-accent hover:text-accent-fg"
+          className="border-brutal bg-surface-2 px-2 py-1 text-chrome-fg hover:bg-accent hover:text-accent-fg"
         >
           Sign out
         </button>
       </AppHeader>
 
       {newCount > 0 && (
-        <div className="sticky top-[var(--feed-sticky-offset,7.5rem)] z-10 border-b border-border bg-accent px-4 py-2 text-center">
+        <div className="sticky top-14 z-10 flex justify-center px-4 py-2">
           <button
             type="button"
             onClick={loadNewMurmurs}
-            className="w-full font-mono text-xs font-bold uppercase text-accent-fg underline"
+            className="border-brutal bg-accent px-4 py-2 font-mono text-xs font-bold uppercase text-accent-fg shadow-brutal-sm hover:shadow-brutal"
           >
-            {newCount} new murmur{newCount === 1 ? "" : "s"} — tap to load
+            {newCount} new murmur{newCount === 1 ? "" : "s"}
           </button>
         </div>
       )}
@@ -278,12 +259,7 @@ export function FeedShell({
           <ul className="flex flex-col gap-6">
             {posts.map((post) => (
               <li key={post.id}>
-                <PostCard
-                  post={post}
-                  onLike={onLike}
-                  token={token}
-                  forceHotBadge={forceHotBadge}
-                />
+                <PostCard post={post} onLike={onLike} token={token} />
               </li>
             ))}
           </ul>
@@ -343,13 +319,10 @@ export function FeedShell({
         aria-label={composerOpen ? "Close new murmur" : "New murmur"}
         aria-expanded={composerOpen}
         onClick={() => setComposerOpen((open) => !open)}
-        className="fixed bottom-6 right-4 z-50 flex items-center gap-2 border-brutal bg-accent p-4 text-accent-fg shadow-brutal transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg active:translate-x-0 active:translate-y-0 active:shadow-none md:bottom-8 md:right-8"
+        className="fixed bottom-6 right-4 z-50 flex h-14 w-14 items-center justify-center border-brutal bg-accent text-accent-fg shadow-brutal transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg active:translate-x-0 active:translate-y-0 active:shadow-none md:bottom-8 md:right-8"
       >
-        <span className="material-symbols-outlined text-2xl font-bold">
+        <span className="material-symbols-outlined text-3xl font-bold">
           {composerOpen ? "close" : "add"}
-        </span>
-        <span className="hidden font-[family-name:var(--font-display)] text-xl uppercase tracking-wide sm:inline">
-          {composerOpen ? "Close" : "New murmur"}
         </span>
       </button>
     </div>

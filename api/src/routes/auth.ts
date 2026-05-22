@@ -381,6 +381,37 @@ export async function authRoutes(app: FastifyInstance) {
     return sessionResponse(user.id, org);
   });
 
+  const deleteAccountSchema = z.object({
+    confirm: z.literal("DELETE"),
+  });
+
+  /** Permanently delete the signed-in account and all associated content. */
+  app.delete("/auth/account", async (req, reply) => {
+    const session = req.user;
+    if (!session) return reply.status(401).send({ error: "Unauthorized" });
+
+    const parsed = deleteAccountSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return reply.status(400).send({
+        error: 'Type DELETE in the confirmation field to permanently remove your account.',
+      });
+    }
+
+    const userId = session.sub;
+
+    await exec(`DELETE FROM reports WHERE user_id = $1`, [userId]);
+    await exec(`DELETE FROM comment_likes WHERE user_id = $1`, [userId]);
+    await exec(`DELETE FROM likes WHERE user_id = $1`, [userId]);
+    await exec(
+      `DELETE FROM comments WHERE user_id = $1 OR post_id IN (SELECT id FROM posts WHERE user_id = $1)`,
+      [userId],
+    );
+    await exec(`DELETE FROM posts WHERE user_id = $1`, [userId]);
+    await exec(`DELETE FROM users WHERE id = $1`, [userId]);
+
+    return { ok: true, message: "Account permanently deleted." };
+  });
+
   app.get("/auth/me", async (req, reply) => {
     const session = req.user;
     if (!session) return reply.status(401).send({ error: "Unauthorized" });

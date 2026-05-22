@@ -159,6 +159,21 @@ export function fetchLinkPreview(token: string, url: string) {
   );
 }
 
+export function deleteAccount(token: string) {
+  return api<{ ok: boolean; message: string }>("/auth/account", {
+    method: "DELETE",
+    token,
+    body: JSON.stringify({ confirm: "DELETE" }),
+  });
+}
+
+export function fetchMe(token: string) {
+  return api<{
+    user: { id: string; displayName: string };
+    org: { id: string; name: string; domain: string } | null;
+  }>("/auth/me", { token });
+}
+
 export function fetchPostThread(token: string, postId: string) {
   return api<{ post: Post; comments: Comment[] }>(`/posts/${postId}/thread`, {
     token,
